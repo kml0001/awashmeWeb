@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf16980237259010" configfile="/pweb-jsf/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="pages/security/login.xhtml" x="122" y="562" id="pf16980238674661" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf16980238674662 pf16980238674663 pf16980238674664" path="/pages/security/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/welcome/welcome.xhtml" x="338" y="178" id="pf16980238674665" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf16980238674662" path="/pages/home/home.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/security/login-success.xhtml" x="338" y="562" id="pf16980238674666" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf16980238674663" path="/pages/security/login-success.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/security/login-failure.xhtml" x="338" y="946" id="pf16980238674667" referenceLink="//@navigationRule.0/@navigationCase.2/@toViewId|" inlinks="pf16980238674664" path="/pages/security/login-failure.xhtml"/>
+  <links id="pf16980238674662" target="pf16980238674665" source="pf16980238674661" outcome="login"/>
+  <links id="pf16980238674663" target="pf16980238674666" source="pf16980238674661" outcome="success"/>
+  <links id="pf16980238674664" target="pf16980238674667" source="pf16980238674661" outcome="failure"/>
+</pageflow:Pageflow>

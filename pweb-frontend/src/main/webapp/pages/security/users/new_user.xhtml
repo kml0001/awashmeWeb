@@ -1,0 +1,68 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/pages/template/layout.xhtml">
+	<ui:define name="content">
+
+		<h:form id="registrationForm">
+			<p:panel header="Registration Form" style="width: 800px;">
+				<p:messages />
+				<h:panelGrid columns="3">
+					<p:outputLabel value="UserName:*" />
+					<p:inputText id="username" value="#{userBean.username}"
+						required="true" label="UserName">
+						<p:ajax event="keyup" update="usernameMsg" />
+					</p:inputText>
+					<p:message id="usernameMsg" for="username" />
+
+					<p:outputLabel value="Password:*" />
+					<p:password id="password" value="#{userBean.password}"
+						required="true" label="Password">
+						<f:validateLength minimum="4" />
+						<p:ajax update="passwordMsg" event="keyup" />
+					</p:password>
+					<p:message id="passwordMsg" for="password" />
+
+
+					<p:outputLabel value="Email:" />
+					<p:inputText id="email" value="#{userBean.email}"
+						onchange="validateEmail();" />
+					<p:message id="emailMsg" for="email" />
+
+					<p:outputLabel value="" />
+					<p:commandButton action="#{userController.register}"
+						value="Register" update="registrationForm" />
+					<p:outputLabel value="" />
+
+
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+		<SCRIPT type="text/javascript">
+			function validateEmail() {
+				var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+				var email = $.trim($("#userForm\\:email").val());
+				if (email == '') {
+					$("#userForm\\:emailMsg").text("");
+					$("#userForm\\:emailMsg").attr("class", "");
+					return;
+				}
+				if (emailReg.test(email)) {
+					$("#userForm\\:emailMsg").text("Valid Email");
+					$("#userForm\\:emailMsg")
+							.attr("class",
+									"ui-messages-info ui-widget ui-corner-all ui-messages-info-summary");
+				} else {
+					$("#userForm\\:emailMsg").text("Invalid Email");
+					$("#userForm\\:emailMsg")
+							.attr("class",
+									"ui-message-error ui-widget ui-corner-all ui-message-error-detail");
+				}
+			}
+		</SCRIPT>
+	</ui:define>
+</ui:composition>
+</html>
