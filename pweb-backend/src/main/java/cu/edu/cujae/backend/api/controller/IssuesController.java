@@ -10,23 +10,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cu.edu.cujae.backend.core.dto.IssueDto;
-import cu.edu.cujae.backend.core.service.IssuesServiceImp;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import cu.edu.cujae.backend.service.IssuesService;
+
 
 @RestController
 @RequestMapping("/api/v1/issues")
 public class IssuesController {
 
 	@Autowired
-    private IssuesServiceImp service;
+    private IssuesService service;
 	
-	    @GetMapping("/")
+	    @GetMapping("")
 	    public ResponseEntity<List<IssueDto>> getIssues() {
 	        List<IssueDto> issues = service.getIssues();
+	        System.out.println(issues.get(0).getPersona_asignada());
 	        return ResponseEntity.ok(issues);
 	    }
 
@@ -42,7 +44,7 @@ public class IssuesController {
 	        }
 	    }
 
-	    @PostMapping("/")
+	    @PostMapping("")
 	    public ResponseEntity<Object> createIssue(@RequestBody IssueDto issue) {
 	        int created_id = service.createIssue(issue);
 	        if(created_id != -1)

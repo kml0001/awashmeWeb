@@ -11,9 +11,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import cu.edu.cujae.pweb.dto.IssueDto;
+import cu.edu.cujae.pweb.service.IssueService;
 
+@Component
 @ManagedBean
 @ViewScoped
 public class IssueBean implements Serializable{
@@ -24,18 +28,12 @@ public class IssueBean implements Serializable{
 
     private List<IssueDto> selectedIssues;
     
+    @Autowired
+    private IssueService issueService;
+    
     @PostConstruct
     public void init() {
-    	issues=new ArrayList<>();
-    	issues.add(new IssueDto("1", "Project 1", "Develop", "Subject 1", "", "Normal", "User 1", 1));
-    	issues.add(new IssueDto("2", "Project 2", "Bug", "Subject 2", "", "Urgent", "User 2", 2));
-    	issues.add(new IssueDto("3", "Project 3", "Develop", "Subject 3", "", "Normal", "User 3", 3));
-    	issues.add(new IssueDto("4", "Project 4", "Bug", "Subject 4", "", "Normal", "User 4", 1));
-    	issues.add(new IssueDto("5", "Project 5", "Develop", "Subject 5", "", "Low", "User 1", 4));
-    	issues.add(new IssueDto("6", "Project 6", "Feature", "Subject 6", "", "Normal", "User 5", 2));
-    	issues.add(new IssueDto("7", "Project 7", "Develop", "Subject 7", "", "Normal", "User 4", 1));
-    	issues.add(new IssueDto("8", "Project 8", "Develop", "Subject 8", "", "High", "User 1", 2));
-    	issues.add(new IssueDto("9", "Project 9", "Training", "Subject 9", "", "Normal", "User 1", 3));
+    	issues = issues == null? issueService.getIssues(): issues;
     }
 
     public List<IssueDto> getIssues() {
@@ -66,9 +64,13 @@ public class IssueBean implements Serializable{
         if (this.selectedIssue.getId() == null) {
             this.selectedIssue.setId(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9));
             this.issues.add(this.selectedIssue);
+            issueService.createIssue(selectedIssue);
+            issues = issueService.getIssues();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("IssueDto Added"));
         }
         else {
+        	issueService.updateIssue(selectedIssue);
+        	issues = issueService.getIssues();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("IssueDto Updated"));
         }
 

@@ -31,7 +31,7 @@ public class IssuesServiceImp implements IssuesService{
 		            								  resultado.getString("Fondo_de_tiempo"),
 		            								  resultado.getDouble("cumplimiento"),
 		            								  resultado.getString("persona_asignada"));
-		            	issue.setId(resultado.getInt("id"));
+		            	issue.setId(String.valueOf(resultado.getInt("id")));
 		                listaIssues.add(issue);
 		            }
 
@@ -62,7 +62,7 @@ public class IssuesServiceImp implements IssuesService{
 
 	            if (resultado.next()) {
 	                issue = new IssueDto();
-	                issue.setId(resultado.getInt("id"));
+	                issue.setId(String.valueOf(resultado.getInt("id")));
 	                issue.setTipo(resultado.getString("Tipo"));
 	                issue.setFondo_de_tiempo(resultado.getString("Fondo_de_tiempo"));
 	                issue.setCumplimiento(resultado.getDouble("cumplimiento"));
@@ -121,7 +121,7 @@ public class IssuesServiceImp implements IssuesService{
             stmt.setString(2, updatedIssue.getFondo_de_tiempo());
             stmt.setDouble(3, updatedIssue.getCumplimiento());
             stmt.setString(4, updatedIssue.getPersona_asignada());
-            stmt.setInt(5, updatedIssue.getId());
+            stmt.setInt(5, Integer.valueOf(updatedIssue.getId()));
 
             int filasActualizadas = stmt.executeUpdate();
 
@@ -129,7 +129,7 @@ public class IssuesServiceImp implements IssuesService{
             conn.close();
 
             if (filasActualizadas > 0) {
-            	id_issue_return = updatedIssue.getId();
+            	id_issue_return = Integer.valueOf(updatedIssue.getId());
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,11 +1,10 @@
 package cu.edu.cujae.backend.core.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+//import io.swagger.annotations.ApiModelProperty;
 
 public class IssueDto {
 
-	@ApiModelProperty(hidden = true)
-	private int id;
+	private	String id;
 	private String Tipo; 
 	private String Fondo_de_tiempo;
 	private double cumplimiento;
@@ -20,7 +19,7 @@ public class IssueDto {
 
 	public IssueDto(String tipo, String fondo_de_tiempo, double cumplimiento, String persona_asignada) {
 		super();
-		this.id = -1;
+		this.id = null;
 		Tipo = tipo;
 		Fondo_de_tiempo = fondo_de_tiempo;
 		this.cumplimiento = cumplimiento;
@@ -29,12 +28,12 @@ public class IssueDto {
 
 
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

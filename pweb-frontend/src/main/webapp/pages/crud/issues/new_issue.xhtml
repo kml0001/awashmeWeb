@@ -5,37 +5,41 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<p:dialog header="Issue" showEffect="fade" modal="true"
-		widgetVar="manageUserDialog" responsive="true">
-		<p:outputPanel id="manage-user-content" class="ui-fluid">
+		widgetVar="manageIssueDialog" responsive="true">
+		<p:outputPanel id="manage-issue-content" class="ui-fluid">
 			<p:outputPanel rendered="#{not empty issueBean.selectedIssue}">
 				<p:panelGrid layout="grid" columns="2">
 					<h:panelGroup>
 						<div class="p-field">
-							<p:outputLabel for="@next">Project</p:outputLabel>
-							<p:inputText id="name" required="true" 
-								value="#{issueBean.selectedIssue.project}" />
-							<p:message for="@previous" ></p:message>
-						</div>
-						<div class="p-field">
-							<p:outputLabel for="@next">Type</p:outputLabel>
-							<p:inputText id="username" required="true"
-								value="#{issueBean.selectedIssue.type}" />
+							<p:outputLabel for="@next">Tipo</p:outputLabel>
+							<p:inputText id="tipo" required="true"
+								value="#{issueBean.selectedIssue.tipo}" />
 							<p:message for="@previous"></p:message>
 						</div>
+					</h:panelGroup>
+					<h:panelGroup>
 						<div class="p-field">
-							<p:outputLabel for="@next">Subject</p:outputLabel>
-							<p:inputText id="ci" required="true"
-								value="#{issueBean.selectedIssue.subject}">
-							</p:inputText>
+							<p:outputLabel for="@next">Tiempo estimado</p:outputLabel>
+							<p:inputText id="tiempo" required="true"
+								value="#{issueBean.selectedIssue.fondo_de_tiempo}" />
 							<p:message for="@previous"></p:message>
 						</div>
+					</h:panelGroup>
+					<h:panelGroup>
 						<div class="p-field">
-							<p:outputLabel for="@next">Description</p:outputLabel>
-							<p:inputTextarea id="asd" required="true"
-								value="#{issueBean.selectedIssue.description}">
-							</p:inputTextarea>
+							<p:outputLabel for="@next">Cumplimiento</p:outputLabel>
+							<p:inputText id="cumplimiento" required="true"
+								value="#{issueBean.selectedIssue.cumplimiento}" />
 							<p:message for="@previous"></p:message>
 						</div>
+					</h:panelGroup>
+					<h:panelGroup>
+						<div class="p-field">
+							<p:outputLabel for="@next">Asignado</p:outputLabel>
+							<p:inputText id="asignado" required="true"
+								value="#{issueBean.selectedIssue.persona_asignada}" />
+							<p:message for="@previous"></p:message>
+						</div>						
 					</h:panelGroup>
 					
 				</p:panelGrid>
@@ -44,10 +48,10 @@
 
 		<f:facet name="footer">
 			<p:commandButton value="Salvar" icon="pi pi-check"
-				actionListener="#{issueBean.saveUser}"
-				update="manage-user-content" process="manage-user-content @this" />
+				actionListener="#{issueBean.saveIssue}"
+				update="manage-issue-content" process="manage-issue-content @this" />
 			<p:commandButton value="Cancelar" icon="pi pi-times"
-				onclick="PF('manageUserDialog').hide()" class="ui-button-secondary" />
+				onclick="PF('manageIssueDialog').hide()" class="ui-button-secondary" />
 		</f:facet>
 	</p:dialog>
 </ui:composition>

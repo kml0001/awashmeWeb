@@ -2,115 +2,77 @@ package cu.edu.cujae.pweb.dto;
 
 import java.util.Date;
 
+
 public class IssueDto {
-	private String id;
-	private String project;
-	private String type;
-	private String subject;
-	private String description;
-	private String priority;
-	private String user;
-	private Date startDate;
-	private Date dueDate;
-	private int estimatedTime;
 
+	private	String id;
+	private String Tipo; 
+	private String Fondo_de_tiempo;
+	private double cumplimiento;
+	private String persona_asignada;
 	
 	
-	public IssueDto(String id, String project, String type, String subject, String description, String priority,
-			String user, int estimatedTime) {
-		super();
-		this.id = id;
-		this.project = project;
-		this.type = type;
-		this.subject = subject;
-		this.description = description;
-		this.priority = priority;
-		this.user = user;
-		this.estimatedTime = estimatedTime;
-	}
-
 	public IssueDto() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
+	
+	
+
+	public IssueDto(String tipo, String fondo_de_tiempo, double cumplimiento, String persona_asignada) {
+		super();
+		this.id = null;
+		Tipo = tipo;
+		Fondo_de_tiempo = fondo_de_tiempo;
+		this.cumplimiento = cumplimiento;
+		this.persona_asignada = persona_asignada;
+	}
+
+
 
 	public String getId() {
 		return id;
 	}
 
+
 	public void setId(String id) {
 		this.id = id;
 	}
 
-	public String getProject() {
-		return project;
+
+
+	public String getTipo() {
+		return Tipo;
 	}
 
-	public void setProject(String project) {
-		this.project = project;
+	public void setTipo(String tipo) {
+		Tipo = tipo;
 	}
 
-	public String getType() {
-		return type;
+	public String getFondo_de_tiempo() {
+		return Fondo_de_tiempo;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setFondo_de_tiempo(String fondo_de_tiempo) {
+		Fondo_de_tiempo = fondo_de_tiempo;
 	}
 
-	public String getSubject() {
-		return subject;
+	public double getCumplimiento() {
+		return cumplimiento;
 	}
 
-	public void setSubject(String subject) {
-		this.subject = subject;
+	public void setCumplimiento(double cumplimiento) {
+		this.cumplimiento = cumplimiento;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getPersona_asignada() {
+		return persona_asignada;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setPersona_asignada(String persona_asignada) {
+		this.persona_asignada = persona_asignada;
 	}
-
-	public String getPriority() {
-		return priority;
-	}
-
-	public void setPriority(String priority) {
-		this.priority = priority;
-	}
-
-	public String getUser() {
-		return user;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public Date getDueDate() {
-		return dueDate;
-	}
-
-	public void setDueDate(Date dueDate) {
-		this.dueDate = dueDate;
-	}
-
-	public int getEstimatedTime() {
-		return estimatedTime;
-	}
-
-	public void setEstimatedTime(int estimatedTime) {
-		this.estimatedTime = estimatedTime;
-	}
+	
+	
+	
 	
 }

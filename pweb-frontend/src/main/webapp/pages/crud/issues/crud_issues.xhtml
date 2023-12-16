@@ -14,9 +14,11 @@
 				<p:toolbar>
 					<p:toolbarGroup>
 						<p:commandButton value="New" icon="pi pi-plus"
-							action="/pages/crud/issues/new_issues.jsf"
 							actionListener="#{issueBean.openNew}"
+							update=":form:manage-issue-content"
+							oncomplete="PF('manageIssueDialog').show()"
 							styleClass="ui-button-success" style="margin-right: .5rem">
+							<p:resetInput target=":form:manage-issue-content" />
 						</p:commandButton>
 						<p:commandButton id="delete-issues-button"
 							value="#{issueBean.deleteButtonMessage}" icon="pi pi-trash"
@@ -41,7 +43,7 @@
 
 				<p:dataTable id="dt-issues" widgetVar="dtIssues" var="issue"
 					value="#{issueBean.issues}" reflow="true" styleClass="issues-table"
-					selection="#{issuesBean.selectedIssue}" rowKey="#{issue.id}"
+					selection="#{issueBean.selectedIssue}" rowKey="#{issue.id}"
 					paginator="true" rows="10" rowSelectMode="add"
 					paginatorPosition="bottom">
 					<f:facet name="header">
@@ -62,31 +64,35 @@
 						update=":form:delete-issues-button" />
 					<p:ajax event="toggleSelect" update=":form:delete-issues-button" />
 
-					<p:column selectionMode="multiple" exportable="false"></p:column>
+<!-- 					<p:column selectionMode="multiple" exportable="false"></p:column> -->
 
-					<p:column headerText="Project" sortBy="#{issue.project}"
-						filterBy="#{issue.project}">
-						<h:outputText value="#{issue.project}" />
+<!-- 					<p:column headerText="Project" sortBy="#{issue.project}" -->
+<!-- 						filterBy="#{issue.project}"> -->
+<!-- 						<h:outputText value="#{issue.project}" /> -->
+<!-- 					</p:column> -->
+					<p:column headerText="Tipo" sortBy="#{issue.tipo}"
+						filterBy="#{issue.tipo}">
+						<h:outputText value="#{issue.tipo}" />
 					</p:column>
-					<p:column headerText="Type" sortBy="#{issue.type}"
-						filterBy="#{issue.type}">
-						<h:outputText value="#{issue.type}" />
+<!-- 					<p:column headerText="Subject" sortBy="#{issue.subject}"> -->
+<!-- 						<h:outputText value="#{issue.subject}" style="font-weight: 700"> -->
+<!-- 						</h:outputText> -->
+<!-- 					</p:column> -->
+<!-- 					<p:column headerText="Priority" sortBy="#{issue.priority}" -->
+<!-- 						filterBy="#{issue.priority}"> -->
+<!-- 						<h:outputText value="#{issue.priority}" /> -->
+<!-- 					</p:column> -->
+					<p:column headerText="Cumplimiento" sortBy="#{issue.cumplimiento}"
+						filterBy="#{issue.cumplimiento}">
+						<h:outputText value="#{issue.cumplimiento}" />
 					</p:column>
-					<p:column headerText="Subject" sortBy="#{issue.subject}">
-						<h:outputText value="#{issue.subject}" style="font-weight: 700">
-						</h:outputText>
+					<p:column headerText="Asignado" sortBy="#{issue.persona_asignada}"
+						filterBy="#{issue.persona_asignada}">
+						<h:outputText value="#{issue.persona_asignada}" readonly="true" />
 					</p:column>
-					<p:column headerText="Priority" sortBy="#{issue.priority}"
-						filterBy="#{issue.priority}">
-						<h:outputText value="#{issue.priority}" />
-					</p:column>
-					<p:column headerText="Assignee" sortBy="#{issue.user}"
-						filterBy="#{issue.user}">
-						<h:outputText value="#{issue.user}" readonly="true" />
-					</p:column>
-					<p:column headerText="Estimated Time"
-						sortBy="#{issue.estimatedTime}" filterBy="#{issue.estimatedTime}">
-						<h:outputText value="#{issue.estimatedTime}" readonly="true" />
+					<p:column headerText="Tiempo estimado"
+						sortBy="#{issue.fondo_de_tiempo}" filterBy="#{issue.fondo_de_tiempo}">
+						<h:outputText value="#{issue.fondo_de_tiempo}" readonly="true" />
 					</p:column>
 					<p:column exportable="false">
 						<p:commandButton icon="pi pi-pencil"
