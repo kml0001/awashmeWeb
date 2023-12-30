@@ -1,30 +1,41 @@
 package cu.edu.cujae.pweb.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import cu.edu.cujae.pweb.dto.RoleDto;
+import cu.edu.cujae.pweb.utils.ApiRestMapper;
+import cu.edu.cujae.pweb.utils.RestService;
 
 @Service
 public class RoleServiceImpl implements RoleService{
-
+	@Autowired
+	private RestService restService;
 	@Override
 	public List<RoleDto> getRoles() {
-		List<RoleDto> roles = new ArrayList<>();
-		roles.add(new RoleDto(1L, "admin", "Administrador del sistema"));
-		roles.add(new RoleDto(2L, "employee", "Empleado de la empresa"));
-		roles.add(new RoleDto(3L, "asesor", "Asesor de la empresa"));
-		roles.add(new RoleDto(4L, "manager", "Manager de la empresa"));
-		roles.add(new RoleDto(5L, "reporter", "Visualizador de reportes"));
-		return roles;
+		List<RoleDto> RoleList = new ArrayList<RoleDto>();
+	    try {
+	    	MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+		    ApiRestMapper<RoleDto> apiRestMapper = new ApiRestMapper<>();
+		    String response = (String)restService.GET("/api/v1/roles", params, String.class).getBody();
+		    RoleList = apiRestMapper.mapList(response, RoleDto.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return RoleList;
 	}
 
 	@Override
 	public List<RoleDto> getRolesByUser(Long userId) {
-		return getRoles().stream().filter(r -> r.getId() == userId).collect(Collectors.toList());
+		return null;
+		//return getRoles().stream().filter(r -> r.getId() == userId).collect(Collectors.toList());
 	}
 
 	@Override
@@ -35,6 +46,24 @@ public class RoleServiceImpl implements RoleService{
 	@Override
 	public RoleDto getRolesById(Long roleId) {
 		return getRoles().stream().filter(r -> r.getId().equals(roleId)).findFirst().get();
+	}
+
+	@Override
+	public void createRole(RoleDto Role) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateRole(RoleDto Role) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteRole(String id) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

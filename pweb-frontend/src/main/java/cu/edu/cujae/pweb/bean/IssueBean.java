@@ -1,7 +1,5 @@
 package cu.edu.cujae.pweb.bean;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +18,7 @@ import cu.edu.cujae.pweb.service.IssueService;
 @Component
 @ManagedBean
 @ViewScoped
-public class IssueBean implements Serializable{
+public class IssueBean{
 
     private List<IssueDto> issues;
 

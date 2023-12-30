@@ -1,21 +1,25 @@
 package cu.edu.cujae.pweb.dto;
 
 public class RoleDto {
-	private Long id;
+	private String id;
 	private String roleName;
 	private String description;
 	
-	public RoleDto(Long id, String roleName, String description) {
+	public RoleDto(String id, String roleName, String description) {
 		super();
 		this.id = id;
 		this.roleName = roleName;
 		this.description = description;
 	}
 	
-	public Long getId() {
+	public RoleDto() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getRoleName() {

@@ -95,15 +95,21 @@
 						<h:outputText value="#{issue.fondo_de_tiempo}" readonly="true" />
 					</p:column>
 					<p:column exportable="false">
-						<p:commandButton icon="pi pi-pencil"
+						<p:commandButton icon="pi pi-pencil" action="#{issueBean.openForEdit}"
+							update=":form:manage-issue-content"
+							oncomplete="PF('issueDialog').show()"
 							styleClass="edit-button rounded-button ui-button-success"
 							process="@this">
-							<f:setPropertyActionListener value="#{product}" target="#{issue}" />
+							<f:setPropertyActionListener value="#{issue}"
+								target="#{issueBean.selectedIssue}" />
+							<p:resetInput target=":form:manage-issue-content" />
 						</p:commandButton>
 						<p:commandButton class="ui-button-warning rounded-button"
-							icon="pi pi-trash" process="@this"
-							oncomplete="PF('deleteIssueDialog').show()">
-							<f:setPropertyActionListener value="#{product}" target="#{issue}" />
+							icon="pi pi-trash" process="@this" 
+							action="#{issueBean.deleteIssue}" >
+							<f:setPropertyActionListener value="#{issue}"
+								target="#{issueBean.selectedIssue}" />
+							<p:confirm header="Confirm" message="Está seguro de eliminar este usuario?" icon="pi pi-exclamation-triangle"/>
 						</p:commandButton>
 					</p:column>
 

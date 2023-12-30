@@ -9,4 +9,7 @@ public interface RoleService {
 	List<RoleDto> getRolesByUser(Long userId);
 	List<RoleDto> getRolesByName(String name);
 	RoleDto getRolesById(Long roleId);
+	void createRole(RoleDto Role);
+	void updateRole(RoleDto Role);
+	void deleteRole(String id);
 }

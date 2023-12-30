@@ -1,7 +1,5 @@
 package cu.edu.cujae.pweb.dto;
 
-import java.util.Date;
-
 
 public class IssueDto {
 
