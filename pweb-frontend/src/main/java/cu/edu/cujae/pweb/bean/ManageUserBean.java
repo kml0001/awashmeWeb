@@ -72,7 +72,7 @@ public class ManageUserBean {
             this.selectedUser.setNewRecord(true);
             List<RoleDto> rolesToAdd = new ArrayList<RoleDto>();
             for(int i = 0; i < this.selectedRoles.length; i++) {
-            	rolesToAdd.add(roleService.getRolesById(selectedRoles[i]));
+            	rolesToAdd.add(roleService.getRolesById(String.valueOf(selectedRoles[i])));
             }
             
             this.users.add(this.selectedUser);
