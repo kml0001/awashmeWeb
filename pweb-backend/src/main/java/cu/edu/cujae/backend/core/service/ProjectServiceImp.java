@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -63,68 +62,58 @@ public class ProjectServiceImp implements ProjectsService {
 
 	@Override
 	public int createProject(ProjectDto project) {
-		  
-		   int id_project_return = -1;
-		   System.out.println("Prueba");
-		   System.out.println(project.get_public());
-		    	try (Connection conn = ConnectionImp.getConnection()) {
-		            String sql = "INSERT INTO projects (name, identifier, description, status, is_public, inherit_members, created_on, updated_on, project_type) " +
-		                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  RETURNING id";
-		            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-		            	stmt.setString(1, project.getName());
-		            	stmt.setString(2, project.getIdentifier());
-		            	stmt.setString(3, project.getDescription());
-		            	stmt.setString(4, project.getStatus());
-		            	stmt.setString(5, project.get_public());
-		            	stmt.setString(6, project.getInherit_members());
-		            	stmt.setString(7,project.getCreated_on());
-		            	stmt.setString(8,project.getUpdated_on());
-		            	stmt.setString(9, project.getProject_type());
+	    String insertSQL = "INSERT INTO projects (updated_on, name, description, status, is_public, project_manager) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
 
-		                ResultSet resultado = stmt.executeQuery();
-			            
-			            if (resultado.next()) {
-			            	id_project_return = resultado.getInt("id"); // Obtener el ID generado
-			            }
-			            resultado.close();
-		                stmt.close();
-		                conn.close();
-		            }
-		        } catch (SQLException e) {
-		            e.printStackTrace();
-		        }
-		return id_project_return;
+	    try (Connection conn = ConnectionImp.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
+
+	        stmt.setString(1, project.getUpdated_on());
+	        stmt.setString(2, project.getName());
+	        stmt.setString(3, project.getDescription());
+	        stmt.setString(4, project.getStatus());
+	        stmt.setString(5, project.getIs_public());
+	        stmt.setInt(6, project.getProject_manager());
+
+	        try (ResultSet generatedKeys = stmt.executeQuery()) {
+	            if (generatedKeys.next()) {
+	                return generatedKeys.getInt("id");
+	            } else {
+	                throw new SQLException("No se pudo obtener el ID generado.");
+	            }
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return -1; // Retorna un valor negativo para indicar un error
+	    }
 	}
 
 	@Override
-	public int updateProject(int id, ProjectDto updatedProject) {
-		int id_project_return = -1;
-		
-		try (Connection conn = ConnectionImp.getConnection()) {
-            String sql = "UPDATE projects SET name=?, identifier=?, description=?, status=?, is_public=?, inherit_members=?, created_on=?, updated_on=?, project_type=? WHERE id=?";
-            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            	stmt.setString(1, updatedProject.getName());
-            	stmt.setString(2, updatedProject.getIdentifier());
-            	stmt.setString(3, updatedProject.getDescription());
-            	stmt.setString(4, updatedProject.getStatus());
-            	stmt.setString(5, updatedProject.get_public());
-                stmt.setString(6, updatedProject.getInherit_members());
-                stmt.setString(7,updatedProject.getCreated_on());
-                stmt.setString(8,new Date().toString());
-                stmt.setString(9, updatedProject.getProject_type());
-                stmt.setInt(10, updatedProject.getId());
+	public int updateProject(int id ,ProjectDto project) {
+	    String updateSQL = "UPDATE projects SET name=?, description=?, status=?, is_public=?, project_manager=? WHERE id=?";
 
-                int rowsAffected = stmt.executeUpdate();
-                
-                if (rowsAffected > 0) {
-                    System.out.println("Proyecto actualizado correctamente.");
-                    id_project_return =updatedProject.getId();
-                } 
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-		return id_project_return;
+	    try (Connection conn = ConnectionImp.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
+
+	        stmt.setString(1, project.getName());
+	        stmt.setString(2, project.getDescription());
+	        stmt.setString(3, project.getStatus());
+	        stmt.setString(4, project.getIs_public());
+	        stmt.setInt(5, project.getProject_manager());
+	        stmt.setInt(6, id);
+
+	        try (ResultSet generatedKeys = stmt.executeQuery()) {
+	            if (generatedKeys.next()) {
+	                return generatedKeys.getInt("id");
+	            } else {
+	                throw new SQLException("No se pudo obtener el ID generado.");
+	            }
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return -1; // Retorna un valor negativo para indicar un error
+	    }
 	}
 
 	@Override
@@ -150,18 +139,17 @@ public class ProjectServiceImp implements ProjectsService {
 	}
 
 	
-	   private ProjectDto mapResultSetToProject(ResultSet resultSet) throws SQLException {
-		   ProjectDto projectDto = new ProjectDto(
-      			 resultSet.getString("name"),
-      			 resultSet.getString("identifier"),
-      			 resultSet.getString("description"),
-      			 resultSet.getString("status"),
-      			 resultSet.getString("is_public"),
-      			 resultSet.getString("inherit_members"),
-      			 resultSet.getString("project_type"));
-		    projectDto.setId(resultSet.getInt("id"));
-		    projectDto.setCreated_on(resultSet.getString("created_on"));
-		    projectDto.setUpdated_on(resultSet.getString("updated_on"));
-	        return projectDto;
-	    }
+	private ProjectDto mapResultSetToProject(ResultSet resultSet) throws SQLException {
+	    int id = resultSet.getInt("id");
+	    String created_on = resultSet.getString("created_on");
+	    String updated_on = resultSet.getString("updated_on");
+	    String name = resultSet.getString("name");
+	    String description = resultSet.getString("description");
+	    String status = resultSet.getString("status");
+	    String is_public = resultSet.getString("is_public");
+	    int project_manager = resultSet.getInt("project_manager");
+
+	    ProjectDto projectDto = new ProjectDto(id, created_on, updated_on, name, description, status, is_public, project_manager);
+	    return projectDto;
+	}
 }

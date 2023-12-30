@@ -7,141 +7,193 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cu.edu.cujae.backend.core.dto.RoleDto;
 import cu.edu.cujae.backend.core.dto.UserDto;
 import cu.edu.cujae.backend.core.util.ConnectionImp;
+import cu.edu.cujae.backend.service.RoleService;
 import cu.edu.cujae.backend.service.UserService;
 
 @Service
 public class UserServiceImp implements UserService{
 
-	
-	
-	@Override
-	public List<UserDto> getUsuarios() {
-		 List<UserDto> users = new ArrayList<>();
-
-	        try (Connection conn = ConnectionImp.getConnection()) {
-	            String sql = "SELECT * FROM users";
-	            try (PreparedStatement statement = conn.prepareStatement(sql);
-	                 ResultSet resultSet = statement.executeQuery()) {
-
-	                while (resultSet.next()) {
-	                    users.add(mapResultSetToUser(resultSet));
-	                }
-	            }
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	        return users;
-	}
-
-	@Override
-	public UserDto getUsuarioById(int id) {
-		UserDto user = null;
-	        try (Connection conn =ConnectionImp.getConnection()) {
-	            String sql = "SELECT * FROM users WHERE id=?";
-	            try (PreparedStatement statement = conn.prepareStatement(sql)) {
-	                statement.setInt(1, id);
-	                try (ResultSet resultSet = statement.executeQuery()) {
-	                    if (resultSet.next()) {
-	                        user = mapResultSetToUser(resultSet);
-	                    }
-	                }
-	            }
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	        return user;
-	}
-
-	@Override
-	public int createUsuario(UserDto user) {
-		int id_user_return = -1;
-		 try (Connection conn = ConnectionImp.getConnection()) {
-	            String sql = "INSERT INTO users (datos_generales, cant_project, cant_horas_reportadas, cant_tareas_atrasadas , name) " +
-	                         "VALUES (?, ?, ?, ?, ?) RETURNING id";
-	            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-	            	stmt.setString(1, user.getDatos_generales());
-	            	stmt.setInt(2, user.getCant_project());
-	            	stmt.setDouble(3, user.getCant_horas_reportadas());
-	            	stmt.setInt(4, user.getCant_tareas_atrasadas());
-	            	stmt.setString(5, user.getName());
-	                ResultSet resultado = stmt.executeQuery();
-		            
-		            if (resultado.next()) {
-		            	id_user_return = resultado.getInt("id"); // Obtener el ID generado
-		            }
-		            resultado.close();
-	                stmt.close();
-	                conn.close();
-	            }
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-		return id_user_return;
-	}
-
-	@Override
-	public int updateUsuario(int id, UserDto updatedUsuario) {
-		int id_user_return = -1;
-		 try (Connection conn = ConnectionImp.getConnection()) {
-	            String sql = "UPDATE users SET name = ?,datos_generales=?, cant_project=?, cant_horas_reportadas=?, cant_tareas_atrasadas=? WHERE id=?";
-	            try (PreparedStatement statement = conn.prepareStatement(sql)) {
-	            	statement.setString(1, updatedUsuario.getName());
-	                statement.setString(2, updatedUsuario.getDatos_generales());
-	                statement.setInt(3, updatedUsuario.getCant_project());
-	                statement.setDouble(4, updatedUsuario.getCant_horas_reportadas());
-	                statement.setInt(5, updatedUsuario.getCant_tareas_atrasadas());
-	                statement.setInt(6, updatedUsuario.getId());
-
-	                int rowsAffected = statement.executeUpdate();
-	                if (rowsAffected > 0) {
-	                    System.out.println("Usuario actualizado correctamente.");
-	                    id_user_return = updatedUsuario.getId();
-	                } else {
-	                    System.out.println("No se encontró ningún usuario con el ID proporcionado para actualizar.");
-	                }
-	            }
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-		 return id_user_return;
-	}
-
+	@Autowired
+	private RoleService roleservice;
 	
 	@Override
-	public int deleteUsuario(int id) {
-		int id_return = -1;
-		try (Connection conn = ConnectionImp.getConnection()) {
-            String sql = "DELETE FROM users WHERE id=?";
-            try (PreparedStatement statement = conn.prepareStatement(sql)) {
-                statement.setInt(1, id);
-                int rowsAffected = statement.executeUpdate();
-                if (rowsAffected > 0) {
-                    System.out.println("Usuario eliminado correctamente.");
-                    id_return = id;
-                } else {
-                    System.out.println("No se encontró ningún usuario con el ID proporcionado para eliminar.");
+	public int createUser(UserDto user) {
+        String insertSQL = "INSERT INTO user (firstname, lastname, mail, passwd) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = ConnectionImp.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(insertSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+            stmt.setString(1, user.getFirstname());
+            stmt.setString(2, user.getLastname());
+            stmt.setString(3, user.getMail());
+            stmt.setString(4, user.getPasswd());
+
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                // Obtener el ID generado
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int userId = generatedKeys.getInt(1);
+                        
+                        // Ahora, insertar roles asociados al usuario
+                        roleservice.insertUserRoles(userId, user.getRoles());
+
+                        return userId;
+                    } else {
+                        throw new SQLException("No se pudo obtener el ID generado.");
+                    }
                 }
+            } else {
+                throw new SQLException("La inserción no tuvo éxito, no se creó ninguna fila.");
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1; // Retorna un valor negativo para indicar un error
+        }
+    }
+
+	@Override
+	public int updateUser(int userId, UserDto updatedUser) {
+        String updateSQL = "UPDATE user SET firstname=?, lastname=?, mail=?, passwd=? WHERE id=?";
+
+        try (Connection conn = ConnectionImp.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
+
+            stmt.setString(1, updatedUser.getFirstname());
+            stmt.setString(2, updatedUser.getLastname());
+            stmt.setString(3, updatedUser.getMail());
+            stmt.setString(4, updatedUser.getPasswd());
+            stmt.setInt(5, userId);
+
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                // Ahora, actualizar roles asociados al usuario
+            	roleservice.updateRolesForUser(userId, updatedUser.getRoles());
+                return rowsAffected;
+            } else {
+                return -1; // No se actualizó ninguna fila
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+	@Override
+	public List<UserDto> listUsers() {
+        String selectAllSQL = "SELECT * FROM user";
+        List<UserDto> users = new ArrayList<>();
+
+        try (Connection conn = ConnectionImp.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(selectAllSQL);
+             ResultSet resultSet = stmt.executeQuery()) {
+
+            while (resultSet.next()) {
+                UserDto user = mapResultSetToUser(resultSet);
+                users.add(user);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-		return id_return;
+
+        return users;
+    }
+	
+	@Override
+	public UserDto getUserById(int userId) {
+        String selectByIdSQL = "SELECT * FROM user WHERE id = ?";
+        UserDto user = null;
+
+        try (Connection conn = ConnectionImp.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(selectByIdSQL)) {
+
+            stmt.setInt(1, userId);
+
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    user = mapResultSetToUser(resultSet);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
+
+	@Override
+	public UserDto getUserByUsername(String username) {
+        String selectByUsernameSQL = "SELECT * FROM user WHERE username = ?";
+        UserDto user = null;
+
+        try (Connection conn = ConnectionImp.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(selectByUsernameSQL)) {
+
+            stmt.setString(1, username);
+
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    user = mapResultSetToUser(resultSet);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
+
+	@Override
+	public int deleteUser(int userId) throws SQLException {
+		 String deleteSQL = "DELETE FROM user WHERE id = ?";
+
+	        try (Connection conn = ConnectionImp.getConnection();
+	             PreparedStatement stmt = conn.prepareStatement(deleteSQL)) {
+
+	            stmt.setInt(1, userId);
+
+	            int rowsAffected = stmt.executeUpdate();
+
+	            if (rowsAffected > 0) {
+	                // También elimina los roles asociados al usuario
+	            	roleservice.deleteRolesForUser(userId);
+	                return rowsAffected;
+	            } else {
+	                return -1; // No se eliminó ninguna fila
+	            }
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            return -1;
+	        }
 	}
 
-	
+    // Método auxiliar para mapear un conjunto de resultados (ResultSet) a un objeto UserDto
+    private UserDto mapResultSetToUser(ResultSet resultSet) throws SQLException {
+        UserDto user = new UserDto();
+        user.setId(resultSet.getInt("id"));
+        user.setFirstname(resultSet.getString("firstname"));
+        user.setLastname(resultSet.getString("lastname"));
+        user.setMail(resultSet.getString("mail"));
+        user.setPasswd(resultSet.getString("passwd"));
 
-	 private UserDto mapResultSetToUser(ResultSet resultSet) throws SQLException {
-		 	UserDto user = new UserDto(
-		 			resultSet.getString("name"),
-		 			resultSet.getString("datos_generales"),
-		 			resultSet.getInt("cant_project"),
-		 			resultSet.getDouble("cant_horas_reportadas"),
-		 			resultSet.getInt("cant_tareas_atrasadas"));
-		 	user.setId(resultSet.getInt("id"));
-	        return user;
-	    }
+        // Recuperar roles asociados al usuario, si es necesario
+        List<RoleDto> roles = roleservice.getRolesByUserId(resultSet.getInt("id"));
+        user.SetRoles(roles);
+        return user;
+    }
+
 }

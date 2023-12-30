@@ -1,5 +1,6 @@
 package cu.edu.cujae.backend.api.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +26,16 @@ public class UsersController {
     private UserService service; 
 	
     @GetMapping("/")
-    public ResponseEntity<List<UserDto>> getUsers() {
+    public ResponseEntity<List<UserDto>> getUsers() throws SQLException {
         
-        List<UserDto> users = service.getUsuarios();
+        List<UserDto> users = service.listUsers();
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getUserById(@PathVariable int id) {
+    public ResponseEntity<Object> getUserById(@PathVariable int id) throws SQLException {
         
-    	UserDto user = service.getUsuarioById(id);
+    	UserDto user = service.getUserById(id);
 
         if (user != null) {
             return ResponseEntity.ok(user);
@@ -44,9 +45,9 @@ public class UsersController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Object> createUser(@RequestBody UserDto user) {
+    public ResponseEntity<Object> createUser(@RequestBody UserDto user) throws SQLException {
        
-    	int newUser_id = service.createUsuario(user);
+    	int newUser_id = (int) service.createUser(user);
     	if(newUser_id != -1) {
     		return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado");
     	}
@@ -55,9 +56,9 @@ public class UsersController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateUser(@PathVariable int id, @RequestBody UserDto updatedUser) {
+    public ResponseEntity<Object> updateUser(@PathVariable int id, @RequestBody UserDto user) throws SQLException {
       
-    	int updated_id = service.updateUsuario(id, updatedUser);
+    	int updated_id = service.updateUser(id , user);
         if (updated_id != -1) {
             return ResponseEntity.ok("Usuario actualizado");
         } else {
@@ -66,9 +67,9 @@ public class UsersController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteUser(@PathVariable int id) {
+    public ResponseEntity<Object> deleteUser(@PathVariable int id) throws SQLException {
        
-    	int delete_id = service.deleteUsuario(id);
+    	int delete_id = service.deleteUser(id);
     	if(delete_id != -1)
     		return ResponseEntity.ok("Usuario eliminado");
     	else {
