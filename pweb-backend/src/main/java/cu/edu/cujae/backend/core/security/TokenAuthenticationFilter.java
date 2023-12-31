@@ -38,7 +38,11 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
                 int userId =   Integer.parseInt( tokenProvider.getUserIdFromToken(jwt));
 
+<<<<<<< Updated upstream
                 UserDto user = userService.getUsuarioById(userId);
+=======
+                UserDto user = userService.getUserById(userId);
+>>>>>>> Stashed changes
                 
                 UserDetails userDetails = UserPrincipal.create(user);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

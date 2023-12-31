@@ -45,8 +45,13 @@ public class UserPrincipal implements UserDetails {
 		}
     	return new UserPrincipal(
                 user.getId(),
+<<<<<<< Updated upstream
                 user.getEmail(),
                 user.getPassword(),
+=======
+                user.getMail(),
+                user.getPasswd(),
+>>>>>>> Stashed changes
                 true,
                 user.getIdentification(),
                 authorities
