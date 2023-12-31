@@ -1,5 +1,6 @@
 package cu.edu.cujae.backend.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import cu.edu.cujae.backend.core.dto.IssueDto;
@@ -10,7 +11,7 @@ public interface IssuesService {
 
     IssueDto getIssueById(int id);
 
-    int createIssue(IssueDto issue);
+    int createIssue(IssueDto issue) throws SQLException;
 
     int updateIssue(int id ,IssueDto updatedIssue);
 

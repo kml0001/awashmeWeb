@@ -11,26 +11,31 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import cu.edu.cujae.backend.core.dto.RoleDto;
 import cu.edu.cujae.backend.core.dto.UserDto;
 
 
 public class UserPrincipal implements UserDetails {
-    private String id;
-    private String email;
-    private String password;
-    private boolean active;
-    private String username;
-    private String fullName;
-    private String identification;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String id;
+    private String firstname;
+    private String lastname;
+    private String mail;
+    private String passwd;
+	//private List<RoleDto> roleList;
     private Collection<? extends GrantedAuthority> authorities;
+	private String username;
 
-    public UserPrincipal(String id, String email, String password, boolean active, String identification, Collection<? extends GrantedAuthority> authorities) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.active = active;
+    public UserPrincipal(int id, String firstname, String lastname, String mail, String passwd, Collection<? extends GrantedAuthority> authorities ,List<RoleDto> roleList) {
+    	this.id = String.valueOf(id);
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.mail = mail;
+        this.passwd = passwd;
         this.authorities = authorities;
-        this.identification = identification;
     }
 
     public static UserPrincipal create(UserDto user) {
@@ -45,16 +50,12 @@ public class UserPrincipal implements UserDetails {
 		}
     	return new UserPrincipal(
                 user.getId(),
-<<<<<<< Updated upstream
-                user.getEmail(),
-                user.getPassword(),
-=======
+                user.getFirstname(),
+                user.getLastname(),
                 user.getMail(),
                 user.getPasswd(),
->>>>>>> Stashed changes
-                true,
-                user.getIdentification(),
-                authorities
+                authorities,
+                user.getRoles()
         );
     }
 
@@ -64,16 +65,16 @@ public class UserPrincipal implements UserDetails {
     }
 
     public String getId() {
-        return id;
+        return String.valueOf(id);
     }
 
     public String getEmail() {
-        return email;
+        return mail;
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return passwd;
     }
 
     @Override
@@ -98,7 +99,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return active;
+        return true;
     }
 
     @Override
@@ -106,19 +107,12 @@ public class UserPrincipal implements UserDetails {
         return authorities;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFirstname() {
+        return firstname;
     }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public String getLastname() {
+        return lastname;
+    }
 
-	public String getIdentification() {
-		return identification;
-	}
-
-	public void setIdentification(String identification) {
-		this.identification = identification;
-	}
 }

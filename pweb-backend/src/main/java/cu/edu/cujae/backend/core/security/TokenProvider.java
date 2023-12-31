@@ -22,22 +22,33 @@ public class TokenProvider {
 
     private String secretKey = "Pweb*StrongToken*SecretKey*Pweb*";
 
-    public TokenProvider() {
+     public TokenProvider() {
     }
 
     public String createToken(Authentication authentication) {
     	
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-
+      
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + System.currentTimeMillis() + 600000);
 
+        
+        
+        System.out.println(userPrincipal.getId());
+        System.out.println(new Date());
+        System.out.println(expiryDate);
+        System.out.println(secretKey.getBytes());
+  
+        
+        
+        
         return Jwts.builder()
                 .setSubject(userPrincipal.getId())
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, secretKey.getBytes())
                 .compact();
+
     }
 
     public String getUserIdFromToken(String token) {
@@ -66,5 +77,4 @@ public class TokenProvider {
         }
         return false;
     }
-
 }

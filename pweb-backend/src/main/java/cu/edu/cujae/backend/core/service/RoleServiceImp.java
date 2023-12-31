@@ -23,30 +23,58 @@ public class RoleServiceImp implements RoleService{
 		List<RoleDto> RoleList = new ArrayList<>();
 		 try (Connection conn = ConnectionImp.getConnection()) {
 			 PreparedStatement pstmt = conn.prepareStatement(
-				      "SELECT id, role_name, description FROM xrole inner join user_role on user_role.role_id = xrole.id where user_role.user_id = ?");
+				      "SELECT * FROM role join user_role on user_role.rol_id = role.id where user_role.user_id = ?");
 			pstmt.setInt(1, userId);
-	
+			
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()){
 				RoleList.add(new RoleDto(rs.getInt("id")
-						,rs.getString("role_name")
+						,rs.getString("name")
 						));
 			}
 		}
+		 catch (SQLException e) {
+	            e.printStackTrace();
+	        }
 		return RoleList;
 	}
 
 	@Override
 	public List<RoleDto> listRoles() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		  String selectAllSQL = "SELECT * FROM roles";
+	        List<RoleDto> roles = new ArrayList<>();
+
+	        try (Connection conn = ConnectionImp.getConnection();
+	             PreparedStatement stmt = conn.prepareStatement(selectAllSQL);
+	             ResultSet resultSet = stmt.executeQuery()) {
+
+	            while (resultSet.next()) {
+	                RoleDto role = mapResultSetToRole(resultSet);
+	                roles.add(role);
+	            }
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+
+	        return roles;
 	}
 
 	@Override
 	public RoleDto getRoleById(int roleId) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		 String insertSQL = "SELECT * FROM role WHERE id = ?";
+		 RoleDto rol = null;
+	        try (Connection conn = ConnectionImp.getConnection();
+	             PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
+
+	            stmt.setInt(1, roleId);
+	            rol = mapResultSetToRole(stmt.executeQuery());
+	
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        return rol;
 	}
 
 	
@@ -76,27 +104,6 @@ public class RoleServiceImp implements RoleService{
         }
     }
 	
-	
-	
-	public List<RoleDto> getAllRoles() {
-        String selectAllSQL = "SELECT * FROM roles";
-        List<RoleDto> roles = new ArrayList<>();
-
-        try (Connection conn = ConnectionImp.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(selectAllSQL);
-             ResultSet resultSet = stmt.executeQuery()) {
-
-            while (resultSet.next()) {
-                RoleDto role = mapResultSetToRole(resultSet);
-                roles.add(role);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return roles;
-    }
 	
 	
 	private RoleDto mapResultSetToRole(ResultSet resultSet) throws SQLException {

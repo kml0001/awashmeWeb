@@ -23,7 +23,7 @@ public class ProjectServiceImp implements ProjectsService {
 		 List<ProjectDto> projects = new ArrayList<>();
 
 	        try (Connection conn = ConnectionImp.getConnection()) {
-	            String sql = "SELECT * FROM projects";
+	            String sql = "SELECT * FROM project";
 	            try (PreparedStatement statement = conn.prepareStatement(sql);
 	                 ResultSet resultSet = statement.executeQuery()) {
 
@@ -43,7 +43,7 @@ public class ProjectServiceImp implements ProjectsService {
 	
 		ProjectDto projectDto = null;
 	        try (Connection conn = ConnectionImp.getConnection()) {
-	            String sql = "SELECT * FROM projects WHERE id=?";
+	            String sql = "SELECT * FROM project WHERE id=?";
 	            try (PreparedStatement statement = conn.prepareStatement(sql)) {
 	                statement.setInt(1, id);
 
@@ -62,17 +62,17 @@ public class ProjectServiceImp implements ProjectsService {
 
 	@Override
 	public int createProject(ProjectDto project) {
-	    String insertSQL = "INSERT INTO projects (updated_on, name, description, status, is_public, project_manager) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
+	    String insertSQL = "INSERT INTO project (name, description, status, is_public, project_manager) VALUES (?, ?, ?, ?, ?) RETURNING id";
 
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 
-	        stmt.setString(1, project.getUpdated_on());
-	        stmt.setString(2, project.getName());
-	        stmt.setString(3, project.getDescription());
-	        stmt.setString(4, project.getStatus());
-	        stmt.setString(5, project.getIs_public());
-	        stmt.setInt(6, project.getProject_manager());
+	       
+	        stmt.setString(1, project.getName());
+	        stmt.setString(2, project.getDescription());
+	        stmt.setString(3, project.getStatus());
+	        stmt.setString(4, project.getIs_public());
+	        stmt.setInt(5, project.getProject_manager());
 
 	        try (ResultSet generatedKeys = stmt.executeQuery()) {
 	            if (generatedKeys.next()) {
@@ -90,7 +90,7 @@ public class ProjectServiceImp implements ProjectsService {
 
 	@Override
 	public int updateProject(int id ,ProjectDto project) {
-	    String updateSQL = "UPDATE projects SET name=?, description=?, status=?, is_public=?, project_manager=? WHERE id=?";
+	    String updateSQL = "UPDATE project SET name=?, description=?, status=?, is_public=?, project_manager=? WHERE id=?";
 
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
@@ -120,7 +120,7 @@ public class ProjectServiceImp implements ProjectsService {
 	public int deleteProject(int id) {
 		int id_return = -1;
 		try (Connection conn = ConnectionImp.getConnection()) {
-            String sql = "DELETE FROM projects WHERE id=?";
+            String sql = "DELETE FROM project WHERE id=?";
             try (PreparedStatement statement = conn.prepareStatement(sql)) {
                 statement.setInt(1, id);
                 

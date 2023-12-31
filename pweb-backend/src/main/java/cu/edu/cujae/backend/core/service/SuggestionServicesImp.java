@@ -14,11 +14,11 @@ import cu.edu.cujae.backend.core.util.ConnectionImp;
 import cu.edu.cujae.backend.service.SuggestionService;
 
 @Service
-public class SuggestionsServicesImp implements SuggestionService{
+public class SuggestionServicesImp implements SuggestionService{
 
 	@Override
 	public List<Suggestion> getSuggestion() {
-	    String selectSQL = "SELECT * FROM tu_tabla_de_sugerencias";
+	    String selectSQL = "SELECT * FROM suggestion";
 	    List<Suggestion> suggestions = new ArrayList<>();
 
 	    try (Connection conn = ConnectionImp.getConnection();
@@ -39,7 +39,7 @@ public class SuggestionsServicesImp implements SuggestionService{
 
 	@Override
 	public Suggestion getSuggestionById(int id) {
-	    String selectSQL = "SELECT * FROM tu_tabla_de_sugerencias WHERE id = ?";
+	    String selectSQL = "SELECT * FROM suggestions WHERE id = ?";
 	    Suggestion suggestion = null;
 
 	    try (Connection conn = ConnectionImp.getConnection();
@@ -62,16 +62,15 @@ public class SuggestionsServicesImp implements SuggestionService{
 
 	@Override
 	public int createSuggestion(Suggestion suggestion) {
-	    String insertSQL = "INSERT INTO tu_tabla_de_sugerencias (author_id, description, created_on, urgency, importance) VALUES (?, ?, ?, ?, ?) RETURNING id";
+	    String insertSQL = "INSERT INTO suggestion (author_id, description, urgency, importance) VALUES (?, ?,?, ?) RETURNING id";
 
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 
 	        stmt.setInt(1, suggestion.getAuthor_id());
 	        stmt.setString(2, suggestion.getDescription());
-	        stmt.setString(3, suggestion.getCreated_on());
-	        stmt.setString(4, suggestion.getUrgency());
-	        stmt.setString(5, suggestion.getImportance());
+	        stmt.setString(3, suggestion.getUrgency());
+	        stmt.setString(4, suggestion.getImportance());
 
 	        try (ResultSet generatedKeys = stmt.executeQuery()) {
 	            if (generatedKeys.next()) {
@@ -89,17 +88,16 @@ public class SuggestionsServicesImp implements SuggestionService{
 
 	@Override
 	public int updateSuggestion(int id, Suggestion updatedSuggestion) {
-	    String updateSQL = "UPDATE tu_tabla_de_sugerencias SET author_id=?, description=?, created_on=?, urgency=?, importance=? WHERE id=?";
+	    String updateSQL = "UPDATE suggestion SET author_id=?, description=?,urgency=?, importance=? WHERE id=?";
 
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
 
 	        stmt.setInt(1, updatedSuggestion.getAuthor_id());
 	        stmt.setString(2, updatedSuggestion.getDescription());
-	        stmt.setString(3, updatedSuggestion.getCreated_on());
-	        stmt.setString(4, updatedSuggestion.getUrgency());
-	        stmt.setString(5, updatedSuggestion.getImportance());
-	        stmt.setInt(6, id);
+	        stmt.setString(3, updatedSuggestion.getUrgency());
+	        stmt.setString(4, updatedSuggestion.getImportance());
+	        stmt.setInt(5, id);
 
 	        int rowsAffected = stmt.executeUpdate();
 
@@ -113,7 +111,7 @@ public class SuggestionsServicesImp implements SuggestionService{
 
 	@Override
 	public int deleteSuggestion(int id) {
-	    String deleteSQL = "DELETE FROM tu_tabla_de_sugerencias WHERE id=?";
+	    String deleteSQL = "DELETE FROM suggestion WHERE id=?";
 
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(deleteSQL)) {

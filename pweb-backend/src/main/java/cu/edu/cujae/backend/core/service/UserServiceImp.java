@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import cu.edu.cujae.backend.core.dto.RoleDto;
@@ -32,7 +33,7 @@ public class UserServiceImp implements UserService{
             stmt.setString(1, user.getFirstname());
             stmt.setString(2, user.getLastname());
             stmt.setString(3, user.getMail());
-            stmt.setString(4, user.getPasswd());
+            stmt.setString(4,encodePass(user.getPasswd()));
 
             int rowsAffected = stmt.executeUpdate();
 
@@ -112,7 +113,7 @@ public class UserServiceImp implements UserService{
 	
 	@Override
 	public UserDto getUserById(int userId) {
-        String selectByIdSQL = "SELECT * FROM user WHERE id = ?";
+        String selectByIdSQL = "SELECT * FROM users WHERE id = ?";
         UserDto user = null;
 
         try (Connection conn = ConnectionImp.getConnection();
@@ -135,15 +136,16 @@ public class UserServiceImp implements UserService{
 
 	@Override
 	public UserDto getUserByUsername(String username) {
-        String selectByUsernameSQL = "SELECT * FROM user WHERE username = ?";
+        String selectByUsernameSQL = "SELECT * FROM users where username = ?";
         UserDto user = null;
 
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(selectByUsernameSQL)) {
-
+    
             stmt.setString(1, username);
-
             try (ResultSet resultSet = stmt.executeQuery()) {
+        
+            	
                 if (resultSet.next()) {
                     user = mapResultSetToUser(resultSet);
                 }
@@ -152,13 +154,13 @@ public class UserServiceImp implements UserService{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        
         return user;
     }
 
 	@Override
 	public int deleteUser(int userId) throws SQLException {
-		 String deleteSQL = "DELETE FROM user WHERE id = ?";
+		 String deleteSQL = "DELETE FROM users WHERE id = ?";
 
 	        try (Connection conn = ConnectionImp.getConnection();
 	             PreparedStatement stmt = conn.prepareStatement(deleteSQL)) {
@@ -181,14 +183,20 @@ public class UserServiceImp implements UserService{
 	        }
 	}
 
+	
+	private String encodePass(String password) {
+		return new BCryptPasswordEncoder().encode(password);
+	}
+	
+	
     // Método auxiliar para mapear un conjunto de resultados (ResultSet) a un objeto UserDto
     private UserDto mapResultSetToUser(ResultSet resultSet) throws SQLException {
         UserDto user = new UserDto();
         user.setId(resultSet.getInt("id"));
-        user.setFirstname(resultSet.getString("firstname"));
+        user.setFirstname(resultSet.getString("username"));
         user.setLastname(resultSet.getString("lastname"));
         user.setMail(resultSet.getString("mail"));
-        user.setPasswd(resultSet.getString("passwd"));
+        user.setPasswd(encodePass(resultSet.getString("passwd")));
 
         // Recuperar roles asociados al usuario, si es necesario
         List<RoleDto> roles = roleservice.getRolesByUserId(resultSet.getInt("id"));
