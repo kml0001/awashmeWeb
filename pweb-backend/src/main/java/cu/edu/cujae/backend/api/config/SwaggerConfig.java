@@ -2,6 +2,7 @@ package cu.edu.cujae.backend.api.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -17,12 +18,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
     @Bean
     public Docket createRestApi() {
-    	 return new Docket(DocumentationType.SWAGGER_2)
-                 .apiInfo(apiInfo())
-                 .select()
-                 .apis(RequestHandlerSelectors.basePackage("cu.edu.cujae.backend.api.controller"))
-                 .paths(PathSelectors.any())
-                 .build();
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("cu.edu.cujae.backend.api.controller"))
+                .paths(PathSelectors.any())
+                .build();
     }
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()

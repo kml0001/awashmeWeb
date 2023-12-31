@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog header="Suggestion" showEffect="fade" modal="true"
+		widgetVar="manageSuggestionDialog" responsive="true">
+		<p:outputPanel id="manage-suggestion-content" class="ui-fluid">
+			<p:outputPanel rendered="#{not empty suggestionBean.selectedSuggestion}">
+				<p:panelGrid layout="grid" columns="2">
+					<h:panelGroup>
+						<div class="p-field">
+							<p:outputLabel for="@next">Tipo</p:outputLabel>
+							<p:inputText id="tipo" required="true"
+								value="#{suggestionBean.selectedSuggestion.tipo}" />
+							<p:message for="@previous"></p:message>
+						</div>
+					</h:panelGroup>
+					<h:panelGroup>
+						<div class="p-field">
+							<p:outputLabel for="@next">Tiempo estimado</p:outputLabel>
+							<p:inputText id="tiempo" required="true"
+								value="#{suggestionBean.selectedSuggestion.fondo_de_tiempo}" />
+							<p:message for="@previous"></p:message>
+						</div>
+					</h:panelGroup>
+					<h:panelGroup>
+						<div class="p-field">
+							<p:outputLabel for="@next">Cumplimiento</p:outputLabel>
+							<p:inputText id="cumplimiento" required="true"
+								value="#{suggestionBean.selectedSuggestion.cumplimiento}" />
+							<p:message for="@previous"></p:message>
+						</div>
+					</h:panelGroup>
+					<h:panelGroup>
+						<div class="p-field">
+							<p:outputLabel for="@next">Asignado</p:outputLabel>
+							<p:inputText id="asignado" required="true"
+								value="#{suggestionBean.selectedSuggestion.persona_asignada}" />
+							<p:message for="@previous"></p:message>
+						</div>						
+					</h:panelGroup>
+					
+				</p:panelGrid>
+			</p:outputPanel>
+		</p:outputPanel>
+
+		<f:facet name="footer">
+			<p:commandButton value="Salvar" icon="pi pi-check"
+				actionListener="#{suggestionBean.saveSuggestion}"
+				update="manage-suggestion-content" process="manage-suggestion-content @this" />
+			<p:commandButton value="Cancelar" icon="pi pi-times"
+				onclick="PF('manageSuggestionDialog').hide()" class="ui-button-secondary" />
+		</f:facet>
+	</p:dialog>
+</ui:composition>

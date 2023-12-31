@@ -6,7 +6,7 @@
     </context-param>
 	 <context-param>
 	    <param-name>primefaces.THEME</param-name>
-	    <param-value>saga</param-value>
+	    <param-value>luna-blue</param-value>
 	</context-param>
 	<listener>
 	    <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
@@ -31,6 +31,10 @@
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.faces</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>

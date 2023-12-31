@@ -12,7 +12,7 @@ public interface IssuesService {
 
     int createIssue(IssueDto issue);
 
-    int updateIssue(int id, IssueDto updatedIssue);
+    int updateIssue(int id ,IssueDto updatedIssue);
 
     int deleteIssue(int id);
 }

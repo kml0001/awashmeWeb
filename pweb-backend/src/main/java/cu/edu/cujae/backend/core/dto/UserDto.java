@@ -1,77 +1,69 @@
 package cu.edu.cujae.backend.core.dto;
 
+import java.util.List;
+
 import io.swagger.annotations.ApiModelProperty;
 
 public class UserDto {
+	
+
 		@ApiModelProperty(hidden = true)
 		private int id;
-		private String name;
-		private String Datos_generales; 
-		private int cant_project;
-		private double cant_horas_reportadas;
-		private int cant_tareas_atrasadas;
-		
-		
-		public UserDto(String datos_generales,String name, int cant_project, double cant_horas_reportadas,
-				int cant_tareas_atrasadas) {
+		private String firstname;
+		private String lastname; 
+		private String mail;
+		private String passwd;
+		private List<RoleDto> RoleList;	
+		public UserDto(int id, String firstname, String lastname, String mail, String passwd,
+				List<RoleDto> RoleList) {
 			super();
-			this.id = -1;
-			this.name = name;
-			Datos_generales = datos_generales;
-			this.cant_project = cant_project;
-			this.cant_horas_reportadas = cant_horas_reportadas;
-			this.cant_tareas_atrasadas = cant_tareas_atrasadas;
+			this.id = id;
+			this.firstname = firstname;
+			this.lastname = lastname;
+			this.mail = mail;
+			this.passwd = passwd;
+			this.RoleList = RoleList;
 		}
-
+		public UserDto(){
+			
+		}
+		
+		
 		public int getId() {
 			return id;
 		}
-
 		public void setId(int id) {
 			this.id = id;
 		}
+		public String getFirstname() {
+			return firstname;
+		}
+		public void setFirstname(String firstname) {
+			this.firstname = firstname;
+		}
+		public String getLastname() {
+			return lastname;
+		}
+		public void setLastname(String lastname) {
+			this.lastname = lastname;
+		}
+		public String getMail() {
+			return mail;
+		}
+		public void setMail(String mail) {
+			this.mail = mail;
+		}
+		public String getPasswd() {
+			return passwd;
+		}
+		public void setPasswd(String passwd) {
+			this.passwd = passwd;
+		}
+		public List<RoleDto> getRoles() {
+			return RoleList;
+		}
+		public void SetRoles(List<RoleDto> RoleList) {
+			this.RoleList = RoleList;
+		}
 		
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public String getDatos_generales() {
-			return Datos_generales;
-		}
-
-		public void setDatos_generales(String datos_generales) {
-			Datos_generales = datos_generales;
-		}
-
-		public int getCant_project() {
-			return cant_project;
-		}
-
-		public void setCant_project(int cant_project) {
-			this.cant_project = cant_project;
-		}
-
-		public double getCant_horas_reportadas() {
-			return cant_horas_reportadas;
-		}
-
-		public void setCant_horas_reportadas(double cant_horas_reportadas) {
-			this.cant_horas_reportadas = cant_horas_reportadas;
-		}
-
-		public int getCant_tareas_atrasadas() {
-			return cant_tareas_atrasadas;
-		}
-
-		public void setCant_tareas_atrasadas(int cant_tareas_atrasadas) {
-			this.cant_tareas_atrasadas = cant_tareas_atrasadas;
-		}
-	
-	
-	
-	
 }

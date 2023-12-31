@@ -1,18 +1,22 @@
 package cu.edu.cujae.backend.service;
 
+
+import java.sql.SQLException;
 import java.util.List;
 
 import cu.edu.cujae.backend.core.dto.UserDto;
 
 public interface UserService {
-
-    List<UserDto> getUsuarios();
-
-    UserDto getUsuarioById(int id);
-
-    int createUsuario(UserDto usuario);
-
-    int updateUsuario(int id, UserDto updatedUsuario);
-
-    int deleteUsuario(int id);
+	
+	int createUser(UserDto user) throws SQLException;
+	
+	int updateUser(int id ,UserDto user) throws SQLException;
+	
+	List<UserDto> listUsers() throws SQLException;
+	
+	UserDto getUserById(int id) throws SQLException;
+	
+	UserDto getUserByUsername(String username) throws SQLException;
+	
+	int deleteUser(int id) throws SQLException;
 }

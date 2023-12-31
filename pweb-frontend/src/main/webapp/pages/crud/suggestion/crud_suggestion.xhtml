@@ -1,0 +1,133 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/pages/template/layout.xhtml">
+	<ui:define name="content">
+<h:form id="form">
+		<div class="card crud-demo">
+			
+				<p:growl id="messages" showDetail="true" />
+
+				<p:toolbar>
+					<p:toolbarGroup>
+						<p:commandButton value="New" icon="pi pi-plus"
+							actionListener="#{suggestionBean.openNew}"
+							update=":form:manage-suggestion-content"
+							oncomplete="PF('suggestionDialog').show()"
+							styleClass="ui-button-success" style="margin-right: .5rem">
+							<p:resetInput target=":form:manage-suggestion-content" />
+						</p:commandButton>
+						<p:commandButton id="delete-suggestions-button"
+							value="#{suggestionBean.deleteButtonMessage}" icon="pi pi-trash"
+							actionListener="#{suggestionBean.deleteSelectedSuggestions}"
+							styleClass="ui-button-danger"
+							disabled="#{suggestionBean.hasSelectedSuggestions()}" update="@this">
+							<p:confirm header="Confirmation"
+								message="Delete the selected suggestions?"
+								icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+					</p:toolbarGroup>
+					<!-- 					<p:toolbarGroup align="right"> -->
+					<!-- 						<p:fileUpload mode="simple" skinSimple="true" label="Import" -->
+					<!-- 							chooseIcon="pi pi-download" /> -->
+					<!-- 						<p:commandButton value="Export" icon="pi pi-upload" -->
+					<!-- 							styleClass="ui-button-help" ajax="false"> -->
+					<!-- 							<p:dataExporter type="pdf" target="dt-suggestions" -->
+					<!-- 								fileName="suggestions" /> -->
+					<!-- 						</p:commandButton> -->
+					<!-- 					</p:toolbarGroup> -->
+				</p:toolbar>
+
+				<p:dataTable id="dt-suggestions" widgetVar="dtSuggestions" var="suggestion"
+					value="#{suggestionBean.suggestions}" reflow="true" styleClass="suggestions-table"
+					selection="#{suggestionBean.selectedSuggestion}" rowKey="#{suggestion.id}"
+					paginator="true" rows="10" rowSelectMode="add"
+					paginatorPosition="bottom">
+					<f:facet name="header">
+						<div class="suggestions-table-header">
+							<span style="font-weight: bold">ISSUES</span> <span
+								class="filter-container ui-input-icon-left"> <i
+								class="pi pi-search"></i> <p:inputText id="globalFilter"
+									onkeyup="PF('dtSuggestions').filter()" placeholder="Search" />
+							</span>
+						</div>
+					</f:facet>
+
+					<p:ajax event="rowSelect" update=":form:delete-suggestions-button" />
+					<p:ajax event="rowUnselect" update=":form:delete-suggestions-button" />
+					<p:ajax event="rowSelectCheckbox"
+						update=":form:delete-suggestions-button" />
+					<p:ajax event="rowUnselectCheckbox"
+						update=":form:delete-suggestions-button" />
+					<p:ajax event="toggleSelect" update=":form:delete-suggestions-button" />
+
+<!-- 					<p:column selectionMode="multiple" exportable="false"></p:column> -->
+
+<!-- 					<p:column headerText="Project" sortBy="#{suggestion.project}" -->
+<!-- 						filterBy="#{suggestion.project}"> -->
+<!-- 						<h:outputText value="#{suggestion.project}" /> -->
+<!-- 					</p:column> -->
+					<p:column headerText="Tipo" sortBy="#{suggestion.tipo}"
+						filterBy="#{suggestion.tipo}">
+						<h:outputText value="#{suggestion.tipo}" />
+					</p:column>
+<!-- 					<p:column headerText="Subject" sortBy="#{suggestion.subject}"> -->
+<!-- 						<h:outputText value="#{suggestion.subject}" style="font-weight: 700"> -->
+<!-- 						</h:outputText> -->
+<!-- 					</p:column> -->
+<!-- 					<p:column headerText="Priority" sortBy="#{suggestion.priority}" -->
+<!-- 						filterBy="#{suggestion.priority}"> -->
+<!-- 						<h:outputText value="#{suggestion.priority}" /> -->
+<!-- 					</p:column> -->
+					<p:column headerText="Cumplimiento" sortBy="#{suggestion.cumplimiento}"
+						filterBy="#{suggestion.cumplimiento}">
+						<h:outputText value="#{suggestion.cumplimiento}" />
+					</p:column>
+					<p:column headerText="Asignado" sortBy="#{suggestion.persona_asignada}"
+						filterBy="#{suggestion.persona_asignada}">
+						<h:outputText value="#{suggestion.persona_asignada}" readonly="true" />
+					</p:column>
+					<p:column headerText="Tiempo estimado"
+						sortBy="#{suggestion.fondo_de_tiempo}" filterBy="#{suggestion.fondo_de_tiempo}">
+						<h:outputText value="#{suggestion.fondo_de_tiempo}" readonly="true" />
+					</p:column>
+					<p:column exportable="false">
+						<p:commandButton icon="pi pi-pencil" action="#{suggestionBean.openForEdit}"
+							update=":form:manage-suggestion-content"
+							oncomplete="PF('suggestionDialog').show()"
+							styleClass="edit-button rounded-button ui-button-success"
+							process="@this">
+							<f:setPropertyActionListener value="#{suggestion}"
+								target="#{suggestionBean.selectedSuggestion}" />
+							<p:resetInput target=":form:manage-suggestion-content" />
+						</p:commandButton>
+						<p:commandButton class="ui-button-warning rounded-button"
+							icon="pi pi-trash" process="@this" 
+							action="#{suggestionBean.deleteSuggestion}" >
+							<f:setPropertyActionListener value="#{suggestion}"
+								target="#{suggestionBean.selectedSuggestion}" />
+							<p:confirm header="Confirmar" message="Está seguro de eliminar esta sugerencia?" icon="pi pi-exclamation-triangle"/>
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+				<!-- ui:include es una etiqueta de facelet que permite incluir pages y de esta forma el code no se carga tanto -->
+				<ui:include src="new_suggestion.xhtml"></ui:include>
+
+				<!-- Este comoponente se utiliza mucho para el caso de los eliminar, que es donde casi siempre se necesita confirmation,
+				su uso es bien sencillo, cada confirmDialog va atado a un p:confirm que es el que se definie dentro del button -->
+				<p:confirmDialog global="true" showEffect="fade" width="300">
+					<p:commandButton value="Si" type="button"
+						styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no ui-button-secondary"
+						icon="pi pi-times" />
+				</p:confirmDialog>
+		</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

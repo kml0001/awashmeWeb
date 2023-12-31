@@ -3,6 +3,7 @@ package cu.edu.cujae.backend.core.service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,126 +17,162 @@ public class IssuesServiceImp implements IssuesService{
 
 	@Override
 	public List<IssueDto> getIssues() {
-				String consultaSQL = "SELECT * FROM issues";
-		        List<IssueDto> listaIssues = new ArrayList<>();
-		       
-		        try {
-		            Connection conn = ConnectionImp.getConnection();
-		            PreparedStatement stmt = conn.prepareStatement(consultaSQL);
+	    String consultaSQL = "SELECT id, subject, description, is_private, done_ratio, closed_on, due_date, start_date, update_on, created_on, estimated_hours, project_id, author_id, assigned_to_id FROM issues";
+	    List<IssueDto> listaIssues = new ArrayList<>();
 
-		            ResultSet resultado = stmt.executeQuery();
+	    try {
+	        Connection conn = ConnectionImp.getConnection();
+	        PreparedStatement stmt = conn.prepareStatement(consultaSQL);
 
-		            while (resultado.next()) {
-		            	IssueDto issue = new IssueDto(
-		            								  resultado.getString("Tipo"),
-		            								  resultado.getString("Fondo_de_tiempo"),
-		            								  resultado.getDouble("cumplimiento"),
-		            								  resultado.getString("persona_asignada"));
-		            	issue.setId(resultado.getInt("id"));
-		                listaIssues.add(issue);
-		            }
+	        ResultSet resultado = stmt.executeQuery();
 
-		            resultado.close();
-		            stmt.close();
-		            conn.close();
-		        } catch (Exception e) {
-		            e.printStackTrace();
-		        }
-		       
+	        while (resultado.next()) {
+	            IssueDto issue = new IssueDto(
+	                resultado.getInt("id"),
+	                resultado.getString("subject"),
+	                resultado.getString("description"),
+	                resultado.getBoolean("is_private"),
+	                resultado.getDouble("done_ratio"),
+	                resultado.getString("closed_on"),
+	                resultado.getString("due_date"),
+	                resultado.getString("start_date"),
+	                resultado.getString("update_on"),
+	                resultado.getString("created_on"),
+	                resultado.getDouble("estimated_hours"),
+	                resultado.getInt("project_id"),
+	                resultado.getInt("author_id"),
+	                resultado.getInt("assigned_to_id")
+	            );
+	            listaIssues.add(issue);
+	        }
 
-		        return listaIssues;
+	        resultado.close();
+	        stmt.close();
+	        conn.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return listaIssues;
 	}
 
 	@Override
 	public IssueDto getIssueById(int id) {
-		 IssueDto issue = null;
+	    IssueDto issue = null;
 
-	       
-	        String consultaSQL = "SELECT * FROM issues WHERE id = ?";
+	    String consultaSQL = "SELECT id, subject, description, is_private, done_ratio, closed_on, due_date, start_date, update_on, created_on, estimated_hours, project_id, author_id, assigned_to_id FROM issues WHERE id = ?";
 
-	        try {
-	            Connection conn = ConnectionImp.getConnection();
-	            PreparedStatement stmt = conn.prepareStatement(consultaSQL);
-	            stmt.setLong(1, id);
+	    try (Connection conn = ConnectionImp.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(consultaSQL)) {
 
-	            ResultSet resultado = stmt.executeQuery();
+	        stmt.setLong(1, id);
 
+	        try (ResultSet resultado = stmt.executeQuery()) {
 	            if (resultado.next()) {
 	                issue = new IssueDto();
 	                issue.setId(resultado.getInt("id"));
-	                issue.setTipo(resultado.getString("Tipo"));
-	                issue.setFondo_de_tiempo(resultado.getString("Fondo_de_tiempo"));
-	                issue.setCumplimiento(resultado.getDouble("cumplimiento"));
-	                issue.setPersona_asignada(resultado.getString("persona_asignada"));
+	                issue.setSubject(resultado.getString("subject"));
+	                issue.setDescription(resultado.getString("description"));
+	                issue.setIs_private(resultado.getBoolean("is_private"));
+	                issue.setDone_ratio(resultado.getDouble("done_ratio"));
+	                issue.setClosed_on(resultado.getString("closed_on"));
+	                issue.setDue_date(resultado.getString("due_date"));
+	                issue.setStart_date(resultado.getString("start_date"));
+	                issue.setUpdate_on(resultado.getString("update_on"));
+	                issue.setCreated_om(resultado.getString("created_on"));
+	                issue.setEstimated_hours(resultado.getDouble("estimated_hours"));
+	                issue.setProject_id(resultado.getInt("project_id"));
+	                issue.setAuthor_id(resultado.getInt("author_id"));
+	                issue.setAsigned_to_id(resultado.getInt("assigned_to_id"));
 	            }
-
-	            resultado.close();
-	            stmt.close();
-	            conn.close();
-	        } catch (Exception e) {
-	            e.printStackTrace();
 	        }
 
-	        return issue;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 
+	    return issue;
 	}
+
 
 	@Override
 	public int createIssue(IssueDto issue) {
-		
-			int id_issue_return = -1;
-	        String consultaSQL = "INSERT INTO issues (Tipo, Fondo_de_tiempo, cumplimiento, persona_asignada) VALUES (?, ?, ?, ?) RETURNING id";
+	    String insertSQL = "INSERT INTO issues (subject, description, is_private, done_ratio, closed_on, due_date, start_date, update_on, estimated_hours, project_id, author_id, assigned_to_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-	        try {
-	            Connection conn = ConnectionImp.getConnection();
-	            PreparedStatement stmt = conn.prepareStatement(consultaSQL);
-	            stmt.setString(1, issue.getTipo());
-	            stmt.setString(2, issue.getFondo_de_tiempo());
-	            stmt.setDouble(3, issue.getCumplimiento());
-	            stmt.setString(4, issue.getPersona_asignada());
+	    try (Connection conn = ConnectionImp.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 
-	            ResultSet resultado = stmt.executeQuery();
-	            
-	            if (resultado.next()) {
-	            	id_issue_return = resultado.getInt("id"); // Obtener el ID generado
-	            }
-	            resultado.close();
-                stmt.close();
-                conn.close();
+	        stmt.setString(1, issue.getSubject());
+	        stmt.setString(2, issue.getDescription());
+	        stmt.setBoolean(3, issue.Is_private());
+	        stmt.setDouble(4, issue.getDone_ratio());
+	        stmt.setString(5, issue.getClosed_on());
+	        stmt.setString(6, issue.getDue_date());
+	        stmt.setString(7, issue.getStart_date());
+	        stmt.setString(8, issue.getUpdate_on());
+	        stmt.setDouble(9, issue.getEstimated_hours());
+	        stmt.setInt(10, issue.getProject_id());
+	        stmt.setInt(11, issue.getAuthor_id());
+	        stmt.setInt(12, issue.getAsigned_to_id());
 
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-		return id_issue_return;
-	}
+	        int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return generatedKeys.getInt(1); // Devuelve el ID generado
+                    } else {
+                        throw new SQLException("No se pudo obtener el ID generado.");
+                    }
+                }
+            } else {
+                throw new SQLException("La inserción no tuvo éxito, no se creó ninguna fila.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1; // Retorna un valor negativo para indicar un error
+        }
+}
 
 	@Override
-	public int updateIssue(int id, IssueDto updatedIssue) {
-		
-		int id_issue_return =-1;
-        String consultaSQL = "UPDATE issues SET Tipo=?, Fondo_de_tiempo=?, cumplimiento=?, persona_asignada=? WHERE id=?";
-        try {
-            Connection conn = ConnectionImp.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(consultaSQL);
-            stmt.setString(1, updatedIssue.getTipo());
-            stmt.setString(2, updatedIssue.getFondo_de_tiempo());
-            stmt.setDouble(3, updatedIssue.getCumplimiento());
-            stmt.setString(4, updatedIssue.getPersona_asignada());
-            stmt.setInt(5, updatedIssue.getId());
+	public int updateIssue(int id ,IssueDto issue) {
+        String updateSQL = "UPDATE issues SET subject=?, description=?, is_private=?, done_ratio=?, closed_on=?, due_date=?, start_date=?, estimated_hours=?, project_id=?, assigned_to_id=? WHERE id=?";
 
-            int filasActualizadas = stmt.executeUpdate();
+        try (Connection conn = ConnectionImp.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
 
-            stmt.close();
-            conn.close();
+            stmt.setString(1, issue.getSubject());
+            stmt.setString(2, issue.getDescription());
+            stmt.setBoolean(3, issue.Is_private());
+            stmt.setDouble(4, issue.getDone_ratio());
+            stmt.setString(5, issue.getClosed_on());
+            stmt.setString(6, issue.getDue_date());
+            stmt.setString(7, issue.getStart_date());
+            stmt.setDouble(8, issue.getEstimated_hours());
+            stmt.setInt(9, issue.getProject_id());
+            stmt.setInt(10, issue.getAsigned_to_id());
+            stmt.setInt(11, id); // Identificador único para la actualización
 
-            if (filasActualizadas > 0) {
-            	id_issue_return = updatedIssue.getId();
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return generatedKeys.getInt(1); // Devuelve el ID generado
+                    } else {
+                        throw new SQLException("No se pudo obtener el ID generado.");
+                    }
+                }
+            } else {
+                throw new SQLException("La inserción no tuvo éxito, no se creó ninguna fila.");
             }
-        } catch (Exception e) {
+
+        } catch (SQLException e) {
             e.printStackTrace();
+            return -1; // Retorna un valor negativo para indicar un error
         }
-		return id_issue_return;
-	}
+}
 
 	@Override
 	public int deleteIssue(int id) {
