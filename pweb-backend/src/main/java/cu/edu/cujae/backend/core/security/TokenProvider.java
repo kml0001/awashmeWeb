@@ -31,16 +31,6 @@ public class TokenProvider {
       
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + System.currentTimeMillis() + 600000);
-
-        
-        
-        System.out.println(userPrincipal.getId());
-        System.out.println(new Date());
-        System.out.println(expiryDate);
-        System.out.println(secretKey.getBytes());
-  
-        
-        
         
         return Jwts.builder()
                 .setSubject(userPrincipal.getId())
