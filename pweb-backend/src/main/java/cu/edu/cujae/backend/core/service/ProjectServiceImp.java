@@ -63,15 +63,15 @@ public class ProjectServiceImp implements ProjectsService {
 	@Override
 	public int createProject(ProjectDto project) {
 	    String insertSQL = "INSERT INTO project (name, description, status, is_public, project_manager) VALUES (?, ?, ?, ?, ?) RETURNING id";
-
+	    
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 
-	       
+	    	
 	        stmt.setString(1, project.getName());
 	        stmt.setString(2, project.getDescription());
 	        stmt.setString(3, project.getStatus());
-	        stmt.setString(4, project.getIs_public());
+	        stmt.setBoolean(4, project.getIs_public());
 	        stmt.setInt(5, project.getProject_manager());
 
 	        try (ResultSet generatedKeys = stmt.executeQuery()) {
@@ -98,7 +98,7 @@ public class ProjectServiceImp implements ProjectsService {
 	        stmt.setString(1, project.getName());
 	        stmt.setString(2, project.getDescription());
 	        stmt.setString(3, project.getStatus());
-	        stmt.setString(4, project.getIs_public());
+	        stmt.setBoolean(4, project.getIs_public());
 	        stmt.setInt(5, project.getProject_manager());
 	        stmt.setInt(6, id);
 
@@ -146,7 +146,7 @@ public class ProjectServiceImp implements ProjectsService {
 	    String name = resultSet.getString("name");
 	    String description = resultSet.getString("description");
 	    String status = resultSet.getString("status");
-	    String is_public = resultSet.getString("is_public");
+	    Boolean is_public = resultSet.getBoolean("is_public");
 	    int project_manager = resultSet.getInt("project_manager");
 
 	    ProjectDto projectDto = new ProjectDto(id, created_on, updated_on, name, description, status, is_public, project_manager);
