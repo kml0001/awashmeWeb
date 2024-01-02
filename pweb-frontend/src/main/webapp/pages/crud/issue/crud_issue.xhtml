@@ -70,30 +70,34 @@
 <!-- 						filterBy="#{issue.project}"> -->
 <!-- 						<h:outputText value="#{issue.project}" /> -->
 <!-- 					</p:column> -->
-					<p:column headerText="Tipo" sortBy="#{issue.tipo}"
-						filterBy="#{issue.tipo}">
-						<h:outputText value="#{issue.tipo}" />
+					<p:column headerText="Project" sortBy="#{issue.project_id}"
+						filterBy="#{issue.project_id}">
+						<h:outputText value="#{issue.project_id}" />
 					</p:column>
-<!-- 					<p:column headerText="Subject" sortBy="#{issue.subject}"> -->
-<!-- 						<h:outputText value="#{issue.subject}" style="font-weight: 700"> -->
-<!-- 						</h:outputText> -->
-<!-- 					</p:column> -->
+					<p:column headerText="Type" sortBy="#{issue.type}"
+						filterBy="#{issue.type}">
+						<h:outputText value="#{issue.type}" />
+					</p:column>
+					<p:column headerText="Subject" sortBy="#{issue.subject}">
+						<h:outputText value="#{issue.subject}" style="font-weight: 700">
+						</h:outputText>
+					</p:column>
 <!-- 					<p:column headerText="Priority" sortBy="#{issue.priority}" -->
 <!-- 						filterBy="#{issue.priority}"> -->
 <!-- 						<h:outputText value="#{issue.priority}" /> -->
 <!-- 					</p:column> -->
-					<p:column headerText="Cumplimiento" sortBy="#{issue.cumplimiento}"
-						filterBy="#{issue.cumplimiento}">
-						<h:outputText value="#{issue.cumplimiento}" />
+					<p:column headerText="Assigned to" sortBy="#{issue.asigned_to_id}"
+						filterBy="#{issue.asigned_to_id}">
+						<h:outputText value="#{issue.asigned_to_id}" />
 					</p:column>
-					<p:column headerText="Asignado" sortBy="#{issue.persona_asignada}"
-						filterBy="#{issue.persona_asignada}">
-						<h:outputText value="#{issue.persona_asignada}" readonly="true" />
-					</p:column>
-					<p:column headerText="Tiempo estimado"
-						sortBy="#{issue.fondo_de_tiempo}" filterBy="#{issue.fondo_de_tiempo}">
-						<h:outputText value="#{issue.fondo_de_tiempo}" readonly="true" />
-					</p:column>
+<!-- 					<p:column headerText="Due date" sortBy="#{issue.due_date}" -->
+<!-- 						filterBy="#{issue.due_date}"> -->
+<!-- 						<h:outputText value="#{issue.due_date}" readonly="true" /> -->
+<!-- 					</p:column> -->
+<!-- 					<p:column headerText="Tiempo estimado" -->
+<!-- 						sortBy="#{issue.fondo_de_tiempo}" filterBy="#{issue.fondo_de_tiempo}"> -->
+<!-- 						<h:outputText value="#{issue.fondo_de_tiempo}" readonly="true" /> -->
+<!-- 					</p:column> -->
 					<p:column exportable="false">
 						<p:commandButton icon="pi pi-pencil" action="#{issueBean.openForEdit}"
 							update=":form:manage-issue-content"

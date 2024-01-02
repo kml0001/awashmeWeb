@@ -85,26 +85,4 @@ public class UsersController {
     
     
     
-    
-    private void sendMailToUserWithCredentials(String fullName, String email) {
-
-		Mail mail = new Mail();
-		mail.setMailTo(email);
-		mail.setSubject("Registro de Usuario");
-		mail.setTemplate("user-registration-template.ftl");
-
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("name", fullName);
-		mail.setProps(model);
-
-		try {
-			emailService.sendEmail(mail);
-		} catch (MessagingException | IOException | TemplateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-    
-    
 }

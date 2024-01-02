@@ -30,7 +30,7 @@ public class IssueDto {
 	}
 
 	public IssueDto(int id, String subject, String description, boolean is_private, double done_ratio, String closed_on,
-			String due_date, String start_date, String update_on, String created_om, double estimated_hours, int project_id,
+			String due_date, String start_date, String update_on, String created_on, double estimated_hours, int project_id,
 			int author_id, int asigned_to_id , String type ,double hours_reported) {
 		super();
 		this.id = id;
@@ -42,7 +42,7 @@ public class IssueDto {
 		this.due_date = due_date;
 		this.start_date = start_date;
 		this.update_on = update_on;
-		this.created_on = created_om;
+		this.created_on = created_on;
 		this.estimated_hours = estimated_hours;
 		this.project_id = project_id;
 		this.author_id = author_id;

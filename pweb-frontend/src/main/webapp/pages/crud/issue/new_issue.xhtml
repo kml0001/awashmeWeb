@@ -10,38 +10,42 @@
 			<p:outputPanel rendered="#{not empty issueBean.selectedIssue}">
 				<p:panelGrid layout="grid" columns="2">
 					<h:panelGroup>
-						<div class="p-field">
-							<p:outputLabel for="@next">Tipo</p:outputLabel>
-							<p:inputText id="tipo" required="true"
-								value="#{issueBean.selectedIssue.tipo}" />
-							<p:message for="@previous"></p:message>
+					    <div class="p-field">
+							<p:outputLabel for="@next">Project</p:outputLabel>
+							<p:selectOneMenu id="project" required="true" value="#{issueBean.selectedProject}" label="Select">
+								<f:selectItems value="#{issueBean.projects}" var="project"
+									itemLabel="#{project.name}" itemValue="#{project.id}" />
+							</p:selectOneMenu>
 						</div>
 					</h:panelGroup>
+
 					<h:panelGroup>
 						<div class="p-field">
-							<p:outputLabel for="@next">Tiempo estimado</p:outputLabel>
-							<p:inputText id="tiempo" required="true"
-								value="#{issueBean.selectedIssue.fondo_de_tiempo}" />
+							<p:outputLabel for="@next">Type</p:outputLabel>
+							<p:inputText id="type" required="true"
+								value="#{issueBean.selectedIssue.type}" />
 							<p:message for="@previous"></p:message>
 						</div>
-					</h:panelGroup>
-					<h:panelGroup>
-						<div class="p-field">
-							<p:outputLabel for="@next">Cumplimiento</p:outputLabel>
-							<p:inputText id="cumplimiento" required="true"
-								value="#{issueBean.selectedIssue.cumplimiento}" />
-							<p:message for="@previous"></p:message>
-						</div>
-					</h:panelGroup>
-					<h:panelGroup>
-						<div class="p-field">
-							<p:outputLabel for="@next">Asignado</p:outputLabel>
-							<p:inputText id="asignado" required="true"
-								value="#{issueBean.selectedIssue.persona_asignada}" />
-							<p:message for="@previous"></p:message>
-						</div>						
 					</h:panelGroup>
 					
+					<h:panelGroup>
+					    <div class="p-field">
+							<p:outputLabel for="@next">Assigned to</p:outputLabel>
+							<p:selectOneMenu id="assigned_to" required="false" value="#{issueBean.selectedUser}" label="Select">
+								<f:selectItems value="#{issueBean.users}" var="user"
+									itemLabel="#{user.lastname}" itemValue="#{user.id}" />
+							</p:selectOneMenu>
+						</div>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+						<div class="p-field">
+							<p:outputLabel for="@next">Subject</p:outputLabel>
+							<p:inputText id="subject" required="true"
+								value="#{issueBean.selectedIssue.subject}" />
+							<p:message for="@previous"></p:message>
+						</div>
+					</h:panelGroup>
 				</p:panelGrid>
 			</p:outputPanel>
 		</p:outputPanel>

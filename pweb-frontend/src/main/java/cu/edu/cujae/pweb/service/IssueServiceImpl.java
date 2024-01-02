@@ -26,6 +26,8 @@ public class IssueServiceImpl implements IssueService{
 	    	MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		    ApiRestMapper<IssueDto> apiRestMapper = new ApiRestMapper<>();
 		    String response = (String)restService.GET("/api/v1/issues/", params, String.class).getBody();
+		    System.out.println(response);
+		    System.out.println("asd");
 		    IssueList = apiRestMapper.mapList(response, IssueDto.class);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -53,7 +55,7 @@ public class IssueServiceImpl implements IssueService{
 
 	@Override
 	public void createIssue(IssueDto Issue) {
-		restService.POST("/api/v1/issues", Issue, String.class).getBody();
+		restService.POST("/api/v1/issues/", Issue, String.class).getBody();
 	}
 
 	@Override
