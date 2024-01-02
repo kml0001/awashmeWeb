@@ -52,8 +52,8 @@ public class IssuesServiceImp implements IssuesService{
 	                resultado.getInt("assigned_to_id"),
 	                resultado.getString("type"),
 	                resultado.getDouble("hours_reported"),
-	                resultado.getString("project_name"),
 	                resultado.getString("assigned_to_name"),
+	                resultado.getString("project_name"),
 	                author_id_name(resultado.getInt("assigned_to_id"))
 	            );
 	            listaIssues.add(issue);
