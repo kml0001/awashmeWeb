@@ -59,8 +59,8 @@ public class IssueBean{
     }
 
     public void saveIssue() {
-        if (this.selectedIssue.getId() == null) {
-            this.selectedIssue.setId(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9));
+        if (String.valueOf(this.selectedIssue.getId()) == null) {
+            this.selectedIssue.setId(Integer.valueOf(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9)));
             this.issues.add(this.selectedIssue);
             issueService.createIssue(selectedIssue);
             issues = issueService.getIssues();
