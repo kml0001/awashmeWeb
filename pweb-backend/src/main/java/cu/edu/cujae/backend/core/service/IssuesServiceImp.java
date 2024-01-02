@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cu.edu.cujae.backend.core.dto.IssueDto;
@@ -21,7 +20,7 @@ public class IssuesServiceImp implements IssuesService{
 
 	@Override
 	public List<IssueDto> getIssues() {
-	    String consultaSQL = "SELECT issue.*, project.name AS project_name, users.name AS assigned_to_name\r\n"
+	    String consultaSQL = "SELECT issue.*, project.name AS project_name, users.username AS assigned_to_name\r\n"
 	    		+ "FROM issue\r\n"
 	    		+ "JOIN project ON issue.project_id = project.id\r\n"
 	    		+ "JOIN users ON issue.assigned_to_id = users.id;";
@@ -55,7 +54,7 @@ public class IssuesServiceImp implements IssuesService{
 	                resultado.getDouble("hours_reported"),
 	                resultado.getString("project_name"),
 	                resultado.getString("assigned_to_name"),
-	                author_id_name(resultado.getInt("id"))
+	                author_id_name(resultado.getInt("assigned_to_id"))
 	            );
 	            listaIssues.add(issue);
 	        }
@@ -218,7 +217,7 @@ public class IssuesServiceImp implements IssuesService{
 
         try (Connection connection = ConnectionImp.getConnection()) {
             
-            String sql = "SELECT name FROM users WHERE id = ?";
+            String sql = "SELECT username FROM users WHERE id = ?";
             
             
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -230,7 +229,7 @@ public class IssuesServiceImp implements IssuesService{
                   
                     if (resultSet.next()) {
                       
-                        nombreUsuario = resultSet.getString("name");
+                        nombreUsuario = resultSet.getString("username");
                     }
                 }
             }
