@@ -43,7 +43,8 @@ public class IssuesServiceImp implements IssuesService{
 	                resultado.getInt("project_id"),
 	                resultado.getInt("author_id"),
 	                resultado.getInt("assigned_to_id"),
-	                resultado.getString("type")
+	                resultado.getString("type"),
+	                resultado.getDouble("type")
 	            );
 	            listaIssues.add(issue);
 	        }
@@ -98,7 +99,7 @@ public class IssuesServiceImp implements IssuesService{
 
 	@Override
 	public int createIssue(IssueDto issue)  {
-        String insertSQL = "INSERT INTO issue (subject, description, is_private, done_ratio, closed_on, due_date, start_date, estimated_hours, project_id, author_id, assigned_to_id ,type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertSQL = "INSERT INTO issue (subject, description, is_private, done_ratio, closed_on, due_date, start_date, estimated_hours, project_id, author_id, assigned_to_id ,type ,hours_reported) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?)";
         int id = -1;
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
@@ -116,7 +117,7 @@ public class IssuesServiceImp implements IssuesService{
             stmt.setInt(10, issue.getAuthor_id());
             stmt.setInt(11, issue.getAsigned_to_id());
             stmt.setString(12, issue.getType());
-            
+            stmt.setDouble(13, issue.getHours_reported());
             int rowsAffected = stmt.executeUpdate();
 
             if (rowsAffected > 0) {
@@ -132,7 +133,7 @@ public class IssuesServiceImp implements IssuesService{
 
 	@Override
 	public int updateIssue(int id ,IssueDto issue) {
-        String updateSQL = "UPDATE issue SET subject=?, description=?, is_private=?, done_ratio=?, closed_on=?, due_date=?, start_date=?, estimated_hours=?, project_id=?, assigned_to_id=? , type=? WHERE id=?";
+        String updateSQL = "UPDATE issue SET subject=?, description=?, is_private=?, done_ratio=?, closed_on=?, due_date=?, start_date=?, estimated_hours=?, project_id=?, assigned_to_id=? , type=? ,hours_reported =? WHERE id=?";
 
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
@@ -148,8 +149,9 @@ public class IssuesServiceImp implements IssuesService{
             stmt.setInt(9, issue.getProject_id());
             stmt.setInt(10, issue.getAsigned_to_id());
             stmt.setString(11, issue.getType());
-            stmt.setInt(12, id); // Identificador único para la actualización
-
+            stmt.setDouble(12, issue.getHours_reported());
+            stmt.setInt(13, id); // Identificador único para la actualización
+            
             int rowsAffected = stmt.executeUpdate();
 
             if (rowsAffected > 0) {
