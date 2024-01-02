@@ -7,34 +7,38 @@
 <ui:composition template="/pages/template/layout.xhtml">
 	<ui:define name="content">
 		<p:accordionPanel value="#{projectBean.projects}" var="project">
-		    <p:accordionPanel header="#{project.name}">
-		        <p:panelGrid columns="2" columnClasses="label, value">
-		            <p:outputLabel value="Number of Members:" />
-		            <p:outputText value="#{project.numMember}" />
+		    <p:tab title="#{project.projectName}">
+		        <p:dataTable var="product" value="#{dtBasicView.products}">
+		            <p:column headerText="Number of members">
+		                <h:outputText value="#{project.numMembers}" />
+		            </p:column>
 		
-		            <p:outputLabel value="Manager:" />
-		            <p:outputText value="#{project.manager}" />
+		            <p:column headerText="Project manager">
+		                <h:outputText value="#{project.projectManager}" />
+		            </p:column>
 		
-		            <p:outputLabel value="Start Date:" />
-		            <p:outputText value="#{project.startDate}" />
+		            <p:column headerText="Start date">
+		                <h:outputText value="#{project.startDate}" />
+		            </p:column>
 		
-		            <p:outputLabel value="End Date:" />
-		            <p:outputText value="#{project.endDate}" />
-		
-		            <p:outputLabel value="Total Time Pool:" />
-		            <p:outputText value="#{project.totalTimePool}" />
-		
-		            <p:outputLabel value="Done Ratio:" />
-		            <p:outputText value="#{project.doneRatio}" />
-		
-		            <p:outputLabel value="Number of Tasks:" />
-		            <p:outputText value="#{project.taskCount}" />
-		
-		            <p:outputLabel value="Number of delay Tasks:" />
-		            <p:outputText value="#{project.delayTaskCount}" />
-		        </p:panelGrid>
+		            <p:column headerText="End date">
+		                <h:outputText value="#{project.endDate}" />
+		            </p:column>
+	     	        <p:column headerText="Time pool">
+		                <h:outputText value="#{project.timePool}" />
+		            </p:column>
+	                <p:column headerText="Done ratio">
+		                <h:outputText value="#{project.doneRatio}" />
+		            </p:column>
+		            <p:column headerText="Number of Tasks">
+		                <h:outputText value="#{project.numTasks}" />
+		            </p:column>
+		            <p:column headerText="Number delayed tasks">
+		                <h:outputText value="#{project.delayedTasks}" />
+		            </p:column>
+		        </p:dataTable>
+		    </p:tab>
 		</p:accordionPanel>
-
 	</ui:define>
 </ui:composition>
 </html>

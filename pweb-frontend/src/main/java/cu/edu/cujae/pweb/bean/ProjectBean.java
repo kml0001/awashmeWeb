@@ -83,8 +83,8 @@ public class ProjectBean{
     }
 
     public void saveProject() {
-        if (this.selectedProject.getId() == null) {
-            this.selectedProject.setId(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9));
+        if (String.valueOf(this.selectedProject.getId()) == null) {
+        	this.selectedProject.setId(Integer.valueOf(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9)));
             this.projects.add(this.selectedProject);
             projectService.createProject(selectedProject);
             projects = projectService.getProjects();
