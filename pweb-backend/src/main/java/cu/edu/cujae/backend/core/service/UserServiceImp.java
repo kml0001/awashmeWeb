@@ -30,8 +30,8 @@ public class UserServiceImp implements UserService{
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(insertSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-            stmt.setString(1, user.getFirstname());
-            stmt.setString(2, user.getLastname());
+            stmt.setString(1, user.getUsername());
+            stmt.setString(2, user.getfullname());
             stmt.setString(3, user.getMail());
             stmt.setString(4,encodePass(user.getPasswd()));
 
@@ -75,8 +75,8 @@ public class UserServiceImp implements UserService{
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
 
-            stmt.setString(1, updatedUser.getFirstname());
-            stmt.setString(2, updatedUser.getLastname());
+            stmt.setString(1, updatedUser.getUsername());
+            stmt.setString(2, updatedUser.getfullname());
             stmt.setString(3, updatedUser.getMail());
             stmt.setString(4, encodePass(updatedUser.getPasswd()));
             stmt.setInt(5, userId);
@@ -205,8 +205,8 @@ public class UserServiceImp implements UserService{
     private UserDto mapResultSetToUser(ResultSet resultSet) throws SQLException {
         UserDto user = new UserDto();
         user.setId(resultSet.getInt("id"));
-        user.setFirstname(resultSet.getString("username"));
-        user.setLastname(resultSet.getString("lastname"));
+        user.setUsername(resultSet.getString("username"));
+        user.setfullname(resultSet.getString("lastname"));
         user.setMail(resultSet.getString("mail"));
         user.setPasswd((resultSet.getString("passwd")));
 

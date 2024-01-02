@@ -46,7 +46,7 @@ import io.swagger.annotations.Api;
 				
 				UserDto user = userService.getUserByUsername(loginRequestDto.getUsername());
 				
-				UserAuthenticatedDto userAuth = new UserAuthenticatedDto(String.valueOf(user.getId()), user.getFirstname(), user.getLastname(), null,user.getMail(), user.getRoles(), token);
+				UserAuthenticatedDto userAuth = new UserAuthenticatedDto(String.valueOf(user.getId()), user.getUsername(), user.getfullname(), null,user.getMail(), user.getRoles(), token);
 				
 				
 				

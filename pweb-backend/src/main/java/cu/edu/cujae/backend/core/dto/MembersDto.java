@@ -1,7 +1,5 @@
 package cu.edu.cujae.backend.core.dto;
 
-import io.swagger.annotations.ApiModelProperty;
-
 public class MembersDto {
 
 	

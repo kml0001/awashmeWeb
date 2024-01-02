@@ -11,16 +11,16 @@ public class UserDto {
 		@ApiModelProperty(hidden = true)
 		private int id;
 		private String username;
-		private String lastname; 
+		private String fullname; 
 		private String mail;
 		private String passwd;
 		private List<RoleDto> RoleList;	
-		public UserDto(int id, String username, String lastname, String mail, String passwd,
+		public UserDto(int id, String username, String fullname, String mail, String passwd,
 				List<RoleDto> RoleList) {
 			super();
 			this.id = id;
 			this.username = username;
-			this.lastname = lastname;
+			this.fullname = fullname;
 			this.mail = mail;
 			this.passwd = passwd;
 			this.RoleList = RoleList;
@@ -36,17 +36,17 @@ public class UserDto {
 		public void setId(int id) {
 			this.id = id;
 		}
-		public String getFirstname() {
+		public String getUsername() {
 			return username;
 		}
-		public void setFirstname(String username) {
+		public void setUsername(String username) {
 			this.username = username;
 		}
-		public String getLastname() {
-			return lastname;
+		public String getfullname() {
+			return fullname;
 		}
-		public void setLastname(String lastname) {
-			this.lastname = lastname;
+		public void setfullname(String lastname) {
+			this.fullname = lastname;
 		}
 		public String getMail() {
 			return mail;

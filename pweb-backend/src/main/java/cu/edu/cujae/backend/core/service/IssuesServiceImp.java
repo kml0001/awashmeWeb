@@ -7,18 +7,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cu.edu.cujae.backend.core.dto.IssueDto;
 import cu.edu.cujae.backend.core.util.ConnectionImp;
 import cu.edu.cujae.backend.core.util.date_string_converter;
 import cu.edu.cujae.backend.service.IssuesService;
+
 @Service
 public class IssuesServiceImp implements IssuesService{
+	
 
 	@Override
 	public List<IssueDto> getIssues() {
-	    String consultaSQL = "SELECT id, subject, description, is_private, done_ratio, closed_on, due_date, start_date, updated_on, created_on, estimated_hours, project_id, author_id, assigned_to_id , type ,hours_reported FROM issue";
+	    String consultaSQL = "SELECT issue.*, project.name AS project_name, users.name AS assigned_to_name\r\n"
+	    		+ "FROM issue\r\n"
+	    		+ "JOIN project ON issue.project_id = project.id\r\n"
+	    		+ "JOIN users ON issue.assigned_to_id = users.id;";
+	  
+	    	
 	    List<IssueDto> listaIssues = new ArrayList<>();
 
 	    try {
@@ -44,7 +52,10 @@ public class IssuesServiceImp implements IssuesService{
 	                resultado.getInt("author_id"),
 	                resultado.getInt("assigned_to_id"),
 	                resultado.getString("type"),
-	                resultado.getDouble("hours_reported")
+	                resultado.getDouble("hours_reported"),
+	                resultado.getString("project_name"),
+	                resultado.getString("assigned_to_name"),
+	                author_id_name(resultado.getInt("id"))
 	            );
 	            listaIssues.add(issue);
 	        }
@@ -86,7 +97,7 @@ public class IssuesServiceImp implements IssuesService{
 	                issue.setEstimated_hours(resultado.getDouble("estimated_hours"));
 	                issue.setProject_id(resultado.getInt("project_id"));
 	                issue.setAuthor_id(resultado.getInt("author_id"));
-	                issue.setAsigned_to_id(resultado.getInt("assigned_to_id"));
+	                issue.setAssigned_to_id(resultado.getInt("assigned_to_id"));
 	                issue.setType(resultado.getString("type"));
 	                issue.setHours_reported(resultado.getDouble("hours_reported"));
 	            }
@@ -117,7 +128,7 @@ public class IssuesServiceImp implements IssuesService{
             stmt.setDouble(8, issue.getEstimated_hours());
             stmt.setInt(9, issue.getProject_id());
             stmt.setInt(10, issue.getAuthor_id());
-            stmt.setInt(11, issue.getAsigned_to_id());
+            stmt.setInt(11, issue.getAssigned_to_id());
             stmt.setString(12, issue.getType());
             stmt.setDouble(13, issue.getHours_reported());
             int rowsAffected = stmt.executeUpdate();
@@ -149,7 +160,7 @@ public class IssuesServiceImp implements IssuesService{
             stmt.setString(7, issue.getStart_date());
             stmt.setDouble(8, issue.getEstimated_hours());
             stmt.setInt(9, issue.getProject_id());
-            stmt.setInt(10, issue.getAsigned_to_id());
+            stmt.setInt(10, issue.getAssigned_to_id());
             stmt.setString(11, issue.getType());
             stmt.setDouble(12, issue.getHours_reported());
             stmt.setInt(13, id); // Identificador único para la actualización
@@ -200,5 +211,34 @@ public class IssuesServiceImp implements IssuesService{
 	        }
 		return id_return;
 	}
+	
+	
+	private String author_id_name(int userId) {
+		String nombreUsuario = null;
 
+        try (Connection connection = ConnectionImp.getConnection()) {
+            
+            String sql = "SELECT name FROM users WHERE id = ?";
+            
+            
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+               
+                statement.setInt(1, userId);
+
+               
+                try (ResultSet resultSet = statement.executeQuery()) {
+                  
+                    if (resultSet.next()) {
+                      
+                        nombreUsuario = resultSet.getString("name");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return nombreUsuario;
+}
+	
 }

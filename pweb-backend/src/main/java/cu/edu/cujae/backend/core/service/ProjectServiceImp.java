@@ -14,6 +14,8 @@ import cu.edu.cujae.backend.core.util.ConnectionImp;
 import cu.edu.cujae.backend.core.util.date_string_converter;
 import cu.edu.cujae.backend.service.ProjectsService;
 
+
+
 @Service
 public class ProjectServiceImp implements ProjectsService {
 
@@ -24,7 +26,7 @@ public class ProjectServiceImp implements ProjectsService {
 		 List<ProjectDto> projects = new ArrayList<>();
 
 	        try (Connection conn = ConnectionImp.getConnection()) {
-	            String sql = "SELECT * FROM project";
+	            String sql = "SELECT project.*, users.username AS project_manager_name FROM project join users on users.id = project_manager";
 	            try (PreparedStatement statement = conn.prepareStatement(sql);
 	                 ResultSet resultSet = statement.executeQuery()) {
 
@@ -63,7 +65,7 @@ public class ProjectServiceImp implements ProjectsService {
 
 	@Override
 	public int createProject(ProjectDto project) {
-	    String insertSQL = "INSERT INTO project (name, description, status, is_public, project_manager , Closed_on) VALUES (?, ?, ?, ?, ? ,?) RETURNING id";
+	    String insertSQL = "INSERT INTO project (name, description, status, is_public, project_manager , closed_on) VALUES (?, ?, ?, ?, ? ,?) RETURNING id";
 	    
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
@@ -92,7 +94,7 @@ public class ProjectServiceImp implements ProjectsService {
 	@Override
 	public int updateProject(int id ,ProjectDto project) {
 	    String updateSQL = "UPDATE project SET name=?, description=?, status=?, is_public=?, project_manager=? WHERE id=?";
-
+	    
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
 
@@ -150,7 +152,8 @@ public class ProjectServiceImp implements ProjectsService {
 	    Boolean is_public = resultSet.getBoolean("is_public");
 	    int project_manager = resultSet.getInt("project_manager");
 	    String closed_on = resultSet.getString("closed_on");
-	    ProjectDto projectDto = new ProjectDto(id, created_on, updated_on, name, description, status, is_public, project_manager ,closed_on);
+	    String project_manager_name = resultSet.getString("project_manager_name");
+	    ProjectDto projectDto = new ProjectDto(id, created_on, updated_on, name, description, status, is_public, project_manager ,closed_on ,project_manager_name);
 	    return projectDto;
 	}
 }

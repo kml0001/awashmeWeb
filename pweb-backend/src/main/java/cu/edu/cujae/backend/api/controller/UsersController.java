@@ -1,13 +1,7 @@
 package cu.edu.cujae.backend.api.controller;
 
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.mail.MessagingException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 import cu.edu.cujae.backend.core.dto.UserDto;
 
 import cu.edu.cujae.backend.service.UserService;
-
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/api/v1/users")
 public class UsersController {
 
-	
 	@Autowired
     private UserService service; 
+	
 	
     @GetMapping("/")
     public ResponseEntity<List<UserDto>> getUsers() throws SQLException {
@@ -53,6 +46,7 @@ public class UsersController {
     public ResponseEntity<Object> createUser(@RequestBody UserDto user) throws SQLException {
     	
     	int newUser_id = (int) service.createUser(user);
+    	//sendMailToUserWithCredentials(user.getFirstname(), user.getMail());
     	if(newUser_id != -1) {
     		return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado");
     	}
@@ -82,29 +76,23 @@ public class UsersController {
     	}
     }
 
-    
-    
-    
-    
-    private void sendMailToUserWithCredentials(String fullName, String email) {
-
-		Mail mail = new Mail();
-		mail.setMailTo(email);
-		mail.setSubject("Registro de Usuario");
-		mail.setTemplate("user-registration-template.ftl");
-
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("name", fullName);
-		mail.setProps(model);
-
-		try {
-			emailService.sendEmail(mail);
-		} catch (MessagingException | IOException | TemplateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-    
+//    private void sendMailToUserWithCredentials(String fullName, String email) {
+//
+//		Mail mail = new Mail();
+//		mail.setMailTo(email);
+//		mail.setSubject("Registro de Usuario");
+//		mail.setTemplate("user-registration-template.ftl");
+//
+//		Map<String, Object> model = new HashMap<String, Object>();
+//		model.put("name", fullName);
+//		mail.setProps(model);
+//
+//		try {
+//			emailService.sendEmail(mail);
+//		} catch (MessagingException | IOException | TemplateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//    }
     
 }
