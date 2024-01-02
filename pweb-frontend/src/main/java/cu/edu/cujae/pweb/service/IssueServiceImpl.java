@@ -25,7 +25,7 @@ public class IssueServiceImpl implements IssueService{
 	    try {
 	    	MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		    ApiRestMapper<IssueDto> apiRestMapper = new ApiRestMapper<>();
-		    String response = (String)restService.GET("/api/v1/issues", params, String.class).getBody();
+		    String response = (String)restService.GET("/api/v1/issues/", params, String.class).getBody();
 		    IssueList = apiRestMapper.mapList(response, IssueDto.class);
 		} catch (IOException e) {
 			e.printStackTrace();
