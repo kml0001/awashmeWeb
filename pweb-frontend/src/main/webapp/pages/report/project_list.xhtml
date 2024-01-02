@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/pages/template/layout.xhtml">
+	<ui:define name="content">
+		<p:accordionPanel value="#{projectBean.projects}" var="project">
+		    <p:accordionPanel header="#{project.name}">
+		        <p:panelGrid columns="2" columnClasses="label, value">
+		            <p:outputLabel value="Number of Members:" />
+		            <p:outputText value="#{project.numMember}" />
+		
+		            <p:outputLabel value="Manager:" />
+		            <p:outputText value="#{project.manager}" />
+		
+		            <p:outputLabel value="Start Date:" />
+		            <p:outputText value="#{project.startDate}" />
+		
+		            <p:outputLabel value="End Date:" />
+		            <p:outputText value="#{project.endDate}" />
+		
+		            <p:outputLabel value="Total Time Pool:" />
+		            <p:outputText value="#{project.totalTimePool}" />
+		
+		            <p:outputLabel value="Done Ratio:" />
+		            <p:outputText value="#{project.doneRatio}" />
+		
+		            <p:outputLabel value="Number of Tasks:" />
+		            <p:outputText value="#{project.taskCount}" />
+		
+		            <p:outputLabel value="Number of delay Tasks:" />
+		            <p:outputText value="#{project.delayTaskCount}" />
+		        </p:panelGrid>
+		</p:accordionPanel>
+
+	</ui:define>
+</ui:composition>
+</html>
