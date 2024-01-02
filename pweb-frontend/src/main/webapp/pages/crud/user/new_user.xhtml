@@ -4,7 +4,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-	<p:dialog header="Usuario" showEffect="fade" modal="true"
+	<p:dialog header="User" showEffect="fade" modal="true"
 		widgetVar="manageUserDialog" responsive="true">
 		<p:outputPanel id="manage-user-content" class="ui-fluid">
 			<p:outputPanel rendered="#{not empty manageUserBean.selectedUser}">
@@ -51,7 +51,7 @@
 								filterMatchMode="startsWith" panelStyle="width: 30rem"
 								scrollHeight="250" rendered="#{empty manageUserBean.selectedUser.id}">
 								<f:selectItems value="#{manageUserBean.roles}" var="role"
-									itemLabel="#{role.description}" itemValue="#{role.id}" />
+									itemLabel="#{role.roleName}" itemValue="#{role.id}" />
 							</p:selectCheckboxMenu>
 						</div>
 						<div class="p-field">

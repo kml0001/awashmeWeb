@@ -1,38 +1,36 @@
 package cu.edu.cujae.pweb.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class UserDto {
-	private String id;
-	private String username;
-	private String fullName;
-	private String password;
-	private String email;
-	private String identification;
-	private boolean newRecord;
-	private List<RoleDto> roles;
-	
-	public UserDto() {
-		super();
-	}
 
-	public UserDto(String id, String username, String fullName, String password, String email, String identification,
-			List<RoleDto> roles, boolean newRecord) {
+public class UserDto {
+	
+	private int id;
+	private String username;
+	private String fullname; 
+	private String mail;
+	private String passwd;
+	private List<RoleDto> roleList;	
+	public UserDto(int id, String username, String fullname, String mail, String passwd,
+			List<RoleDto> roleList) {
 		super();
 		this.id = id;
 		this.username = username;
-		this.fullName = fullName;
-		this.password = password;
-		this.email = email;
-		this.identification = identification;
-		this.roles = roles;
-		this.newRecord = newRecord;
+		this.fullname = fullname;
+		this.mail = mail;
+		this.passwd = passwd;
+		this.roleList = roleList;
+	}
+	public UserDto(){
+		this.roleList = new ArrayList<>();
 	}
 	
-	public String getId() {
+	
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getUsername() {
@@ -41,43 +39,30 @@ public class UserDto {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getFullName() {
-		return fullName;
+	public String getFullname() {
+		return fullname;
 	}
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+	public void setFullname(String lastname) {
+		this.fullname = lastname;
 	}
-	public String getPassword() {
-		return password;
+	public String getMail() {
+		return mail;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
-	public String getEmail() {
-		return email;
+	public String getPasswd() {
+		return passwd;
 	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getIdentification() {
-		return identification;
-	}
-	public void setIdentification(String identification) {
-		this.identification = identification;
+	public void setPasswd(String passwd) {
+		this.passwd = passwd;
 	}
 	public List<RoleDto> getRoles() {
-		return roles;
+		return roleList;
 	}
-	public void setRoles(List<RoleDto> roles) {
-		this.roles = roles;
-	}
-
-	public boolean isNewRecord() {
-		return newRecord;
+	public void setRoles(List<RoleDto> RoleList) {
+		this.roleList = RoleList;
 	}
 
-	public void setNewRecord(boolean newRecord) {
-		this.newRecord = newRecord;
-	}
 	
 }

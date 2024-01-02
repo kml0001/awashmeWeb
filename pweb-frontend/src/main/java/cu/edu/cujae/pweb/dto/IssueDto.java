@@ -1,5 +1,6 @@
 package cu.edu.cujae.pweb.dto;
 
+
 public class IssueDto {
 
 	private int id;
@@ -19,16 +20,22 @@ public class IssueDto {
 	private double estimated_hours;
 	private int project_id;
 	private int author_id ;
-	private int asigned_to_id ;
+	private int assigned_to_id ;
 	private String type ;
 	private double hours_reported;
+	
+	
+	private String assigned_to_name;
+	private String project_name;
+	private String author_name;
+	
 	public IssueDto() {
 		super();
 	}
 
 	public IssueDto(int id, String subject, String description, boolean is_private, double done_ratio, String closed_on,
 			String due_date, String start_date, String update_on, String created_on, double estimated_hours, int project_id,
-			int author_id, int asigned_to_id , String type ,double hours_reported) {
+			int author_id, int asigned_to_id , String type ,double hours_reported ,String user_name ,String project_name ,String author_name) {
 		super();
 		this.id = id;
 		this.subject = subject;
@@ -43,9 +50,12 @@ public class IssueDto {
 		this.estimated_hours = estimated_hours;
 		this.project_id = project_id;
 		this.author_id = author_id;
-		this.asigned_to_id = asigned_to_id;
+		this.assigned_to_id = asigned_to_id;
 		this.type = type;
 		this.hours_reported = hours_reported;
+		this.assigned_to_name = user_name;
+		this.project_name = project_name;
+		this.author_name =  author_name;
 	}
 	
 	public String getCreated_on() {
@@ -58,6 +68,22 @@ public class IssueDto {
 
 	public String getType() {
 		return type;
+	}
+
+	public String getUser_name() {
+		return assigned_to_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.assigned_to_name = user_name;
+	}
+
+	public String getProject_name() {
+		return project_name;
+	}
+
+	public void setProject_name(String project_name) {
+		this.project_name = project_name;
 	}
 
 	public void setType(String type) {
@@ -164,12 +190,12 @@ public class IssueDto {
 		this.author_id = author_id;
 	}
 
-	public int getAsigned_to_id() {
-		return asigned_to_id;
+	public int getAssigned_to_id() {
+		return assigned_to_id;
 	}
 
-	public void setAsigned_to_id(int asigned_to_id) {
-		this.asigned_to_id = asigned_to_id;
+	public void setAssigned_to_id(int asigned_to_id) {
+		this.assigned_to_id = asigned_to_id;
 	}
 
 	public double getHours_reported() {
@@ -180,7 +206,15 @@ public class IssueDto {
 		this.hours_reported = hours_reported;
 	}
 
+	public String getAuthor_name() {
+		return author_name;
+	}
 
+	public void setAuthor_name(String author_name) {
+		this.author_name = author_name;
+	}
+
+	
 	
 	
 

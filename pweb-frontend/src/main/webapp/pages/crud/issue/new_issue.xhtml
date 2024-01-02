@@ -33,7 +33,7 @@
 							<p:outputLabel for="@next">Assigned to</p:outputLabel>
 							<p:selectOneMenu id="assigned_to" required="false" value="#{issueBean.selectedUser}" label="Select">
 								<f:selectItems value="#{issueBean.users}" var="user"
-									itemLabel="#{user.lastname}" itemValue="#{user.id}" />
+									itemLabel="#{user.fullname}" itemValue="#{user.id}" />
 							</p:selectOneMenu>
 						</div>
 					</h:panelGroup>

@@ -25,7 +25,7 @@ public class RoleServiceImpl implements RoleService{
 	    try {
 	    	MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		    ApiRestMapper<RoleDto> apiRestMapper = new ApiRestMapper<>();
-		    String response = (String)restService.GET("/api/v1/roles", params, String.class).getBody();
+		    String response = (String)restService.GET("/api/v1/roles/", params, String.class).getBody();
 		    roleList = apiRestMapper.mapList(response, RoleDto.class);
 		} catch (IOException e) {
 			e.printStackTrace();
