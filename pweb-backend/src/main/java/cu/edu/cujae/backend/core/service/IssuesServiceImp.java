@@ -18,7 +18,7 @@ public class IssuesServiceImp implements IssuesService{
 
 	@Override
 	public List<IssueDto> getIssues() {
-	    String consultaSQL = "SELECT id, subject, description, is_private, done_ratio, closed_on, due_date, start_date, updated_on, created_on, estimated_hours, project_id, author_id, assigned_to_id FROM issue";
+	    String consultaSQL = "SELECT id, subject, description, is_private, done_ratio, closed_on, due_date, start_date, updated_on, created_on, estimated_hours, project_id, author_id, assigned_to_id , type ,hours_reported FROM issue";
 	    List<IssueDto> listaIssues = new ArrayList<>();
 
 	    try {
@@ -44,7 +44,7 @@ public class IssuesServiceImp implements IssuesService{
 	                resultado.getInt("author_id"),
 	                resultado.getInt("assigned_to_id"),
 	                resultado.getString("type"),
-	                resultado.getDouble("type")
+	                resultado.getDouble("hours_reported")
 	            );
 	            listaIssues.add(issue);
 	        }
