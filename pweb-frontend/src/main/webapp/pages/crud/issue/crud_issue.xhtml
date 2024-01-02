@@ -70,9 +70,9 @@
 <!-- 						filterBy="#{issue.project}"> -->
 <!-- 						<h:outputText value="#{issue.project}" /> -->
 <!-- 					</p:column> -->
-					<p:column headerText="Project" sortBy="#{issue.project_id}"
-						filterBy="#{issue.project_id}">
-						<h:outputText value="#{issue.project_id}" />
+					<p:column headerText="Project" sortBy="#{issue.project_name}"
+						filterBy="#{issue.project_name}">
+						<h:outputText value="#{issue.project_name}" />
 					</p:column>
 					<p:column headerText="Type" sortBy="#{issue.type}"
 						filterBy="#{issue.type}">
@@ -86,9 +86,9 @@
 <!-- 						filterBy="#{issue.priority}"> -->
 <!-- 						<h:outputText value="#{issue.priority}" /> -->
 <!-- 					</p:column> -->
-					<p:column headerText="Assigned to" sortBy="#{issue.asigned_to_id}"
-						filterBy="#{issue.asigned_to_id}">
-						<h:outputText value="#{issue.asigned_to_id}" />
+					<p:column headerText="Assigned to" sortBy="#{issue.assigned_to_name}"
+						filterBy="#{issue.assigned_to_name}">
+						<h:outputText value="#{issue.assigned_to_name}" />
 					</p:column>
 <!-- 					<p:column headerText="Due date" sortBy="#{issue.due_date}" -->
 <!-- 						filterBy="#{issue.due_date}"> -->

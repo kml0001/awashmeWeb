@@ -70,12 +70,12 @@ public class IssueDto {
 		return type;
 	}
 
-	public String getUser_name() {
+	public String getAssigned_to_name() {
 		return assigned_to_name;
 	}
 
-	public void setUser_name(String user_name) {
-		this.assigned_to_name = user_name;
+	public void setAssigned_to_name(String assigned_to_name) {
+		this.assigned_to_name = assigned_to_name;
 	}
 
 	public String getProject_name() {

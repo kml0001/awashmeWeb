@@ -26,6 +26,7 @@ public class ProjectServiceImpl implements ProjectService{
 	    	MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		    ApiRestMapper<ProjectDto> apiRestMapper = new ApiRestMapper<>();
 		    String response = (String)restService.GET("/api/v1/projects/", params, String.class).getBody();
+		    
 		    ProjectList = apiRestMapper.mapList(response, ProjectDto.class);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -46,7 +47,7 @@ public class ProjectServiceImpl implements ProjectService{
 		    String response = (String)restService.GET(uri, params, String.class).getBody();
 		    Project = apiRestMapper.mapOne(response, ProjectDto.class);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return Project;
 	}

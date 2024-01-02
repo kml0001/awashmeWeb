@@ -67,9 +67,9 @@ public class ManageUserBean {
 	
 	//Se ejecuta al dar clic en el button dentro del dialog para salvar o registrar al usuario
 	public void saveUser() {
-        if (this.selectedUser.getId() == null) {
-            this.selectedUser.setId(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9));
-            this.selectedUser.setNewRecord(true);
+        if (String.valueOf(this.selectedUser.getId()) == null) {
+            this.selectedUser.setId(Integer.valueOf(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9)));
+
             List<RoleDto> rolesToAdd = new ArrayList<RoleDto>();
             for(int i = 0; i < this.selectedRoles.length; i++) {
             	rolesToAdd.add(roleService.getRolesById(String.valueOf(selectedRoles[i])));
