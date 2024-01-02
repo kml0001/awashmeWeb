@@ -23,10 +23,4 @@ public class Querys implements QueryService {
 	}
 
 	
-	
-	
-	
-	
-	
-	
 }

@@ -63,7 +63,7 @@ public class IssuesServiceImp implements IssuesService{
 	public IssueDto getIssueById(int id) {
 	    IssueDto issue = null;
 
-	    String consultaSQL = "SELECT id, subject, description, is_private, done_ratio, closed_on, due_date, start_date, updated_on, created_on, estimated_hours, project_id, author_id, assigned_to_id FROM issue WHERE id = ?";
+	    String consultaSQL = "SELECT id, subject, description, is_private, done_ratio, closed_on, due_date, start_date, updated_on, created_on, estimated_hours, project_id, author_id, assigned_to_id ,type ,hours_reported ,  FROM issue WHERE id = ?";
 
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(consultaSQL)) {
@@ -87,6 +87,8 @@ public class IssuesServiceImp implements IssuesService{
 	                issue.setProject_id(resultado.getInt("project_id"));
 	                issue.setAuthor_id(resultado.getInt("author_id"));
 	                issue.setAsigned_to_id(resultado.getInt("assigned_to_id"));
+	                issue.setType(resultado.getString("type"));
+	                issue.setHours_reported(resultado.getDouble("hours_reported"));
 	            }
 	        }
 

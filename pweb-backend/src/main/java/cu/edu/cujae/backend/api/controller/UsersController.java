@@ -1,7 +1,12 @@
 package cu.edu.cujae.backend.api.controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +19,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import cu.edu.cujae.backend.core.dto.UserDto;
+
 import cu.edu.cujae.backend.service.UserService;
+
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
@@ -31,7 +38,6 @@ public class UsersController {
         List<UserDto> users = service.listUsers();
         return ResponseEntity.ok(users);
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUserById(@PathVariable int id) throws SQLException {
         
@@ -43,7 +49,6 @@ public class UsersController {
         	 return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id del usuario no existe");
         }
     }
-
     @PostMapping("/")
     public ResponseEntity<Object> createUser(@RequestBody UserDto user) throws SQLException {
     	
@@ -77,4 +82,29 @@ public class UsersController {
     	}
     }
 
+    
+    
+    
+    
+    private void sendMailToUserWithCredentials(String fullName, String email) {
+
+		Mail mail = new Mail();
+		mail.setMailTo(email);
+		mail.setSubject("Registro de Usuario");
+		mail.setTemplate("user-registration-template.ftl");
+
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("name", fullName);
+		mail.setProps(model);
+
+		try {
+			emailService.sendEmail(mail);
+		} catch (MessagingException | IOException | TemplateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+    
+    
 }
