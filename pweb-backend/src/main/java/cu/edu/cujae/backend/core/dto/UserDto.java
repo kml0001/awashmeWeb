@@ -1,5 +1,6 @@
 package cu.edu.cujae.backend.core.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -25,7 +26,7 @@ public class UserDto {
 			this.RoleList = RoleList;
 		}
 		public UserDto(){
-			
+			this.RoleList = new ArrayList<>();
 		}
 		
 		

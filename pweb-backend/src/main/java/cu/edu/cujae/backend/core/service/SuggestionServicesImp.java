@@ -39,7 +39,7 @@ public class SuggestionServicesImp implements SuggestionService{
 
 	@Override
 	public Suggestion getSuggestionById(int id) {
-	    String selectSQL = "SELECT * FROM suggestions WHERE id = ?";
+	    String selectSQL = "SELECT * FROM suggestion WHERE id = ?";
 	    Suggestion suggestion = null;
 
 	    try (Connection conn = ConnectionImp.getConnection();
@@ -62,7 +62,7 @@ public class SuggestionServicesImp implements SuggestionService{
 
 	@Override
 	public int createSuggestion(Suggestion suggestion) {
-	    String insertSQL = "INSERT INTO suggestion (author_id, description, urgency, importance) VALUES (?, ?,?, ?) RETURNING id";
+	    String insertSQL = "INSERT INTO suggestion (author_id, description, urgency, importance ,project_id) VALUES (?, ?,?, ?,?) RETURNING id";
 
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
@@ -71,7 +71,7 @@ public class SuggestionServicesImp implements SuggestionService{
 	        stmt.setString(2, suggestion.getDescription());
 	        stmt.setString(3, suggestion.getUrgency());
 	        stmt.setString(4, suggestion.getImportance());
-
+	        stmt.setInt(5, suggestion.getProject_id());
 	        try (ResultSet generatedKeys = stmt.executeQuery()) {
 	            if (generatedKeys.next()) {
 	                return generatedKeys.getInt("id");
@@ -88,7 +88,7 @@ public class SuggestionServicesImp implements SuggestionService{
 
 	@Override
 	public int updateSuggestion(int id, Suggestion updatedSuggestion) {
-	    String updateSQL = "UPDATE suggestion SET author_id=?, description=?,urgency=?, importance=? WHERE id=?";
+	    String updateSQL = "UPDATE suggestion SET author_id=?, description=?,urgency=?, importance=?, project_id =? WHERE id=?";
 
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
@@ -97,7 +97,8 @@ public class SuggestionServicesImp implements SuggestionService{
 	        stmt.setString(2, updatedSuggestion.getDescription());
 	        stmt.setString(3, updatedSuggestion.getUrgency());
 	        stmt.setString(4, updatedSuggestion.getImportance());
-	        stmt.setInt(5, id);
+	        stmt.setInt(5, updatedSuggestion.getProject_id());
+	        stmt.setInt(6, id);
 
 	        int rowsAffected = stmt.executeUpdate();
 
@@ -138,6 +139,7 @@ public class SuggestionServicesImp implements SuggestionService{
 	        suggestion.setCreated_on(resultSet.getString("created_on"));
 	        suggestion.setUrgency(resultSet.getString("urgency"));
 	        suggestion.setImportance(resultSet.getString("importance"));
+	        suggestion.setProject_id(resultSet.getInt("project_id"));
 	        return suggestion;
 	    }
 	

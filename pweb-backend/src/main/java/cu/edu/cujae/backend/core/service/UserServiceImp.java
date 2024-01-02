@@ -25,7 +25,7 @@ public class UserServiceImp implements UserService{
 	
 	@Override
 	public int createUser(UserDto user) {
-        String insertSQL = "INSERT INTO user (firstname, lastname, mail, passwd) VALUES (?, ?, ?, ?)";
+        String insertSQL = "INSERT INTO users (username, lastname, mail, passwd) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(insertSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -44,8 +44,15 @@ public class UserServiceImp implements UserService{
                         int userId = generatedKeys.getInt(1);
                         
                         // Ahora, insertar roles asociados al usuario
-                        roleservice.insertUserRoles(userId, user.getRoles());
-
+                        
+                        if(!user.getRoles().isEmpty()) {
+                        	
+                        	List<RoleDto> ListRoles = user.getRoles();
+                        	for(RoleDto role : ListRoles) {
+                        		roleservice.insertUserRoles(userId, role);
+                        	}
+                			
+                        }
                         return userId;
                     } else {
                         throw new SQLException("No se pudo obtener el ID generado.");
@@ -63,7 +70,7 @@ public class UserServiceImp implements UserService{
 
 	@Override
 	public int updateUser(int userId, UserDto updatedUser) {
-        String updateSQL = "UPDATE user SET firstname=?, lastname=?, mail=?, passwd=? WHERE id=?";
+        String updateSQL = "UPDATE users SET username=?, lastname=?, mail=?, passwd=? WHERE id=?";
 
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
@@ -78,7 +85,10 @@ public class UserServiceImp implements UserService{
 
             if (rowsAffected > 0) {
                 // Ahora, actualizar roles asociados al usuario
-            	roleservice.updateRolesForUser(userId, updatedUser.getRoles());
+            	for(RoleDto role : updatedUser.getRoles()) {
+            		roleservice.updateRolesForUser(userId,role );
+            	}
+            	
                 return rowsAffected;
             } else {
                 return -1; // No se actualizó ninguna fila
@@ -92,7 +102,7 @@ public class UserServiceImp implements UserService{
 
 	@Override
 	public List<UserDto> listUsers() {
-        String selectAllSQL = "SELECT * FROM user";
+        String selectAllSQL = "SELECT * FROM users";
         List<UserDto> users = new ArrayList<>();
 
         try (Connection conn = ConnectionImp.getConnection();
@@ -185,7 +195,9 @@ public class UserServiceImp implements UserService{
 
 	
 	private String encodePass(String password) {
+		
 		return new BCryptPasswordEncoder().encode(password);
+		
 	}
 	
 	
@@ -196,7 +208,7 @@ public class UserServiceImp implements UserService{
         user.setFirstname(resultSet.getString("username"));
         user.setLastname(resultSet.getString("lastname"));
         user.setMail(resultSet.getString("mail"));
-        user.setPasswd(encodePass(resultSet.getString("passwd")));
+        user.setPasswd((resultSet.getString("passwd")));
 
         // Recuperar roles asociados al usuario, si es necesario
         List<RoleDto> roles = roleservice.getRolesByUserId(resultSet.getInt("id"));

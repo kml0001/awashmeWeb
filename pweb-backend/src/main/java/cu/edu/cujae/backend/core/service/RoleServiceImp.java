@@ -42,7 +42,7 @@ public class RoleServiceImp implements RoleService{
 
 	@Override
 	public List<RoleDto> listRoles() throws SQLException {
-		  String selectAllSQL = "SELECT * FROM roles";
+		  String selectAllSQL = "SELECT * FROM role";
 	        List<RoleDto> roles = new ArrayList<>();
 
 	        try (Connection conn = ConnectionImp.getConnection();
@@ -69,8 +69,10 @@ public class RoleServiceImp implements RoleService{
 	             PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 
 	            stmt.setInt(1, roleId);
-	            rol = mapResultSetToRole(stmt.executeQuery());
-	
+	            ResultSet resultSet =stmt.executeQuery();
+	            if(resultSet.next()) {
+	            	rol = mapResultSetToRole(resultSet);
+	            }
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
@@ -83,7 +85,7 @@ public class RoleServiceImp implements RoleService{
 	
 	
 	public int createRole(RoleDto role) {
-        String insertSQL = "INSERT INTO roles (roleName) VALUES (?) RETURNING id";
+        String insertSQL = "INSERT INTO role (name) VALUES (?) RETURNING id";
 
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
@@ -108,40 +110,38 @@ public class RoleServiceImp implements RoleService{
 	
 	private RoleDto mapResultSetToRole(ResultSet resultSet) throws SQLException {
 	        RoleDto role = new RoleDto();
-	        role.setId(resultSet.getInt("id"));
-	        role.setRoleName(resultSet.getString("roleName"));
+	        role.setId(resultSet.getInt(1));
+	        role.setRoleName(resultSet.getString(2));
 	        return role;
 	}
 
 	@Override
-	public int insertUserRoles(int userId, List<RoleDto> roleList) throws SQLException {
-	        String insertRoleSQL = "INSERT INTO user_roles (user_id, role_id) VALUES (?, ?)";
-
+	public int insertUserRoles(int userId, RoleDto role) throws SQLException {
+	        String insertRoleSQL = "INSERT INTO user_role (user_id, rol_id) VALUES (?, ?)";
+	        int r = -1;
+	        System.out.println(role.getId() + "<--------------------------");
 	        try (Connection conn = ConnectionImp.getConnection();
 	             PreparedStatement stmt = conn.prepareStatement(insertRoleSQL)) {
-
-	            for (RoleDto role : roleList) {
+	        	System.out.print(role.getId());
+	            if (role !=null) {
 	                stmt.setInt(1, userId);
 	                stmt.setInt(2, role.getId());
-	                stmt.executeUpdate();
-	            }
-	            try (ResultSet generatedKeys = stmt.executeQuery()) {
-	                if (generatedKeys.next()) {
-	                    return generatedKeys.getInt("id");
-	                } else {
-	                    throw new SQLException("No se pudo obtener el ID generado.");
+	                int rowsAffected = stmt.executeUpdate();
+	                if(rowsAffected > 0)
+	                    r  = 1;
 	                }
-	            }
-
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	            return -1; // Retorna un valor negativo para indicar un error
-	        }
+	        	}
+	            catch (Exception e) {
+					e.printStackTrace();
+				}
+	
+			return r;
+	        
 	}
 
 	@Override
 	public void deleteRolesForUser(int userId) throws SQLException {
-		 String deleteRolesSQL = "DELETE FROM user_roles WHERE user_id=?";
+		 String deleteRolesSQL = "DELETE FROM user_role WHERE user_id=?";
 
 	        try (Connection conn = ConnectionImp.getConnection();
 	             PreparedStatement stmt = conn.prepareStatement(deleteRolesSQL)) {
@@ -156,7 +156,7 @@ public class RoleServiceImp implements RoleService{
 	}
 
 	@Override
-	public void updateRolesForUser(int userId, List<RoleDto> updatedRoleList) throws SQLException {
+	public void updateRolesForUser(int userId, RoleDto updatedRoleList) throws SQLException {
 		this.deleteRolesForUser(userId);
 		this.insertUserRoles(userId, updatedRoleList);
 		

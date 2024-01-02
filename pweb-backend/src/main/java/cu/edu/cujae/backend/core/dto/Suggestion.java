@@ -4,11 +4,12 @@ public class Suggestion {
 
 	private int id;
 	private int author_id;
+	private int project_id;
 	private String description;
 	private String created_on;
 	private String urgency;
 	private String importance;
-	public Suggestion(int id, int author_id, String description, String created_on, String urgency, String importance) {
+	public Suggestion(int id, int author_id, String description, String created_on, String urgency, String importance , int project_id) {
 		super();
 		this.id = id;
 		this.author_id = author_id;
@@ -16,12 +17,17 @@ public class Suggestion {
 		this.created_on = created_on;
 		this.urgency = urgency;
 		this.importance = importance;
+		this.project_id = project_id;
 	}
 	public Suggestion() {
-		
 	}
 	
-	
+	public int getProject_id() {
+		return project_id;
+	}
+	public void setProject_id(int project_id) {
+		this.project_id = project_id;
+	}
 	public int getId() {
 		return id;
 	}
