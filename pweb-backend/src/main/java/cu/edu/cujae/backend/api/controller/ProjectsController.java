@@ -46,7 +46,7 @@ public class ProjectsController {
 
     @PostMapping("/")
     public ResponseEntity<Object> createProject(@RequestBody ProjectDto project) {
-       
+       System.out.println(project.getId());
         int id_newProject = service.createProject(project);
         if(id_newProject != -1) {
         	return ResponseEntity.status(HttpStatus.CREATED).body("Proyecto creado");
