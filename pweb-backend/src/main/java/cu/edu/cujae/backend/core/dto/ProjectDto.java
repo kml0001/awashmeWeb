@@ -16,8 +16,10 @@ public class ProjectDto {
 	private String status;
 	private Boolean is_public; 
 	private int project_manager;
+	private String Closed_on;
+	
 	public ProjectDto(int id, String created_on, String updated_on, String name, String description, String status,
-			Boolean is_public, int project_manager) {
+			Boolean is_public, int project_manager ,String Closed_on) {
 		super();
 		this.id = id;
 		this.created_on = created_on;
@@ -27,6 +29,7 @@ public class ProjectDto {
 		this.status = status;
 		this.is_public = is_public;
 		this.project_manager = project_manager;
+		this.Closed_on = Closed_on;
 	}
 	
 	public ProjectDto() {
@@ -82,11 +85,13 @@ public class ProjectDto {
 		this.project_manager = project_manager;
 	}
 
+	public String getClosed_on() {
+		return Closed_on;
+	}
 
-	
-	
-	
+	public void setClosed_on(String closed_on) {
+		Closed_on = closed_on;
+	}
 
-	
 	
 }

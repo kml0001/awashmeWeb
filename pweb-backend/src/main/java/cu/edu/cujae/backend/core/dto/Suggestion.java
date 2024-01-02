@@ -1,12 +1,16 @@
 package cu.edu.cujae.backend.core.dto;
 
-public class Suggestion {
+import io.swagger.annotations.ApiModelProperty;
 
+public class Suggestion {
+	@ApiModelProperty(hidden = true)
 	private int id;
+	@ApiModelProperty(hidden = true)
+	private String created_on;
+	
 	private int author_id;
 	private int project_id;
 	private String description;
-	private String created_on;
 	private String urgency;
 	private String importance;
 	public Suggestion(int id, int author_id, String description, String created_on, String urgency, String importance , int project_id) {

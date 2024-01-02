@@ -78,7 +78,7 @@ public class UserServiceImp implements UserService{
             stmt.setString(1, updatedUser.getFirstname());
             stmt.setString(2, updatedUser.getLastname());
             stmt.setString(3, updatedUser.getMail());
-            stmt.setString(4, updatedUser.getPasswd());
+            stmt.setString(4, encodePass(updatedUser.getPasswd()));
             stmt.setInt(5, userId);
 
             int rowsAffected = stmt.executeUpdate();

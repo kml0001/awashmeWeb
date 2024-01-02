@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class MembersDto {
 
-	@ApiModelProperty(hidden = true)
+	
 	private int project_id;
 	private int user_id;
 	

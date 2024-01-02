@@ -46,7 +46,7 @@ public class UsersController {
 
     @PostMapping("/")
     public ResponseEntity<Object> createUser(@RequestBody UserDto user) throws SQLException {
-       
+    	
     	int newUser_id = (int) service.createUser(user);
     	if(newUser_id != -1) {
     		return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado");

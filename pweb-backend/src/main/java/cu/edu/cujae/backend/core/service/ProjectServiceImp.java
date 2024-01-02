@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import cu.edu.cujae.backend.core.dto.ProjectDto;
 import cu.edu.cujae.backend.core.util.ConnectionImp;
+import cu.edu.cujae.backend.core.util.date_string_converter;
 import cu.edu.cujae.backend.service.ProjectsService;
 
 @Service
@@ -62,7 +63,7 @@ public class ProjectServiceImp implements ProjectsService {
 
 	@Override
 	public int createProject(ProjectDto project) {
-	    String insertSQL = "INSERT INTO project (name, description, status, is_public, project_manager) VALUES (?, ?, ?, ?, ?) RETURNING id";
+	    String insertSQL = "INSERT INTO project (name, description, status, is_public, project_manager , Closed_on) VALUES (?, ?, ?, ?, ? ,?) RETURNING id";
 	    
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
@@ -73,7 +74,7 @@ public class ProjectServiceImp implements ProjectsService {
 	        stmt.setString(3, project.getStatus());
 	        stmt.setBoolean(4, project.getIs_public());
 	        stmt.setInt(5, project.getProject_manager());
-
+	        stmt.setDate(6, date_string_converter.dateToString(project.getClosed_on()));
 	        try (ResultSet generatedKeys = stmt.executeQuery()) {
 	            if (generatedKeys.next()) {
 	                return generatedKeys.getInt("id");
@@ -148,8 +149,8 @@ public class ProjectServiceImp implements ProjectsService {
 	    String status = resultSet.getString("status");
 	    Boolean is_public = resultSet.getBoolean("is_public");
 	    int project_manager = resultSet.getInt("project_manager");
-
-	    ProjectDto projectDto = new ProjectDto(id, created_on, updated_on, name, description, status, is_public, project_manager);
+	    String closed_on = resultSet.getString("closed_on");
+	    ProjectDto projectDto = new ProjectDto(id, created_on, updated_on, name, description, status, is_public, project_manager ,closed_on);
 	    return projectDto;
 	}
 }
