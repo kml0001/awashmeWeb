@@ -74,7 +74,7 @@ public class IssuesServiceImp implements IssuesService{
 	public IssueDto getIssueById(int id) {
 	    IssueDto issue = null;
 
-	    String consultaSQL = "SELECT id, subject, description, is_private, done_ratio, closed_on, due_date, start_date, updated_on, created_on, estimated_hours, project_id, author_id, assigned_to_id ,type ,hours_reported   FROM issue WHERE id = ?";
+	    String consultaSQL = "SELECT id, subject, done_ratio, closed_on, due_date, updated_on, created_on, project_id, author_id, assigned_to_id  ,hours_reported   FROM issue WHERE id = ?";
 
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(consultaSQL)) {
@@ -86,19 +86,14 @@ public class IssuesServiceImp implements IssuesService{
 	                issue = new IssueDto();
 	                issue.setId(resultado.getInt("id"));
 	                issue.setSubject(resultado.getString("subject"));
-	                issue.setDescription(resultado.getString("description"));
-	                issue.setIs_private(resultado.getBoolean("is_private"));
 	                issue.setDone_ratio(resultado.getDouble("done_ratio"));
 	                issue.setClosed_on(resultado.getDate("closed_on"));
 	                issue.setDue_date(resultado.getDate("due_date"));
-	                issue.setStart_date(resultado.getDate("start_date"));
 	                issue.setUpdate_on(resultado.getDate("updated_on"));
 	                issue.setCreated_on(resultado.getDate("created_on"));
-	                issue.setEstimated_hours(resultado.getDouble("estimated_hours"));
 	                issue.setProject_id(resultado.getInt("project_id"));
 	                issue.setAuthor_id(resultado.getInt("author_id"));
 	                issue.setAssigned_to_id(resultado.getInt("assigned_to_id"));
-	                issue.setType(resultado.getString("type"));
 	                issue.setHours_reported(resultado.getDouble("hours_reported"));
 	            }
 	        }
@@ -112,25 +107,20 @@ public class IssuesServiceImp implements IssuesService{
 
 	@Override
 	public int createIssue(IssueDto issue)  {
-        String insertSQL = "INSERT INTO issue (subject, description, is_private, done_ratio, closed_on, due_date, start_date, estimated_hours, project_id, author_id, assigned_to_id ,type ,hours_reported) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?)";
+        String insertSQL = "INSERT INTO issue (subject, done_ratio, due_date, project_id, author_id, assigned_to_id ,hours_reported) VALUES (?,?, ?, ?, ?, ?, ?)";
         int id = -1;
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 
         
             stmt.setString(1, issue.getSubject());
-            stmt.setString(2, issue.getDescription());
-            stmt.setBoolean(3, issue.Is_private()); 
-            stmt.setDouble(4, issue.getDone_ratio());
-            stmt.setDate(5,  new Date(issue.getClosed_on().getTime()));
-            stmt.setDate(6, new Date(issue.getDue_date().getTime()));
-            stmt.setDate(7,  new Date(issue.getStart_date().getTime()));
-            stmt.setDouble(8, issue.getEstimated_hours());
-            stmt.setInt(9, issue.getProject_id());
-            stmt.setInt(10, issue.getAuthor_id());
-            stmt.setInt(11, issue.getAssigned_to_id());
-            stmt.setString(12, issue.getType());
-            stmt.setDouble(13, issue.getHours_reported());
+            stmt.setDouble(2, issue.getDone_ratio());
+            stmt.setDate(3, new Date(issue.getDue_date().getTime()));
+
+            stmt.setInt(4, issue.getProject_id());
+            stmt.setInt(5, issue.getAuthor_id());
+            stmt.setInt(6, issue.getAssigned_to_id());
+            stmt.setDouble(7, issue.getHours_reported());
             int rowsAffected = stmt.executeUpdate();
 
             if (rowsAffected > 0) {
@@ -146,24 +136,18 @@ public class IssuesServiceImp implements IssuesService{
 
 	@Override
 	public int updateIssue(IssueDto issue) {
-        String updateSQL = "UPDATE issue SET subject=?, project_id=?, assigned_to_id=? , type=? WHERE id=?";
+        String updateSQL = "UPDATE issue SET subject=?, , done_ratio=?, due_date=? ,project_id=?, hours_reported=?  ,assigned_to_id=?  WHERE id=?";
 
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
 
             stmt.setString(1, issue.getSubject());
-            //stmt.setString(2, issue.getDescription());
-            //stmt.setBoolean(3, issue.Is_private());
-            //stmt.setDouble(4, issue.getDone_ratio());
-
-            //stmt.setString(6, issue.getDue_date());
-            //stmt.setString(7, issue.getStart_date());
-            //stmt.setDouble(8, issue.getEstimated_hours());
-            stmt.setInt(2, issue.getProject_id());
-            stmt.setInt(3, issue.getAssigned_to_id());
-            stmt.setString(4, issue.getType());
-            //stmt.setDouble(12, issue.getHours_reported());
-            stmt.setInt(5, issue.getId()); // Identificador único para la actualización
+            stmt.setDouble(2, issue.getDone_ratio());
+            stmt.setDate(3, new Date(issue.getDue_date().getTime()));
+            stmt.setInt(4, issue.getProject_id());
+            stmt.setInt(5, issue.getAssigned_to_id());
+            stmt.setDouble(6, issue.getHours_reported());
+            stmt.setInt(7, issue.getId()); 
             
             int rowsAffected = stmt.executeUpdate();
        

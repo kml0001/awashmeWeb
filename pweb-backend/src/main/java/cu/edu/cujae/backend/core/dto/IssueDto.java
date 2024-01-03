@@ -2,7 +2,9 @@ package cu.edu.cujae.backend.core.dto;
 
 
 
-import java.sql.Date;
+
+
+import java.util.Date;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -27,17 +29,17 @@ public class IssueDto {
 	
 	private Date closed_on;
 	private String subject; 
-	private String description;
-	private boolean is_private;
+
+	
 	private double done_ratio;
 	private Date due_date;
-	private Date start_date;
+
 	
-	private double estimated_hours;
+	
 	private int project_id;
 	private int author_id ;
 	private int assigned_to_id ;
-	private String type ;
+
 	private double hours_reported;
 	
 	
@@ -53,19 +55,17 @@ public class IssueDto {
 		super();
 		this.id = id;
 		this.subject = subject;
-		this.description = description;
-		this.is_private = is_private;
 		this.done_ratio = done_ratio;
 		this.closed_on = closed_on;
 		this.due_date = due_date;
-		this.start_date = start_date;
+
 		this.update_on = update_on;
 		this.created_on = created_on;
-		this.estimated_hours = estimated_hours;
+
 		this.project_id = project_id;
 		this.author_id = author_id;
 		this.assigned_to_id = asigned_to_id;
-		this.type = type;
+
 		this.hours_reported = hours_reported;
 		this.assigned_to_name = user_name;
 		this.project_name = project_name;
@@ -80,9 +80,7 @@ public class IssueDto {
 		this.created_on = created_on;
 	}
 
-	public String getType() {
-		return type;
-	}
+
 
 	public String getAssigned_to_name() {
 		return assigned_to_name;
@@ -100,13 +98,7 @@ public class IssueDto {
 		this.project_name = project_name;
 	}
 
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public boolean isIs_private() {
-		return is_private;
-	}
+	
 
 	public int getId() {
 		return id;
@@ -122,22 +114,6 @@ public class IssueDto {
 
 	public void setSubject(String subject) {
 		this.subject = subject;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public boolean Is_private() {
-		return is_private;
-	}
-
-	public void setIs_private(boolean is_private) {
-		this.is_private = is_private;
 	}
 
 	public double getDone_ratio() {
@@ -164,13 +140,6 @@ public class IssueDto {
 		this.due_date = due_date;
 	}
 
-	public Date getStart_date() {
-		return start_date;
-	}
-
-	public void setStart_date(Date start_date) {
-		this.start_date = start_date;
-	}
 
 	public Date getUpdate_on() {
 		return update_on;
@@ -178,14 +147,6 @@ public class IssueDto {
 
 	public void setUpdate_on(Date update_on) {
 		this.update_on = update_on;
-	}
-
-	public double getEstimated_hours() {
-		return estimated_hours;
-	}
-
-	public void setEstimated_hours(double estimated_hours) {
-		this.estimated_hours = estimated_hours;
 	}
 
 	public int getProject_id() {
