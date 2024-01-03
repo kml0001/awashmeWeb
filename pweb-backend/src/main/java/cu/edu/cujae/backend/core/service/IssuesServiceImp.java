@@ -1,6 +1,7 @@
 package cu.edu.cujae.backend.core.service;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,11 +42,11 @@ public class IssuesServiceImp implements IssuesService{
 	                resultado.getString("description"),
 	                resultado.getBoolean("is_private"),
 	                resultado.getDouble("done_ratio"),
-	                resultado.getString("closed_on"),
-	                resultado.getString("due_date"),
-	                resultado.getString("start_date"),
-	                resultado.getString("updated_on"),
-	                resultado.getString("created_on"),
+	                resultado.getDate("closed_on"),
+	                resultado.getDate("due_date"),
+	                resultado.getDate("start_date"),
+	                resultado.getDate("updated_on"),
+	                resultado.getDate("created_on"),
 	                resultado.getDouble("estimated_hours"),
 	                resultado.getInt("project_id"),
 	                resultado.getInt("author_id"),
@@ -88,11 +89,11 @@ public class IssuesServiceImp implements IssuesService{
 	                issue.setDescription(resultado.getString("description"));
 	                issue.setIs_private(resultado.getBoolean("is_private"));
 	                issue.setDone_ratio(resultado.getDouble("done_ratio"));
-	                issue.setClosed_on(resultado.getString("closed_on"));
-	                issue.setDue_date(resultado.getString("due_date"));
-	                issue.setStart_date(resultado.getString("start_date"));
-	                issue.setUpdate_on(resultado.getString("updated_on"));
-	                issue.setCreated_on(resultado.getString("created_on"));
+	                issue.setClosed_on(resultado.getDate("closed_on"));
+	                issue.setDue_date(resultado.getDate("due_date"));
+	                issue.setStart_date(resultado.getDate("start_date"));
+	                issue.setUpdate_on(resultado.getDate("updated_on"));
+	                issue.setCreated_on(resultado.getDate("created_on"));
 	                issue.setEstimated_hours(resultado.getDouble("estimated_hours"));
 	                issue.setProject_id(resultado.getInt("project_id"));
 	                issue.setAuthor_id(resultado.getInt("author_id"));
@@ -121,9 +122,9 @@ public class IssuesServiceImp implements IssuesService{
             stmt.setString(2, issue.getDescription());
             stmt.setBoolean(3, issue.Is_private()); 
             stmt.setDouble(4, issue.getDone_ratio());
-            stmt.setDate(5, date_string_converter.dateToString(issue.getClosed_on()));
-            stmt.setDate(6, date_string_converter.dateToString(issue.getDue_date()));
-            stmt.setDate(7, date_string_converter.dateToString(issue.getStart_date()));
+            stmt.setDate(5, (Date) issue.getClosed_on());
+            stmt.setDate(6, (Date) issue.getDue_date());
+            stmt.setDate(7, (Date) issue.getStart_date());
             stmt.setDouble(8, issue.getEstimated_hours());
             stmt.setInt(9, issue.getProject_id());
             stmt.setInt(10, issue.getAuthor_id());
@@ -194,10 +195,10 @@ public class IssuesServiceImp implements IssuesService{
 	            conn.close();
 
 	            if (filasEliminadas > 0) {
-	                System.out.println("Issue eliminado correctamente.");
+	                
 	                id_return = id;
 	            } else {
-	                System.out.println("No se encontró ningún issue con el ID proporcionado para eliminar.");
+	                
 	            }
 	        } catch (Exception e) {
 	            e.printStackTrace();
