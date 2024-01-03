@@ -20,27 +20,27 @@ public class MembersServiceImp implements MembersService {
 	
 	@Override
 	public List<MembersDto> getAllMembers() throws SQLException {
-        String selectAllSQL = "SELECT * FROM member";
-        List<MembersDto> members = new ArrayList<>();
+        String selectAllSQL = "SELECT * FROM members";
+        List<MembersDto> memberss = new ArrayList<>();
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(selectAllSQL);
              ResultSet resultSet = stmt.executeQuery()) {
 
             while (resultSet.next()) {
-                MembersDto member = mapResultSetToMembers(resultSet);
-                members.add(member);
+                MembersDto members = mapResultSetToMembers(resultSet);
+                memberss.add(members);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return members;
+        return memberss;
     }
 
 	@Override
 	public int deleteMembersByUserId(int userId) {
-		        String deleteSQL = "DELETE FROM member WHERE user_id = ?";
+		        String deleteSQL = "DELETE FROM members WHERE user_id = ?";
 
 		        try (Connection conn = ConnectionImp.getConnection();
 		             PreparedStatement stmt = conn.prepareStatement(deleteSQL)) {
@@ -63,7 +63,7 @@ public class MembersServiceImp implements MembersService {
 	
 	@Override
 	public boolean deleteMemberByUserAndProjectId(int userId, int projectId) {
-        String deleteSQL = "DELETE FROM member WHERE user_id = ? AND project_id = ?";
+        String deleteSQL = "DELETE FROM members WHERE user_id = ? AND project_id = ?";
 
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(deleteSQL)) {
@@ -83,8 +83,8 @@ public class MembersServiceImp implements MembersService {
 
 	@Override
 	public List<MembersDto> getMembersByUserId(int userId) {
-        String selectByUserSQL = "SELECT * FROM member WHERE user_id = ?";
-        List<MembersDto> members = new ArrayList<>();
+        String selectByUserSQL = "SELECT * FROM members WHERE user_id = ?";
+        List<MembersDto> memberss = new ArrayList<>();
 
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(selectByUserSQL)) {
@@ -93,8 +93,8 @@ public class MembersServiceImp implements MembersService {
 
             try (ResultSet resultSet = stmt.executeQuery()) {
                 while (resultSet.next()) {
-                    MembersDto member = mapResultSetToMembers(resultSet);
-                    members.add(member);
+                    MembersDto members = mapResultSetToMembers(resultSet);
+                    memberss.add(members);
                 }
             }
 
@@ -102,26 +102,26 @@ public class MembersServiceImp implements MembersService {
             e.printStackTrace();
         }
 
-        return members;
+        return memberss;
     }
 
 	private MembersDto mapResultSetToMembers(ResultSet resultSet) throws SQLException {
-        MembersDto member = new MembersDto(
+        MembersDto members = new MembersDto(
                 resultSet.getInt("project_id"),
                 resultSet.getInt("user_id")
         );
-        return member;
+        return members;
     }
 
 	@Override
-	public boolean insertMembers(MembersDto member) throws SQLException {
-		  String insertSQL = "INSERT INTO member (project_id, user_id) VALUES (?, ?)";
+	public boolean insertMembers(MembersDto members) throws SQLException {
+		  String insertSQL = "INSERT INTO members (project_id, user_id) VALUES (?, ?)";
 
 	        try (Connection conn = ConnectionImp.getConnection();
 	             PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 
-	            stmt.setInt(1, member.getProject_id());
-	            stmt.setInt(2, member.getUser_id());
+	            stmt.setInt(1, members.getProject_id());
+	            stmt.setInt(2, members.getUser_id());
 
 	            int rowsAffected = stmt.executeUpdate();
 
