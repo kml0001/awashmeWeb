@@ -7,12 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import cu.edu.cujae.backend.core.query.dto.ProjectReportData;
+import cu.edu.cujae.backend.core.query.dto.ProjectReportDto;
 
 public class query_implement   {
 
-	public static List<ProjectReportData> getProjectReports() {
-        List<ProjectReportData> projectReports = new ArrayList<>();
+	public static List<ProjectReportDto> getProjectReports() {
+        List<ProjectReportDto> projectReports = new ArrayList<>();
 
         try (Connection conn = ConnectionImp.getConnection()) {
             String sql = "SELECT project.name, COUNT(members.project_id) AS members, users.username, " +
@@ -28,7 +28,7 @@ public class query_implement   {
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 try (ResultSet resultSet = stmt.executeQuery()) {
                     while (resultSet.next()) {
-                        ProjectReportData report = new ProjectReportData();
+                        ProjectReportDto report = new ProjectReportDto();
                         report.setName(resultSet.getString("name"));
                         report.setMembers(resultSet.getInt("members"));
                         report.setUsername(resultSet.getString("username"));

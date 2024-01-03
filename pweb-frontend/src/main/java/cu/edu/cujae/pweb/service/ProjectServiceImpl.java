@@ -11,6 +11,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriTemplate;
 
 import cu.edu.cujae.pweb.dto.ProjectDto;
+import cu.edu.cujae.pweb.dto.ProjectReportDto;
 import cu.edu.cujae.pweb.utils.ApiRestMapper;
 import cu.edu.cujae.pweb.utils.RestService;
 
@@ -71,4 +72,18 @@ public class ProjectServiceImpl implements ProjectService{
 		restService.DELETE(uri, params, String.class, null).getBody();
 	}
 	
+	@Override
+	public List<ProjectReportDto> getProjectReports(){
+		List<ProjectReportDto> ProjectList = new ArrayList<ProjectReportDto>();
+	    try {
+	    	MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+		    ApiRestMapper<ProjectReportDto> apiRestMapper = new ApiRestMapper<>();
+		    String response = (String)restService.GET("/api/v1/projects/report", params, String.class).getBody();
+		    
+		    ProjectList = apiRestMapper.mapList(response, ProjectReportDto.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return ProjectList;
+	}
 }

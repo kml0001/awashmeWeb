@@ -6,35 +6,35 @@
 
 <ui:composition template="/pages/template/layout.xhtml">
 	<ui:define name="content">
-		<p:accordionPanel value="#{projectBean.projects}" var="project">
-		    <p:tab title="#{project.projectName}">
-		        <p:dataTable var="product" value="#{dtBasicView.products}">
+		<p:accordionPanel value="#{projectReportBean.projectReports}" var="projectReport">
+		    <p:tab title="#{projectReport.name}">
+		        <p:dataTable var="projectReport2" value="#{projectReportBean.projectReports}">
 		            <p:column headerText="Number of members">
-		                <h:outputText value="#{project.numMembers}" />
+		                <h:outputText value="#{projectReport2.members}" />
 		            </p:column>
 		
 		            <p:column headerText="Project manager">
-		                <h:outputText value="#{project.projectManager}" />
+		                <h:outputText value="#{projectReport2.username}" />
 		            </p:column>
 		
 		            <p:column headerText="Start date">
-		                <h:outputText value="#{project.startDate}" />
+		                <h:outputText value="#{projectReport2.createdOn}" />
 		            </p:column>
 		
 		            <p:column headerText="End date">
-		                <h:outputText value="#{project.endDate}" />
+		                <h:outputText value="#{projectReport2.closedOn}" />
 		            </p:column>
 	     	        <p:column headerText="Time pool">
-		                <h:outputText value="#{project.timePool}" />
+		                <h:outputText value="#{projectReport2.totalHoursReported}" />
 		            </p:column>
 	                <p:column headerText="Done ratio">
-		                <h:outputText value="#{project.doneRatio}" />
+		                <h:outputText value="#{projectReport2.averageDoneRatio}" />
 		            </p:column>
 		            <p:column headerText="Number of Tasks">
-		                <h:outputText value="#{project.numTasks}" />
+		                <h:outputText value="#{projectReport2.totalIssues}" />
 		            </p:column>
 		            <p:column headerText="Number delayed tasks">
-		                <h:outputText value="#{project.delayedTasks}" />
+		                <h:outputText value="#{projectReport2.delayedIssues}" />
 		            </p:column>
 		        </p:dataTable>
 		    </p:tab>
