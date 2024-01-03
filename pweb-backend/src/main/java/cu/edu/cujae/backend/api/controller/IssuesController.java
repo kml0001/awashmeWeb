@@ -10,10 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cu.edu.cujae.backend.core.dto.IssueDto;
+import cu.edu.cujae.backend.core.dto.RoleDto;
+import cu.edu.cujae.backend.core.dto.UserDto;
+import cu.edu.cujae.backend.core.security.TokenProvider;
 import cu.edu.cujae.backend.core.service.IssuesServiceImp;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -24,9 +28,15 @@ public class IssuesController {
 	@Autowired
     private IssuesServiceImp service;
 	
+
+		
+	
+	
 	    @GetMapping("/")
-	    public ResponseEntity<List<IssueDto>> getIssues() {
-	        List<IssueDto> issues = service.getIssues();
+	    public ResponseEntity<Object> getIssues() {
+	    	
+	    	
+	    	List<IssueDto> issues = service.getIssues();
 	        return ResponseEntity.ok(issues);
 	    }
 

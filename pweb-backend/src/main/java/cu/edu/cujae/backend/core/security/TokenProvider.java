@@ -4,9 +4,12 @@ import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import cu.edu.cujae.backend.core.dto.UserDto;
+import cu.edu.cujae.backend.core.service.UserServiceImp;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -19,9 +22,14 @@ import io.jsonwebtoken.UnsupportedJwtException;
 public class TokenProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
-
+    
+    
+    
+    @Autowired
+	private UserServiceImp userService;
+    
     private String secretKey = "Pweb*StrongToken*SecretKey*Pweb*";
-
+    
      public TokenProvider() {
     }
 
@@ -50,6 +58,24 @@ public class TokenProvider {
         return claims.getSubject();
     }
 
+    
+    
+    
+    public UserDto getUserDtoFromToken(String token){
+    	UserDto r = null;
+    	int id = Integer.valueOf(this.getUserIdFromToken(token));
+    	r = userService.getUserById(id);
+    	
+    	
+    	
+    	return r;
+    }
+    
+    
+    
+    
+    
+    
     public boolean validateToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(authToken);

@@ -72,8 +72,6 @@ public class IssueDto {
 		return type;
 	}
 
-
-
 	public String getAssigned_to_name() {
 		return assigned_to_name;
 	}
