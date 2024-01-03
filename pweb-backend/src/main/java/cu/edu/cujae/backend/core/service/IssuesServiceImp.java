@@ -107,7 +107,7 @@ public class IssuesServiceImp implements IssuesService{
 
 	@Override
 	public int createIssue(IssueDto issue)  {
-        String insertSQL = "INSERT INTO issue (subject, done_ratio, due_date, project_id, author_id, assigned_to_id ,hours_reported) VALUES (?,?, ?, ?, ?, ?, ?)";
+        String insertSQL = "INSERT INTO issue (subject, done_ratio, due_date, project_id, author_id, assigned_to_id ,hours_reported , closed_on) VALUES (?,?, ?, ?, ?, ?, ?,?)";
         int id = -1;
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
@@ -120,7 +120,14 @@ public class IssuesServiceImp implements IssuesService{
             stmt.setInt(4, issue.getProject_id());
             stmt.setInt(5, issue.getAuthor_id());
             stmt.setInt(6, issue.getAssigned_to_id());
+           
             stmt.setDouble(7, issue.getHours_reported());
+            
+            if(issue.getClosed_on() != null)
+            	stmt.setDate(8, new Date(issue.getClosed_on().getTime()));
+            else {
+            	stmt.setDate(8, null);
+            }
             int rowsAffected = stmt.executeUpdate();
 
             if (rowsAffected > 0) {
@@ -136,7 +143,7 @@ public class IssuesServiceImp implements IssuesService{
 
 	@Override
 	public int updateIssue(IssueDto issue) {
-        String updateSQL = "UPDATE issue SET subject=?, , done_ratio=?, due_date=? ,project_id=?, hours_reported=?  ,assigned_to_id=?  WHERE id=?";
+        String updateSQL = "UPDATE issue SET subject=?, , done_ratio=?, due_date=? ,project_id=?, hours_reported=?  ,assigned_to_id=?  , closed_on=? WHERE id=?";
 
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
@@ -147,7 +154,12 @@ public class IssuesServiceImp implements IssuesService{
             stmt.setInt(4, issue.getProject_id());
             stmt.setInt(5, issue.getAssigned_to_id());
             stmt.setDouble(6, issue.getHours_reported());
-            stmt.setInt(7, issue.getId()); 
+            if(issue.getClosed_on() != null)
+            	stmt.setDate(7, new Date(issue.getClosed_on().getTime()));
+            else {
+            	stmt.setDate(7, null);
+            }
+            stmt.setInt(8, issue.getId()); 
             
             int rowsAffected = stmt.executeUpdate();
        

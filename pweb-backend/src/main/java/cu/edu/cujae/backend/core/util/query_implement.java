@@ -14,14 +14,15 @@ public class query_implement   {
 	public void report() {
 		
 		 try (Connection conn = ConnectionImp.getConnection()) {
-	            String sql = "SELECT project.name, count(members.project_id) as members, users.username, " +
-	                    "project.created_on, project.closed_on, sum(issue.hours_reported), AVG(issue.done_ratio), " +
-	                    "count(issue), COUNT(CASE WHEN issue.due_date IS NOT NULL AND project.closed_on > CURRENT_TIMESTAMP THEN 1 END) AS delayed_issues " +
-	                    "FROM project " +
-	                    "LEFT JOIN issue on project.id = issue.project_id " +
-	                    "LEFT JOIN users on project.project_manager = users.id " +
-	                    "LEFT JOIN members on project.id = members.project_id " +
-	                    "GROUP BY project.name, users.username, project.created_on, project.closed_on";
+			 String sql = "SELECT project.name, COUNT(members.project_id) AS members, users.username, " +
+		                "project.created_on, project.closed_on, SUM(issue.hours_reported) AS hours, " +
+		                "AVG(issue.done_ratio) AS average, COUNT(issue) AS total_issues, " +
+		                "COUNT(CASE WHEN issue.due_date IS NOT NULL AND issue.closed_on > issue.due_date THEN 1 END) AS delayed_issues " +
+		                "FROM project " +
+		                "LEFT JOIN issue ON project.id = issue.project_id " +
+		                "LEFT JOIN users ON project.project_manager = users.id " +
+		                "LEFT JOIN members ON project.id = members.project_id " +
+		                "GROUP BY project.name, users.username, project.created_on, project.closed_on";
 
 	            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 	                // Ejecutar la consulta y mapear el resultado a una lista de objetos
