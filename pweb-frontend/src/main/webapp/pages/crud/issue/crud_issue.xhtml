@@ -101,7 +101,7 @@
 					<p:column exportable="false">
 						<p:commandButton icon="pi pi-pencil" action="#{issueBean.openForEdit}"
 							update=":form:manage-issue-content"
-							oncomplete="PF('issueDialog').show()"
+							oncomplete="PF('manageIssueDialog').show()"
 							styleClass="edit-button rounded-button ui-button-success"
 							process="@this">
 							<f:setPropertyActionListener value="#{issue}"
@@ -113,7 +113,7 @@
 							action="#{issueBean.deleteIssue}" >
 							<f:setPropertyActionListener value="#{issue}"
 								target="#{issueBean.selectedIssue}" />
-							<p:confirm header="Confirm" message="Está seguro de eliminar este usuario?" icon="pi pi-exclamation-triangle"/>
+							<p:confirm header="Confirm" message="Está seguro de eliminar este tarea?" icon="pi pi-exclamation-triangle"/>
 						</p:commandButton>
 					</p:column>
 

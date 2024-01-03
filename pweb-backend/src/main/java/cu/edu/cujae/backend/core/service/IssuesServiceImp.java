@@ -144,25 +144,25 @@ public class IssuesServiceImp implements IssuesService{
 }
 
 	@Override
-	public int updateIssue(int id ,IssueDto issue) {
-        String updateSQL = "UPDATE issue SET subject=?, description=?, is_private=?, done_ratio=?, closed_on=?, due_date=?, start_date=?, estimated_hours=?, project_id=?, assigned_to_id=? , type=? ,hours_reported =? WHERE id=?";
+	public int updateIssue(IssueDto issue) {
+        String updateSQL = "UPDATE issue SET subject=?, project_id=?, assigned_to_id=? , type=? WHERE id=?";
 
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
 
             stmt.setString(1, issue.getSubject());
-            stmt.setString(2, issue.getDescription());
-            stmt.setBoolean(3, issue.Is_private());
-            stmt.setDouble(4, issue.getDone_ratio());
-            stmt.setString(5, issue.getClosed_on());
-            stmt.setString(6, issue.getDue_date());
-            stmt.setString(7, issue.getStart_date());
-            stmt.setDouble(8, issue.getEstimated_hours());
-            stmt.setInt(9, issue.getProject_id());
-            stmt.setInt(10, issue.getAssigned_to_id());
-            stmt.setString(11, issue.getType());
-            stmt.setDouble(12, issue.getHours_reported());
-            stmt.setInt(13, id); // Identificador único para la actualización
+            //stmt.setString(2, issue.getDescription());
+            //stmt.setBoolean(3, issue.Is_private());
+            //stmt.setDouble(4, issue.getDone_ratio());
+
+            //stmt.setString(6, issue.getDue_date());
+            //stmt.setString(7, issue.getStart_date());
+            //stmt.setDouble(8, issue.getEstimated_hours());
+            stmt.setInt(2, issue.getProject_id());
+            stmt.setInt(3, issue.getAssigned_to_id());
+            stmt.setString(4, issue.getType());
+            //stmt.setDouble(12, issue.getHours_reported());
+            stmt.setInt(5, issue.getId()); // Identificador único para la actualización
             
             int rowsAffected = stmt.executeUpdate();
 

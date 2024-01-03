@@ -55,7 +55,7 @@ public class IssueServiceImpl implements IssueService{
 
 	@Override
 	public void createIssue(IssueDto Issue) {
-		restService.POST("/api/v1/issues/", Issue, String.class).getBody();
+		restService.POST("/api/v1/issues", Issue, String.class).getBody();
 	}
 
 	@Override

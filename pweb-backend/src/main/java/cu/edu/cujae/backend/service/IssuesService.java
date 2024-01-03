@@ -13,7 +13,7 @@ public interface IssuesService {
 
     int createIssue(IssueDto issue) throws SQLException;
 
-    int updateIssue(int id ,IssueDto updatedIssue);
+    int updateIssue(IssueDto updatedIssue);
 
     int deleteIssue(int id);
 }

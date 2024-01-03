@@ -30,7 +30,7 @@ public class IssueDto {
 	private String author_name;
 	
 	public IssueDto() {
-		super();
+		this.id = -1;
 	}
 
 	public IssueDto(int id, String subject, String description, boolean is_private, double done_ratio, String closed_on,

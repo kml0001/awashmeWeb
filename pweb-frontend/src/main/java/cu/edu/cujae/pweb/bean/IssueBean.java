@@ -1,8 +1,6 @@
 package cu.edu.cujae.pweb.bean;
 
 import java.util.List;
-import java.util.UUID;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -18,6 +16,7 @@ import cu.edu.cujae.pweb.dto.UserDto;
 import cu.edu.cujae.pweb.service.IssueService;
 import cu.edu.cujae.pweb.service.ProjectService;
 import cu.edu.cujae.pweb.service.UserService;
+import cu.edu.cujae.pweb.utils.JsfUtils;
 
 @Component
 @ManagedBean
@@ -34,9 +33,13 @@ public class IssueBean{
 
     private ProjectDto selectedProject;
     
+    private int selectedProjectid;
+    
     private List<UserDto> users;
     
     private UserDto selectedUser;
+    
+    private int selectedUserid;
     
     @Autowired
     private UserService userService;
@@ -76,35 +79,48 @@ public class IssueBean{
 
     public void openNew() {
         this.selectedIssue = new IssueDto();
+        this.selectedProject = null;
+        this.selectedProjectid = -1;
+        this.selectedUser = null;
+        this.selectedUserid = -1;
     }
+    
+	public void openForEdit() {							
+		this.selectedProjectid = this.selectedIssue.getProject_id();
+	}
 
     public void saveIssue() {
     	System.out.println("rarara");
-        if (String.valueOf(this.selectedIssue.getId()) == null) {
-            this.selectedIssue.setId(Integer.valueOf(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9)));
-            this.issues.add(this.selectedIssue);
+        if (this.selectedIssue.getId() == -1) {
+            //this.selectedIssue.setId(Integer.valueOf(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9)));
+            this.selectedIssue.setProject_id(selectedProjectid);
+            this.selectedIssue.setAssigned_to_id(selectedUserid);
+            this.selectedIssue.setAuthor_id(1);
             issueService.createIssue(selectedIssue);
             issues = issueService.getIssues();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("IssueDto Added"));
+            
+            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_added");
             System.out.println("entro al if");
+            System.out.println(selectedIssue.getType());
         }
         else {
         	issueService.updateIssue(selectedIssue);
         	issues = issueService.getIssues();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("IssueDto Updated"));
+        	JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_updated");
             System.out.println("entro al else");
+            
         }
 
-        PrimeFaces.current().executeScript("PF('manageIssueDtoDialog').hide()");
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-issues");
+        PrimeFaces.current().executeScript("PF('manageIssueDialog').hide()");
+        PrimeFaces.current().ajax().update("form:dt-issues");
     }
 
-    public void deleteIssueDto() {
-        this.issues.remove(this.selectedIssue);
-        this.selectedIssues.remove(this.selectedIssue);
-        this.selectedIssue = null;
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("IssueDto Removed"));
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-issues");
+    public void deleteIssue() {
+    	System.out.println(selectedIssue.getId());
+        this.issueService.deleteIssue(String.valueOf(selectedIssue.getId()));
+        issues = issueService.getIssues();
+        JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_deleted");
+        PrimeFaces.current().ajax().update("form:dt-issues");
     }
 
     public String getDeleteButtonMessage() {
@@ -178,6 +194,22 @@ public class IssueBean{
 
 	public void setSelectedUser(UserDto selectedUser) {
 		this.selectedUser = selectedUser;
+	}
+
+	public int getSelectedProjectid() {
+		return selectedProjectid;
+	}
+
+	public void setSelectedProjectid(int selectedProjectid) {
+		this.selectedProjectid = selectedProjectid;
+	}
+
+	public int getSelectedUserid() {
+		return selectedUserid;
+	}
+
+	public void setSelectedUserid(int selectedUserid) {
+		this.selectedUserid = selectedUserid;
 	}
 
 }
