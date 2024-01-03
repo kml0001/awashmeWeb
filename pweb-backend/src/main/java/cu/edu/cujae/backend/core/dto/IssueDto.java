@@ -1,6 +1,8 @@
 package cu.edu.cujae.backend.core.dto;
 
-import java.util.Date;
+
+
+import java.sql.Date;
 
 import io.swagger.annotations.ApiModelProperty;
 

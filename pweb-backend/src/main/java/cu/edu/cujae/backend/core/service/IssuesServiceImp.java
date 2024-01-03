@@ -117,14 +117,14 @@ public class IssuesServiceImp implements IssuesService{
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 
-        	
+        
             stmt.setString(1, issue.getSubject());
             stmt.setString(2, issue.getDescription());
             stmt.setBoolean(3, issue.Is_private()); 
             stmt.setDouble(4, issue.getDone_ratio());
-            stmt.setDate(5, (Date) issue.getClosed_on());
-            stmt.setDate(6, (Date) issue.getDue_date());
-            stmt.setDate(7, (Date) issue.getStart_date());
+            stmt.setDate(5,  new Date(issue.getClosed_on().getTime()));
+            stmt.setDate(6, new Date(issue.getDue_date().getTime()));
+            stmt.setDate(7,  new Date(issue.getStart_date().getTime()));
             stmt.setDouble(8, issue.getEstimated_hours());
             stmt.setInt(9, issue.getProject_id());
             stmt.setInt(10, issue.getAuthor_id());
