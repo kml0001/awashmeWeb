@@ -79,17 +79,20 @@ public class IssueBean{
     }
 
     public void saveIssue() {
+    	System.out.println("rarara");
         if (String.valueOf(this.selectedIssue.getId()) == null) {
             this.selectedIssue.setId(Integer.valueOf(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9)));
             this.issues.add(this.selectedIssue);
             issueService.createIssue(selectedIssue);
             issues = issueService.getIssues();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("IssueDto Added"));
+            System.out.println("entro al if");
         }
         else {
         	issueService.updateIssue(selectedIssue);
         	issues = issueService.getIssues();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("IssueDto Updated"));
+            System.out.println("entro al else");
         }
 
         PrimeFaces.current().executeScript("PF('manageIssueDtoDialog').hide()");
