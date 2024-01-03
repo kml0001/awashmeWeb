@@ -168,13 +168,14 @@ public class IssuesServiceImp implements IssuesService{
 
             if (rowsAffected > 0) {
             		return rowsAffected;
-                }
+            }
             
 
         } catch (SQLException e) {
             e.printStackTrace();
             return -1; // Retorna un valor negativo para indicar un error
         }
+        return 1;
 }
 
 	@Override
