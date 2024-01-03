@@ -83,15 +83,15 @@ public class IssuesController {
 	    public ResponseEntity<Object> deleteIssue(@PathVariable int id) {
 	    	
 	    	
-	    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	    	UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
-	    	
-	    	IssueDto issue = service.getIssueById(id);
-	    
-	    	
-	    	if(principal.getRoleList().indexOf("Project Manager") ==-1 && principal.getId().equals(String.valueOf(issue.getAuthor_id()))) {
-	    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reune los privilegios para modificar esta tarea");
-	    	}
+//	    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//	    	UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+//	    	
+//	    	IssueDto issue = service.getIssueById(id);
+//	    
+//	    	
+//	    	if(principal.getRoleList().indexOf("Project Manager") ==-1 && principal.getId().equals(String.valueOf(issue.getAuthor_id()))) {
+//	    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reune los privilegios para modificar esta tarea");
+//	    	}
 	    	
 	    	
 	        int delete_id = service.deleteIssue(id);
