@@ -2,7 +2,7 @@ package cu.edu.cujae.backend.core.query.dto;
 
 import java.util.Date;
 
-public class ProjectReportData {
+public class ProjectReportDto {
     private String name;
     private int members;
     private String username;
@@ -12,7 +12,7 @@ public class ProjectReportData {
     private double averageDoneRatio;
     private int totalIssues;
     private int delayedIssues;
-	public ProjectReportData(String name, int members, String username, Date createdOn, Date closedOn,
+	public ProjectReportDto(String name, int members, String username, Date createdOn, Date closedOn,
 			double totalHoursReported, double averageDoneRatio, int totalIssues, int delayedIssues) {
 		super();
 		this.name = name;
@@ -26,7 +26,7 @@ public class ProjectReportData {
 		this.delayedIssues = delayedIssues;
 	}
 	
-	public ProjectReportData() {
+	public ProjectReportDto() {
 		
 	}
 	public String getName() {

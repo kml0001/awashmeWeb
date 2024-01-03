@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import cu.edu.cujae.backend.core.dto.FilterDto;
 import cu.edu.cujae.backend.core.dto.ProjectDto;
-import cu.edu.cujae.backend.core.query.dto.ProjectReportData;
+import cu.edu.cujae.backend.core.query.dto.ProjectReportDto;
 import cu.edu.cujae.backend.core.service.ProjectServiceImp;
-import cu.edu.cujae.backend.core.util.query_implement;
+import cu.edu.cujae.backend.core.util.QueryImplement;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 
@@ -36,8 +37,8 @@ public class ProjectsController {
     
 	
 	@GetMapping("/report")
-    public ResponseEntity<List<ProjectReportData>> getProjectsReport() {
-        List <ProjectReportData> temp = query_implement.getProjectReports();
+    public ResponseEntity<List<ProjectReportDto>> getProjectsReport(@RequestBody FilterDto filter) {
+        List <ProjectReportDto> temp = QueryImplement.getProjectReports(filter);
         return ResponseEntity.ok(temp);
     }
 	
