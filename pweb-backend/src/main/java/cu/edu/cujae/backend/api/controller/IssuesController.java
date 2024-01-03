@@ -60,15 +60,16 @@ public class IssuesController {
 	        }
 	    }
 
-	    @PutMapping("/{id}")
-	    public ResponseEntity<Object> updateIssue(@PathVariable int id, @RequestBody IssueDto updatedIssue) {
+	    @PutMapping("/")
+	    public ResponseEntity<Object> updateIssue(@RequestBody IssueDto updatedIssue) {
 	        
-	    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	    	UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
 	    	
-	    	if(principal.getRoleList().indexOf("Project Manager") ==-1 && principal.getId().equals(String.valueOf(updatedIssue.getAssigned_to_id())) ) {
-	    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reune los privilegios para modificar esta tarea");
-	    	}
+//	    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//	    	UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+//	    	
+//	    	if(principal.getRoleList().indexOf("Project Manager") ==-1 && principal.getId().equals(String.valueOf(updatedIssue.getAssigned_to_id())) ) {
+//	    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reune los privilegios para modificar esta tarea");
+//	    	}
 	    	
 	    	int id_created = service.updateIssue(updatedIssue);
 	        if (id_created != -1) {

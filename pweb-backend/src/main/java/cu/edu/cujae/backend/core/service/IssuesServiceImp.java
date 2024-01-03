@@ -165,7 +165,7 @@ public class IssuesServiceImp implements IssuesService{
             stmt.setInt(5, issue.getId()); // Identificador único para la actualización
             
             int rowsAffected = stmt.executeUpdate();
-
+       
             if (rowsAffected > 0) {
             		return rowsAffected;
             }
