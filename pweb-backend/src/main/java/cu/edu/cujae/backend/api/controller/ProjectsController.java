@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cu.edu.cujae.backend.core.dto.ProjectDto;
+import cu.edu.cujae.backend.core.query.dto.ProjectReportData;
 import cu.edu.cujae.backend.core.service.ProjectServiceImp;
+import cu.edu.cujae.backend.core.util.query_implement;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 
@@ -25,14 +27,23 @@ public class ProjectsController {
 	
 	@Autowired
     private ProjectServiceImp service;
-	
-	
-    @GetMapping("/")
+	@GetMapping("/")
     public ResponseEntity<List<ProjectDto>> getProjects() {
         List <ProjectDto> temp = service.getProjects();
         return ResponseEntity.ok(temp);
     }
+    
+    
+	
+	@GetMapping("/report")
+    public ResponseEntity<List<ProjectReportData>> getProjectsReport() {
+        List <ProjectReportData> temp = query_implement.getProjectReports();
+        return ResponseEntity.ok(temp);
+    }
+	
 
+    
+    
     @GetMapping("/{id}")
     public ResponseEntity<Object> getProjectById(@PathVariable int id) {
    
@@ -77,4 +88,6 @@ public class ProjectsController {
         	return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id del proyecto no existe");
         }
     }
+    
+    
 }

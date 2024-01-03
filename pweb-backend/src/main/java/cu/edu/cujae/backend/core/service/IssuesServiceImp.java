@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import cu.edu.cujae.backend.core.dto.IssueDto;
 import cu.edu.cujae.backend.core.util.ConnectionImp;
-import cu.edu.cujae.backend.core.util.date_string_converter;
 import cu.edu.cujae.backend.service.IssuesService;
 
 @Service
@@ -115,8 +114,13 @@ public class IssuesServiceImp implements IssuesService{
         
             stmt.setString(1, issue.getSubject());
             stmt.setDouble(2, issue.getDone_ratio());
-            stmt.setDate(3, new Date(issue.getDue_date().getTime()));
-
+            
+            if(issue.getDue_date() != null)
+            	stmt.setDate(3, new Date(issue.getDue_date().getTime()));
+            else {
+            	stmt.setDate(3, null);
+            }
+            
             stmt.setInt(4, issue.getProject_id());
             stmt.setInt(5, issue.getAuthor_id());
             stmt.setInt(6, issue.getAssigned_to_id());
@@ -143,14 +147,18 @@ public class IssuesServiceImp implements IssuesService{
 
 	@Override
 	public int updateIssue(IssueDto issue) {
-        String updateSQL = "UPDATE issue SET subject=?, , done_ratio=?, due_date=? ,project_id=?, hours_reported=?  ,assigned_to_id=?  , closed_on=? WHERE id=?";
+        String updateSQL = "UPDATE issue SET subject=?, done_ratio=?, due_date=? ,project_id=?,assigned_to_id=? , hours_reported=?    , closed_on=? WHERE id=?";
 
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
 
             stmt.setString(1, issue.getSubject());
             stmt.setDouble(2, issue.getDone_ratio());
-            stmt.setDate(3, new Date(issue.getDue_date().getTime()));
+            if(issue.getDue_date() != null)
+            	stmt.setDate(3, new Date(issue.getDue_date().getTime()));
+            else {
+            	stmt.setDate(3, null);
+            }
             stmt.setInt(4, issue.getProject_id());
             stmt.setInt(5, issue.getAssigned_to_id());
             stmt.setDouble(6, issue.getHours_reported());
