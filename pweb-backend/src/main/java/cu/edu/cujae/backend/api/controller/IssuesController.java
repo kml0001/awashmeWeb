@@ -2,6 +2,7 @@ package cu.edu.cujae.backend.api.controller;
 
 import java.util.List;
 
+import org.apache.coyote.http11.upgrade.UpgradeProcessorInternal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,16 +11,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cu.edu.cujae.backend.core.dto.IssueDto;
-import cu.edu.cujae.backend.core.dto.RoleDto;
-import cu.edu.cujae.backend.core.dto.UserDto;
-import cu.edu.cujae.backend.core.security.TokenProvider;
+import cu.edu.cujae.backend.core.security.UserPrincipal;
 import cu.edu.cujae.backend.core.service.IssuesServiceImp;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 
 @RestController
 @RequestMapping("/api/v1/issues")
@@ -28,14 +30,10 @@ public class IssuesController {
 	@Autowired
     private IssuesServiceImp service;
 	
-
-		
 	
 	
 	    @GetMapping("/")
 	    public ResponseEntity<Object> getIssues() {
-	    	
-	    	
 	    	List<IssueDto> issues = service.getIssues();
 	        return ResponseEntity.ok(issues);
 	    }
@@ -64,7 +62,15 @@ public class IssuesController {
 
 	    @PutMapping("/{id}")
 	    public ResponseEntity<Object> updateIssue(@PathVariable int id, @RequestBody IssueDto updatedIssue) {
-	        int id_created = service.updateIssue(id, updatedIssue);
+	        
+	    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    	UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+	    	
+	    	if(principal.getRoleList().indexOf("Project Manager") ==-1 && principal.getId().equals(String.valueOf(updatedIssue.getAssigned_to_id())) ) {
+	    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reune los privilegios para modificar esta tarea");
+	    	}
+	    	
+	    	int id_created = service.updateIssue(id, updatedIssue);
 	        if (id_created != -1) {
 	            return ResponseEntity.ok("Tarea actualizada");
 	        } else {
@@ -74,6 +80,19 @@ public class IssuesController {
 
 	    @DeleteMapping("/{id}")
 	    public ResponseEntity<Object> deleteIssue(@PathVariable int id) {
+	    	
+	    	
+	    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    	UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+	    	
+	    	IssueDto issue = service.getIssueById(id);
+	    
+	    	
+	    	if(principal.getRoleList().indexOf("Project Manager") ==-1 && principal.getId().equals(String.valueOf(issue.getAuthor_id()))) {
+	    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reune los privilegios para modificar esta tarea");
+	    	}
+	    	
+	    	
 	        int delete_id = service.deleteIssue(id);
 	        if(delete_id != -1)
 	        	return ResponseEntity.ok("Tarea eliminada");
@@ -81,6 +100,6 @@ public class IssuesController {
 	        	return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id de la tarea no existe");
 	        }
 	    }
-	
+	   
 	
 }

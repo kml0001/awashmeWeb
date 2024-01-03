@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import cu.edu.cujae.backend.core.dto.Suggestion;
+import cu.edu.cujae.backend.core.dto.SuggestionDto;
 import cu.edu.cujae.backend.core.util.ConnectionImp;
 import cu.edu.cujae.backend.service.SuggestionService;
 
@@ -17,16 +17,16 @@ import cu.edu.cujae.backend.service.SuggestionService;
 public class SuggestionServicesImp implements SuggestionService{
 
 	@Override
-	public List<Suggestion> getSuggestion() {
+	public List<SuggestionDto> getSuggestion() {
 	    String selectSQL = "SELECT * FROM suggestion";
-	    List<Suggestion> suggestions = new ArrayList<>();
+	    List<SuggestionDto> suggestions = new ArrayList<>();
 
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(selectSQL);
 	         ResultSet resultSet = stmt.executeQuery()) {
 
 	        while (resultSet.next()) {
-	            Suggestion suggestion = mapResultSetToSuggestion(resultSet);
+	            SuggestionDto suggestion = mapResultSetToSuggestion(resultSet);
 	            suggestions.add(suggestion);
 	        }
 
@@ -38,9 +38,9 @@ public class SuggestionServicesImp implements SuggestionService{
 	}
 
 	@Override
-	public Suggestion getSuggestionById(int id) {
+	public SuggestionDto getSuggestionById(int id) {
 	    String selectSQL = "SELECT * FROM suggestion WHERE id = ?";
-	    Suggestion suggestion = null;
+	    SuggestionDto suggestion = null;
 
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(selectSQL)) {
@@ -61,7 +61,7 @@ public class SuggestionServicesImp implements SuggestionService{
 	}
 
 	@Override
-	public int createSuggestion(Suggestion suggestion) {
+	public int createSuggestion(SuggestionDto suggestion) {
 	    String insertSQL = "INSERT INTO suggestion (author_id, description, urgency, importance ,project_id) VALUES (?, ?,?, ?,?) RETURNING id";
 
 	    try (Connection conn = ConnectionImp.getConnection();
@@ -87,7 +87,7 @@ public class SuggestionServicesImp implements SuggestionService{
 	}
 
 	@Override
-	public int updateSuggestion(int id, Suggestion updatedSuggestion) {
+	public int updateSuggestion(int id, SuggestionDto updatedSuggestion) {
 	    String updateSQL = "UPDATE suggestion SET author_id=?, description=?,urgency=?, importance=?, project_id =? WHERE id=?";
 
 	    try (Connection conn = ConnectionImp.getConnection();
@@ -131,8 +131,8 @@ public class SuggestionServicesImp implements SuggestionService{
 
 	
 	
-	 private static Suggestion mapResultSetToSuggestion(ResultSet resultSet) throws SQLException {
-	        Suggestion suggestion = new Suggestion();
+	 private static SuggestionDto mapResultSetToSuggestion(ResultSet resultSet) throws SQLException {
+	        SuggestionDto suggestion = new SuggestionDto();
 	        suggestion.setId(resultSet.getInt("id"));
 	        suggestion.setAuthor_id(resultSet.getInt("author_id"));
 	        suggestion.setDescription(resultSet.getString("description"));

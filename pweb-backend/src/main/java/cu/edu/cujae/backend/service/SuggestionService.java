@@ -2,17 +2,17 @@ package cu.edu.cujae.backend.service;
 
 import java.util.List;
 
-import cu.edu.cujae.backend.core.dto.Suggestion;
+import cu.edu.cujae.backend.core.dto.SuggestionDto;
 
 public interface SuggestionService {
 
-    List<Suggestion> getSuggestion();
+    List<SuggestionDto> getSuggestion();
 
-    Suggestion getSuggestionById(int id);
+    SuggestionDto getSuggestionById(int id);
 
-    int createSuggestion(Suggestion sugerencia);
+    int createSuggestion(SuggestionDto sugerencia);
 
-    int updateSuggestion(int id, Suggestion updatedSugerencia);
+    int updateSuggestion(int id, SuggestionDto updatedSugerencia);
 
     int deleteSuggestion(int id);
 }

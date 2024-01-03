@@ -11,6 +11,16 @@ public class IssueDto {
 	@ApiModelProperty(hidden = true)
 	private String update_on;
 	
+	
+	@ApiModelProperty(hidden = true)
+	private String assigned_to_name;
+	@ApiModelProperty(hidden = true)
+	private String project_name;
+	@ApiModelProperty(hidden = true)
+	private String author_name;
+	
+	
+	
 	private String closed_on;
 	private String subject; 
 	private String description;
@@ -27,9 +37,7 @@ public class IssueDto {
 	private double hours_reported;
 	
 	
-	private String assigned_to_name;
-	private String project_name;
-	private String author_name;
+	
 	
 	public IssueDto() {
 		super();

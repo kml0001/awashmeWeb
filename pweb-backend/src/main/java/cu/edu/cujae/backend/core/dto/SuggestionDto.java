@@ -2,7 +2,7 @@ package cu.edu.cujae.backend.core.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 
-public class Suggestion {
+public class SuggestionDto {
 	@ApiModelProperty(hidden = true)
 	private int id;
 	@ApiModelProperty(hidden = true)
@@ -13,7 +13,7 @@ public class Suggestion {
 	private String description;
 	private String urgency;
 	private String importance;
-	public Suggestion(int id, int author_id, String description, String created_on, String urgency, String importance , int project_id) {
+	public SuggestionDto(int id, int author_id, String description, String created_on, String urgency, String importance , int project_id) {
 		super();
 		this.id = id;
 		this.author_id = author_id;
@@ -23,7 +23,7 @@ public class Suggestion {
 		this.importance = importance;
 		this.project_id = project_id;
 	}
-	public Suggestion() {
+	public SuggestionDto() {
 	}
 	
 	public int getProject_id() {

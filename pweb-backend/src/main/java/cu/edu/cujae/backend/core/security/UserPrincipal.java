@@ -1,5 +1,6 @@
 package cu.edu.cujae.backend.core.security;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +29,7 @@ public class UserPrincipal implements UserDetails {
 	//private List<RoleDto> roleList;
     private Collection<? extends GrantedAuthority> authorities;
 	private String username;
-
+	private List<String> roleList;
     public UserPrincipal(int id, String firstname, String lastname, String mail, String passwd, Collection<? extends GrantedAuthority> authorities ,List<RoleDto> roleList) {
     	this.id = String.valueOf(id);
         this.firstname = firstname;
@@ -36,6 +37,10 @@ public class UserPrincipal implements UserDetails {
         this.mail = mail;
         this.passwd = passwd;
         this.authorities = authorities;
+        this.roleList = new ArrayList<>();
+        for (RoleDto role : roleList){
+        	 this.roleList.add(role.getRoleName());
+        }
     }
 
     public static UserPrincipal create(UserDto user) {
@@ -106,7 +111,8 @@ public class UserPrincipal implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
-
+    
+    
     public String getFirstname() {
         return firstname;
     }
@@ -115,4 +121,14 @@ public class UserPrincipal implements UserDetails {
         return lastname;
     }
 
+	public List<String> getRoleList() {
+		return roleList;
+	}
+
+	public void setRoleList(List<String> roleList) {
+		this.roleList = roleList;
+	}
+    
+    
+    
 }
