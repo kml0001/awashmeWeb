@@ -87,15 +87,17 @@ public class IssueBean{
     
 	public void openForEdit() {							
 		this.selectedProjectid = this.selectedIssue.getProject_id();
+		this.selectedUserid = this.selectedIssue.getAssigned_to_id();
 	}
 
     public void saveIssue() {
     	System.out.println("rarara");
+        this.selectedIssue.setProject_id(selectedProjectid);
+        this.selectedIssue.setAssigned_to_id(selectedUserid);
+        this.selectedIssue.setAuthor_id(1);
+        
         if (this.selectedIssue.getId() == -1) {
             //this.selectedIssue.setId(Integer.valueOf(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9)));
-            this.selectedIssue.setProject_id(selectedProjectid);
-            this.selectedIssue.setAssigned_to_id(selectedUserid);
-            this.selectedIssue.setAuthor_id(1);
             issueService.createIssue(selectedIssue);
             issues = issueService.getIssues();
             
