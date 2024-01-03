@@ -17,10 +17,20 @@
 							actionListener="#{issueBean.openNew}"
 							update=":form:manage-issue-content"
 							oncomplete="PF('manageIssueDialog').show()"
-							styleClass="ui-button-success" style="margin-right: .5rem">
+							styleClass="ui-button-success" style="margin-right: .5rem"
+							process="@this">
 							<p:resetInput target=":form:manage-issue-content" />
 						</p:commandButton>
 
+					</p:toolbarGroup>
+					<p:toolbarGroup align="right">
+<!-- 						<p:fileUpload mode="simple" skinSimple="true" label="Import" -->
+<!-- 							chooseIcon="pi pi-download" /> -->
+						<p:commandButton value="Export" icon="pi pi-upload"
+							styleClass="ui-button-help" ajax="false">
+							<p:dataExporter type="pdf" target="dt-projects"
+								fileName="projects" />
+						</p:commandButton>
 					</p:toolbarGroup>
 				</p:toolbar>
 
