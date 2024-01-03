@@ -24,25 +24,25 @@
 					</h:panelGroup>					
 					<h:panelGroup>
 						<div class="p-field">
-							<p:outputLabel for="@next">Type</p:outputLabel>
-							<p:inputText id="type" required="true"
-								value="#{issueBean.selectedIssue.type}" />
+							<p:outputLabel for="@next" value="Reported hours" />
+			                <p:inputNumber id="hours_reported" value="#{issueBean.selectedIssue.hours_reported}">  
+			                    <p:ajax update="hours_reported" />  
+			                </p:inputNumber>
+			            </div>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+						<div class="p-field">
+					        <p:outputLabel for="@next" value="Due date" />
+        					<p:datePicker id="button" value="#{issueBean.selectedIssue.due_date}" showIcon="true" />
 							<p:message for="@previous"></p:message>
 						</div>
 					</h:panelGroup>
 					
 					<h:panelGroup>
-<!-- 					<div class="p-field"> -->
-<!-- 		              <p:outputLabel for="@next">Due date</p:outputLabel> -->
-<!-- 		              <p:calendar id="picckupTimeInput" required="true" -->
-<!-- 		                value="#{managePlannedServBean.selectedPickupTime_Date}" -->
-<!-- 		                pattern="yyyy/MM/dd HH:mm"  -->
-<!-- 		                showOn="button"> -->
-<!-- 		              </p:calendar> -->
-<!-- 		            </div> -->
 						<div class="p-field">
-					        <p:outputLabel for="@next" value="Due date" />
-        					<p:datePicker id="button" value="#{issueBean.selectedIssue.due_date}" showIcon="true" />
+					        <p:outputLabel for="@next" value="Close date" />
+        					<p:datePicker id="closed_on" value="#{issueBean.selectedIssue.closed_on}" showIcon="true" />
 							<p:message for="@previous"></p:message>
 						</div>
 					</h:panelGroup>

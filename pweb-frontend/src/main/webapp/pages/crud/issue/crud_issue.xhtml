@@ -43,22 +43,45 @@
 						filterBy="#{issue.project_name}">
 						<h:outputText value="#{issue.project_name}" />
 					</p:column>
-					<p:column headerText="Type" sortBy="#{issue.type}"
-						filterBy="#{issue.type}">
-						<h:outputText value="#{issue.type}" />
+					
+					<p:column headerText="Assigned to" sortBy="#{issue.assigned_to_name}"
+						filterBy="#{issue.assigned_to_name}">
+						<h:outputText value="#{issue.assigned_to_name}" />
 					</p:column>
+										
 					<p:column headerText="Subject" sortBy="#{issue.subject}">
 						<h:outputText value="#{issue.subject}" style="font-weight: 700">
 						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Done ratio" sortBy="#{issue.done_ratio}"
+						filterBy="#{issue.done_ratio}">
+						<h:outputText value="#{issue.done_ratio}" />
+					</p:column>
+					
+					<p:column headerText="Reported hours" sortBy="#{issue.hours_reported}"
+						filterBy="#{issue.hours_reported}">
+						<h:outputText value="#{issue.hours_reported}" />
+					</p:column>
+					
+					<p:column headerText="Due date" sortBy="#{issue.due_date}"
+						filterBy="#{issue.due_date}">
+						<h:outputText value="#{issue.due_date}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>	
+					</p:column>
+					
+					<p:column headerText="Close date" sortBy="#{issue.closed_on}"
+						filterBy="#{issue.closed_on}">
+						<h:outputText value="#{issue.closed_on}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>	
 					</p:column>
 <!-- 					<p:column headerText="Priority" sortBy="#{issue.priority}" -->
 <!-- 						filterBy="#{issue.priority}"> -->
 <!-- 						<h:outputText value="#{issue.priority}" /> -->
 <!-- 					</p:column> -->
-					<p:column headerText="Assigned to" sortBy="#{issue.assigned_to_name}"
-						filterBy="#{issue.assigned_to_name}">
-						<h:outputText value="#{issue.assigned_to_name}" />
-					</p:column>
+
 <!-- 					<p:column headerText="Due date" sortBy="#{issue.due_date}" -->
 <!-- 						filterBy="#{issue.due_date}"> -->
 <!-- 						<h:outputText value="#{issue.due_date}" readonly="true" /> -->

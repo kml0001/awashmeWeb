@@ -103,7 +103,6 @@ public class IssueBean{
             
             JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_added");
             System.out.println("entro al if");
-            System.out.println(selectedIssue.getType());
         }
         else {
         	issueService.updateIssue(selectedIssue);
