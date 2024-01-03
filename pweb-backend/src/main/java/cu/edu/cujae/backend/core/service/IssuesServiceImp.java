@@ -167,16 +167,9 @@ public class IssuesServiceImp implements IssuesService{
             int rowsAffected = stmt.executeUpdate();
 
             if (rowsAffected > 0) {
-                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        return generatedKeys.getInt(1); // Devuelve el ID generado
-                    } else {
-                        throw new SQLException("No se pudo obtener el ID generado.");
-                    }
+            		return rowsAffected;
                 }
-            } else {
-                throw new SQLException("La inserción no tuvo éxito, no se creó ninguna fila.");
-            }
+            
 
         } catch (SQLException e) {
             e.printStackTrace();
