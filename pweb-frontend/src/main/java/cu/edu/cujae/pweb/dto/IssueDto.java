@@ -1,21 +1,34 @@
 package cu.edu.cujae.pweb.dto;
 
+import java.util.Date;
+
 
 public class IssueDto {
 
+
 	private int id;
 
-	private String created_on;
+	private Date created_on;
 
-	private String update_on;
+	private Date update_on;
 	
-	private String closed_on;
+	
+
+	private String assigned_to_name;
+
+	private String project_name;
+
+	private String author_name;
+	
+	
+	
+	private Date closed_on;
 	private String subject; 
 	private String description;
 	private boolean is_private;
 	private double done_ratio;
-	private String due_date;
-	private String start_date;
+	private Date due_date;
+	private Date start_date;
 	
 	private double estimated_hours;
 	private int project_id;
@@ -25,16 +38,14 @@ public class IssueDto {
 	private double hours_reported;
 	
 	
-	private String assigned_to_name;
-	private String project_name;
-	private String author_name;
+	
 	
 	public IssueDto() {
 		this.id = -1;
 	}
 
-	public IssueDto(int id, String subject, String description, boolean is_private, double done_ratio, String closed_on,
-			String due_date, String start_date, String update_on, String created_on, double estimated_hours, int project_id,
+	public IssueDto(int id, String subject, String description, boolean is_private, double done_ratio, Date closed_on,
+			Date due_date, Date start_date, Date update_on, Date created_on, double estimated_hours, int project_id,
 			int author_id, int asigned_to_id , String type ,double hours_reported ,String user_name ,String project_name ,String author_name) {
 		super();
 		this.id = id;
@@ -58,11 +69,11 @@ public class IssueDto {
 		this.author_name =  author_name;
 	}
 	
-	public String getCreated_on() {
+	public Date getCreated_on() {
 		return created_on;
 	}
 
-	public void setCreated_on(String created_on) {
+	public void setCreated_on(Date created_on) {
 		this.created_on = created_on;
 	}
 
@@ -134,35 +145,35 @@ public class IssueDto {
 		this.done_ratio = done_ratio;
 	}
 
-	public String getClosed_on() {
+	public Date getClosed_on() {
 		return closed_on;
 	}
 
-	public void setClosed_on(String closed_on) {
+	public void setClosed_on(Date closed_on) {
 		this.closed_on = closed_on;
 	}
 
-	public String getDue_date() {
+	public Date getDue_date() {
 		return due_date;
 	}
 
-	public void setDue_date(String due_date) {
+	public void setDue_date(Date due_date) {
 		this.due_date = due_date;
 	}
 
-	public String getStart_date() {
+	public Date getStart_date() {
 		return start_date;
 	}
 
-	public void setStart_date(String start_date) {
+	public void setStart_date(Date start_date) {
 		this.start_date = start_date;
 	}
 
-	public String getUpdate_on() {
+	public Date getUpdate_on() {
 		return update_on;
 	}
 
-	public void setUpdate_on(String update_on) {
+	public void setUpdate_on(Date update_on) {
 		this.update_on = update_on;
 	}
 

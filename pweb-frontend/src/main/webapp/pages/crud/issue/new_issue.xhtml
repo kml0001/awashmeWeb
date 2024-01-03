@@ -32,11 +32,29 @@
 					</h:panelGroup>
 					
 					<h:panelGroup>
+<!-- 					<div class="p-field"> -->
+<!-- 		              <p:outputLabel for="@next">Due date</p:outputLabel> -->
+<!-- 		              <p:calendar id="picckupTimeInput" required="true" -->
+<!-- 		                value="#{managePlannedServBean.selectedPickupTime_Date}" -->
+<!-- 		                pattern="yyyy/MM/dd HH:mm"  -->
+<!-- 		                showOn="button"> -->
+<!-- 		              </p:calendar> -->
+<!-- 		            </div> -->
 						<div class="p-field">
 					        <p:outputLabel for="@next" value="Due date" />
-        					<p:datePicker id="button" value="#{issueBean.selectedIssue.type}" showIcon="true" />
+        					<p:datePicker id="button" value="#{issueBean.selectedIssue.due_date}" showIcon="true" />
 							<p:message for="@previous"></p:message>
 						</div>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+						<div class="p-field">
+							<p:outputLabel for="@next" value="Done ratio" />
+			                <p:inputNumber id="done_ratio" value="#{issueBean.selectedIssue.done_ratio}" symbol="%" 
+			                                symbolPosition="s" emptyValue="zero"> 
+			                    <p:ajax update="done_ratio" />  
+			                </p:inputNumber>
+		                </div>
 					</h:panelGroup>
 					
 					<h:panelGroup>
