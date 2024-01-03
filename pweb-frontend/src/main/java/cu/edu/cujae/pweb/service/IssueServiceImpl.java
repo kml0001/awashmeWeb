@@ -55,13 +55,13 @@ public class IssueServiceImpl implements IssueService{
 
 	@Override
 	public void createIssue(IssueDto Issue) {
-		restService.POST("/api/v1/issues", Issue, String.class).getBody();
+		restService.POST("/api/v1/issues/", Issue, String.class).getBody();
 	}
 
 	@Override
 	public void updateIssue(IssueDto Issue) {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		restService.PUT("/api/v1/issues", params, Issue, String.class).getBody();
+		restService.PUT("/api/v1/issues/", params, Issue, String.class).getBody();
 	}
 
 	@Override

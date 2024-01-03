@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cu.edu.cujae.backend.core.dto.IssueDto;
 import cu.edu.cujae.backend.core.security.UserPrincipal;
 import cu.edu.cujae.backend.core.service.IssuesServiceImp;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -70,7 +71,7 @@ public class IssuesController {
 	    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reune los privilegios para modificar esta tarea");
 	    	}
 	    	
-	    	int id_created = service.updateIssue(id, updatedIssue);
+	    	int id_created = service.updateIssue(updatedIssue);
 	        if (id_created != -1) {
 	            return ResponseEntity.ok("Tarea actualizada");
 	        } else {
