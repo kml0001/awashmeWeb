@@ -1,6 +1,5 @@
 package cu.edu.cujae.pweb.dto;
 
-import java.util.Date;
 
 public class IssueDto {
 
@@ -147,8 +146,8 @@ public class IssueDto {
 		return due_date;
 	}
 
-	public void setDue_date(Date due_date) {
-		this.due_date = due_date.toString();
+	public void setDue_date(String due_date) {
+		this.due_date = due_date;
 	}
 
 	public String getStart_date() {

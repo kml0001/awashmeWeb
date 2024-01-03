@@ -24,9 +24,9 @@
 					</h:panelGroup>					
 					<h:panelGroup>
 						<div class="p-field">
-							<p:outputLabel for="@next" value="Due date"/>
-        					<p:datePicker id="due_date"
-        						value="#{issueBean.selectedIssue.due_date}" showIcon="true" />
+							<p:outputLabel for="@next">Type</p:outputLabel>
+							<p:inputText id="type" required="true"
+								value="#{issueBean.selectedIssue.type}" />
 							<p:message for="@previous"></p:message>
 						</div>
 					</h:panelGroup>
@@ -53,7 +53,6 @@
 							<p:message for="@previous"></p:message>
 						</div>
 					</h:panelGroup>
-					
 				</p:panelGrid>
 			</p:outputPanel>
 		</p:outputPanel>

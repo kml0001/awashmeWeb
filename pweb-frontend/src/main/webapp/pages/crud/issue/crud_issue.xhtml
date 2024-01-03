@@ -20,15 +20,25 @@
 							styleClass="ui-button-success" style="margin-right: .5rem">
 							<p:resetInput target=":form:manage-issue-content" />
 						</p:commandButton>
-
-					</p:toolbarGroup>
-					<p:toolbarGroup align="right">
-						<p:commandButton value="Export" icon="pi pi-upload"
-							styleClass="ui-button-help" ajax="false">
-							<p:dataExporter type="pdf" target="dt-issues"
-								fileName="issues" />
+						<p:commandButton id="delete-issues-button"
+							value="#{issueBean.deleteButtonMessage}" icon="pi pi-trash"
+							actionListener="#{issueBean.deleteSelectedIssues}"
+							styleClass="ui-button-danger"
+							disabled="#{issueBean.hasSelectedIssues()}" update="@this">
+							<p:confirm header="Confirmation"
+								message="Delete the selected issues?"
+								icon="pi pi-exclamation-triangle" />
 						</p:commandButton>
 					</p:toolbarGroup>
+					<!-- 					<p:toolbarGroup align="right"> -->
+					<!-- 						<p:fileUpload mode="simple" skinSimple="true" label="Import" -->
+					<!-- 							chooseIcon="pi pi-download" /> -->
+					<!-- 						<p:commandButton value="Export" icon="pi pi-upload" -->
+					<!-- 							styleClass="ui-button-help" ajax="false"> -->
+					<!-- 							<p:dataExporter type="pdf" target="dt-issues" -->
+					<!-- 								fileName="issues" /> -->
+					<!-- 						</p:commandButton> -->
+					<!-- 					</p:toolbarGroup> -->
 				</p:toolbar>
 
 				<p:dataTable id="dt-issues" widgetVar="dtIssues" var="issue"
@@ -46,7 +56,20 @@
 						</div>
 					</f:facet>
 
+					<p:ajax event="rowSelect" update=":form:delete-issues-button" />
+					<p:ajax event="rowUnselect" update=":form:delete-issues-button" />
+					<p:ajax event="rowSelectCheckbox"
+						update=":form:delete-issues-button" />
+					<p:ajax event="rowUnselectCheckbox"
+						update=":form:delete-issues-button" />
+					<p:ajax event="toggleSelect" update=":form:delete-issues-button" />
 
+<!-- 					<p:column selectionMode="multiple" exportable="false"></p:column> -->
+
+<!-- 					<p:column headerText="Project" sortBy="#{issue.project}" -->
+<!-- 						filterBy="#{issue.project}"> -->
+<!-- 						<h:outputText value="#{issue.project}" /> -->
+<!-- 					</p:column> -->
 					<p:column headerText="Project" sortBy="#{issue.project_name}"
 						filterBy="#{issue.project_name}">
 						<h:outputText value="#{issue.project_name}" />
