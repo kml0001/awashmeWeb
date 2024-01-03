@@ -33,6 +33,14 @@
 					
 					<h:panelGroup>
 						<div class="p-field">
+					        <p:outputLabel for="@next" value="Due date" />
+        					<p:datePicker id="button" value="#{issueBean.selectedIssue.type}" showIcon="true" />
+							<p:message for="@previous"></p:message>
+						</div>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+						<div class="p-field">
 							<p:outputLabel for="@next">Assigned to</p:outputLabel>
 							<p:selectOneMenu id="userSelected" required="true"
 								value="#{issueBean.selectedUserid}" label="Seleccione"
