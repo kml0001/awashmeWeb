@@ -21,10 +21,4 @@ public class date_string_converter {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
 }
