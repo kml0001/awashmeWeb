@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class FilterDto {
+public class ProjectFilterDto {
 	
 	private Date startDate;
     private Date endDate;
@@ -18,7 +18,7 @@ public class FilterDto {
     private Double maxCompletionRate;
     private List<Date> rangeStartDate;
     
-	public FilterDto(Date startDate, Date endDate, Integer minParticipants, Integer maxParticipants, Integer minTasks,
+	public ProjectFilterDto(Date startDate, Date endDate, Integer minParticipants, Integer maxParticipants, Integer minTasks,
 			Integer maxTasks, Integer minDelayedTasks, Integer maxDelayedTasks, Double minCompletionRate,
 			Double maxCompletionRate) {
 		super();
@@ -35,7 +35,7 @@ public class FilterDto {
 		this.rangeStartDate = new ArrayList<Date>();
 	}
 	
-	public FilterDto() {
+	public ProjectFilterDto() {
 		this.rangeStartDate = new ArrayList<Date>();
 	}
 	

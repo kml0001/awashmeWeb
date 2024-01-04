@@ -11,6 +11,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriTemplate;
 
 import cu.edu.cujae.pweb.dto.ProjectDto;
+import cu.edu.cujae.pweb.dto.ProjectFilterDto;
 import cu.edu.cujae.pweb.dto.ProjectReportDto;
 import cu.edu.cujae.pweb.utils.ApiRestMapper;
 import cu.edu.cujae.pweb.utils.RestService;
@@ -73,17 +74,16 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 	
 	@Override
-	public List<ProjectReportDto> getProjectReports(){
-		List<ProjectReportDto> ProjectList = new ArrayList<ProjectReportDto>();
-	    try {
-	    	MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		    ApiRestMapper<ProjectReportDto> apiRestMapper = new ApiRestMapper<>();
-		    String response = (String)restService.GET("/api/v1/projects/report", params, String.class).getBody();
-		    
-		    ProjectList = apiRestMapper.mapList(response, ProjectReportDto.class);
+	public List<ProjectReportDto> getProjectReports(ProjectFilterDto filter){
+		List<ProjectReportDto> projectReportList = new ArrayList<ProjectReportDto>();
+		ApiRestMapper<ProjectReportDto> apiRestMapper = new ApiRestMapper<>();
+		String response = (String)restService.POST("/api/v1/projects/report", filter, String.class).getBody();
+		try {
+			projectReportList = apiRestMapper.mapList(response, ProjectReportDto.class);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return ProjectList;
+		return projectReportList;
 	}
 }

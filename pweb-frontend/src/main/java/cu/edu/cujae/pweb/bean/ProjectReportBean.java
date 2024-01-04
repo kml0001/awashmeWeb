@@ -9,7 +9,7 @@ import javax.faces.bean.ViewScoped;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cu.edu.cujae.pweb.dto.FilterDto;
+import cu.edu.cujae.pweb.dto.ProjectFilterDto;
 import cu.edu.cujae.pweb.dto.ProjectReportDto;
 import cu.edu.cujae.pweb.service.ProjectService;
 
@@ -29,7 +29,7 @@ public class ProjectReportBean {
 	
 	private String selectedFilterName;
 	
-	private FilterDto filter;
+	private ProjectFilterDto filter;
 	
 	@Autowired
     private ProjectService projectService;
@@ -94,7 +94,7 @@ public class ProjectReportBean {
 	@PostConstruct
     public void init() {
     	projectReports = projectReports == null? projectService.getProjectReports(): projectReports;
-    	filter = new FilterDto();
+    	filter = new ProjectFilterDto();
 //    	this.filterNames.add("Start date");
 //    	this.filterNames.add("Number of members");
 //    	this.filterNames.add("Number of issues");
@@ -127,11 +127,11 @@ public class ProjectReportBean {
 		this.selectedFilterName = selectedFilterName;
 	}
 
-	public FilterDto getFilter() {
+	public ProjectFilterDto getFilter() {
 		return filter;
 	}
 
-	public void setFilter(FilterDto filter) {
+	public void setFilter(ProjectFilterDto filter) {
 		this.filter = filter;
 	}
 	
