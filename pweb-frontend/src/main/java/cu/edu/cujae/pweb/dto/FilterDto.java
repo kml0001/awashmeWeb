@@ -1,6 +1,8 @@
 package cu.edu.cujae.pweb.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class FilterDto {
 	
@@ -14,6 +16,8 @@ public class FilterDto {
     private Integer maxDelayedTasks;
     private Double minCompletionRate;
     private Double maxCompletionRate;
+    private List<Date> rangeStartDate;
+    
 	public FilterDto(Date startDate, Date endDate, Integer minParticipants, Integer maxParticipants, Integer minTasks,
 			Integer maxTasks, Integer minDelayedTasks, Integer maxDelayedTasks, Double minCompletionRate,
 			Double maxCompletionRate) {
@@ -28,10 +32,13 @@ public class FilterDto {
 		this.maxDelayedTasks = maxDelayedTasks;
 		this.minCompletionRate = minCompletionRate;
 		this.maxCompletionRate = maxCompletionRate;
+		this.rangeStartDate = new ArrayList<Date>();
 	}
+	
 	public FilterDto() {
-		
+		this.rangeStartDate = new ArrayList<Date>();
 	}
+	
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -91,6 +98,12 @@ public class FilterDto {
 	}
 	public void setMaxCompletionRate(Double maxCompletionRate) {
 		this.maxCompletionRate = maxCompletionRate;
+	}
+	public List<Date> getRangeStartDate() {
+		return rangeStartDate;
+	}
+	public void setRangeStartDate(List<Date> rangeStartDate) {
+		this.rangeStartDate = rangeStartDate;
 	}
 	
 	

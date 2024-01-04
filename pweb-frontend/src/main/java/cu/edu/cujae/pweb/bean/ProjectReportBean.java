@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cu.edu.cujae.pweb.dto.FilterDto;
 import cu.edu.cujae.pweb.dto.ProjectReportDto;
 import cu.edu.cujae.pweb.service.ProjectService;
 
@@ -27,6 +28,8 @@ public class ProjectReportBean {
 	private List<String> selectedFilterNames;
 	
 	private String selectedFilterName;
+	
+	private FilterDto filter;
 	
 	@Autowired
     private ProjectService projectService;
@@ -91,11 +94,12 @@ public class ProjectReportBean {
 	@PostConstruct
     public void init() {
     	projectReports = projectReports == null? projectService.getProjectReports(): projectReports;
-    	this.filterNames.add("Start date");
-    	this.filterNames.add("Number of members");
-    	this.filterNames.add("Number of issues");
-    	this.filterNames.add("Number of delayed tasks");
-    	this.filterNames.add("Done ratio");
+    	filter = new FilterDto();
+//    	this.filterNames.add("Start date");
+//    	this.filterNames.add("Number of members");
+//    	this.filterNames.add("Number of issues");
+//    	this.filterNames.add("Number of delayed tasks");
+//    	this.filterNames.add("Done ratio");
     	System.out.println("ssssssssss" + projectReports);
     }
 
@@ -121,5 +125,17 @@ public class ProjectReportBean {
 
 	public void setSelectedFilterName(String selectedFilterName) {
 		this.selectedFilterName = selectedFilterName;
+	}
+
+	public FilterDto getFilter() {
+		return filter;
+	}
+
+	public void setFilter(FilterDto filter) {
+		this.filter = filter;
+	}
+	
+	public void applyFilters() {
+		
 	}
 }

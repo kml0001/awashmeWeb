@@ -6,19 +6,51 @@
 
 <ui:composition template="/pages/template/layout.xhtml">
 	<ui:define name="content">
+	    <h:form>
+	        <p:panelGrid columns="2">
+		        <h:outputLabel for="rangeStartDate" value="Range start date:" />
+		        <p:datePicker id="rangeStartDate" selectionMode="range" 
+		        	value="#{projectReportBean.filter.rangeStartDate}" readonlyInput="true" />
+		        
+		        <p:outputLabel for="minParticipants" value="Min participants"/>	
+                <p:inputNumber id="minParticipants" value="#{projectReportBean.filter.minParticipants}"
+                	minValue="0" maxValue="#{projectReportBean.filter.maxParticipants}" decimalPlaces="0" />
+                
+    		    <p:outputLabel for="maxParticipants" value="Max participants"/>	
+                <p:inputNumber id="maxParticipants" value="#{projectReportBean.filter.maxParticipants}"
+                	minValue="#{projectReportBean.filter.minParticipants}" maxValue="1000" decimalPlaces="0" />	
 	
-        <p:selectManyMenu id="filters" value="#{projectReportBean.selectedFilterNames}"
-                          var="fn" showCheckbox="true">
-            <f:selectItems value="#{projectReportBean.filterNames}" var="filterName" itemLabel="#{filterName}" itemValue="#{theme}" />
+	            <!-- Otros campos y controles aquí -->
+
+	            
+	            
+<!--                 <h:outputText value="Range start date:" /> -->
+<!-- 				<ui:repeat var="date" value="#{projectReportBean.filter.rangeStartDate}"  -->
+<!-- 					varStatus="status" size="#{filter.rangeStartDate.size()}"> -->
+<!-- 				    #{status.first ? '' : '-'} -->
+<!-- 				    <h:outputText value="#{date}"> -->
+<!-- 				        <f:convertDateTime pattern="dd/MM/yyyy" /> -->
+<!-- 				    </h:outputText>	     -->
+<!-- 		         </ui:repeat>  -->
+		         
+		         
+				<p:commandButton value="Apply" action="#{projectReportBean.applyFilters}" />
+	        </p:panelGrid>
+	        
+	    </h:form>
+	
+<!--         <p:selectManyMenu id="filters" value="#{projectReportBean.selectedFilterNames}" -->
+<!--                           var="fn" showCheckbox="true"> -->
+<!--             <f:selectItems value="#{projectReportBean.filterNames}" var="filterName" itemLabel="#{filterName}" itemValue="#{theme}" /> -->
  
-            <p:column>
-                <h:graphicImage name="showcase/images/themeswitcher/themeswitcher-#{t.name}.png" alt="#{t.name}" styleClass="ui-theme" />
-            </p:column>
+<!--             <p:column> -->
+<!--                 <h:graphicImage name="showcase/images/themeswitcher/themeswitcher-#{t.name}.png" alt="#{t.name}" styleClass="ui-theme" /> -->
+<!--             </p:column> -->
  
-            <p:column>
-                <h:outputText value="#{t.displayName}" />
-            </p:column>
-        </p:selectManyMenu>
+<!--             <p:column> -->
+<!--                 <h:outputText value="#{t.displayName}" /> -->
+<!--             </p:column> -->
+<!--         </p:selectManyMenu> -->
         
 		<p:accordionPanel value="#{projectReportBean.projectReports}" var="projectReport">
 		    <p:tab title="#{projectReport.name}">
