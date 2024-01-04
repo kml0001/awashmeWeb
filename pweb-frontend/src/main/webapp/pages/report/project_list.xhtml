@@ -33,7 +33,9 @@
 <!-- 				    </h:outputText>	     -->
 <!-- 		         </ui:repeat>  -->
 		         
-		         
+       			<p:commandButton value="Apply" icon="pi pi-check"
+					action="#{projectReportBean.applyFilters}"
+					update="projectReport-accordion" process="projectReport-accordion" />
 				<p:commandButton value="Apply" action="#{projectReportBean.applyFilters}" />
 	        </p:panelGrid>
 	        
@@ -52,7 +54,7 @@
 <!--             </p:column> -->
 <!--         </p:selectManyMenu> -->
         
-		<p:accordionPanel value="#{projectReportBean.projectReports}" var="projectReport">
+		<p:accordionPanel id="projectReport-accordion" value="#{projectReportBean.projectReports}" var="projectReport">
 		    <p:tab title="#{projectReport.name}">
 		        <p:dataTable var="projectReport2" value="#{projectReportBean.projectReports}">
 		            <p:column headerText="Number of members">

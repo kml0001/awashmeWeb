@@ -138,5 +138,7 @@ public class ProjectReportBean {
 	
 	public void applyFilters() {
         this.projectReports = projectService.getProjectReports(filter);
+        System.out.println(projectReports.size());
+        System.out.println("asd");
 	}
 }
