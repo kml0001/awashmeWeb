@@ -93,8 +93,9 @@ public class ProjectReportBean {
 
 	@PostConstruct
     public void init() {
-    	projectReports = projectReports == null? projectService.getProjectReports(): projectReports;
     	filter = new ProjectFilterDto();
+    	projectReports = projectReports == null? projectService.getProjectReports(filter): projectReports;
+
 //    	this.filterNames.add("Start date");
 //    	this.filterNames.add("Number of members");
 //    	this.filterNames.add("Number of issues");
@@ -136,6 +137,6 @@ public class ProjectReportBean {
 	}
 	
 	public void applyFilters() {
-		
+        this.projectReports = projectService.getProjectReports(filter);
 	}
 }

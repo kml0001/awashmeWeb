@@ -13,4 +13,5 @@ public interface ProjectService {
 	void updateProject(ProjectDto Project);
 	void deleteProject(String id);
 	List<ProjectReportDto> getProjectReports(ProjectFilterDto filter);
+//	List<ProjectReportDto> getProjectReports();
 }
