@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import cu.edu.cujae.backend.core.dto.UserDto;
-
+import cu.edu.cujae.backend.core.dto.UserFilterDto;
+import cu.edu.cujae.backend.core.query.dto.UserReportDto;
+import cu.edu.cujae.backend.core.service.QueryImplement;
 import cu.edu.cujae.backend.service.UserService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -31,6 +33,18 @@ public class UsersController {
         List<UserDto> users = service.listUsers();
         return ResponseEntity.ok(users);
     }
+    
+    @GetMapping("/report")
+    public ResponseEntity<List<UserReportDto>> getUsersReport(@RequestBody UserFilterDto filter) throws SQLException {
+        
+        List<UserReportDto> list = QueryImplement.getUsersReports(filter);
+        return ResponseEntity.ok(list);
+    }
+    
+    
+    
+    
+    
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUserById(@PathVariable int id) throws SQLException {
         

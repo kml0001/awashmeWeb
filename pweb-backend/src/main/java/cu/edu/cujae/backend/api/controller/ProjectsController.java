@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cu.edu.cujae.backend.core.dto.FilterDto;
+import cu.edu.cujae.backend.core.dto.ProjectFilterDto;
 import cu.edu.cujae.backend.core.dto.ProjectDto;
 import cu.edu.cujae.backend.core.query.dto.ProjectReportDto;
 import cu.edu.cujae.backend.core.service.ProjectServiceImp;
-import cu.edu.cujae.backend.core.util.QueryImplement;
+import cu.edu.cujae.backend.core.service.QueryImplement;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 
@@ -36,8 +36,8 @@ public class ProjectsController {
     
     
 	
-	@GetMapping("/report")
-    public ResponseEntity<List<ProjectReportDto>> getProjectsReport(@RequestBody FilterDto filter) {
+	@PostMapping("/report")
+    public ResponseEntity<List<ProjectReportDto>> getProjectsReport(@RequestBody ProjectFilterDto filter) {
         List <ProjectReportDto> temp = QueryImplement.getProjectReports(filter);
         return ResponseEntity.ok(temp);
     }
@@ -68,10 +68,10 @@ public class ProjectsController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> updateProject(@PathVariable int id, @RequestBody ProjectDto updatedProject) {
+    @PutMapping("/")
+    public ResponseEntity<Object> updateProject(@RequestBody ProjectDto updatedProject) {
       
-        int id_updated = service.updateProject(id, updatedProject);
+        int id_updated = service.updateProject(updatedProject);
         if (id_updated != -1) {
             return ResponseEntity.ok("Poryecto actualizado correctamente");
         } else {

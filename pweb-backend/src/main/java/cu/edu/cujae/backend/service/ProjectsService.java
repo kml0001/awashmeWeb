@@ -12,7 +12,7 @@ public interface ProjectsService {
 
     int createProject(ProjectDto project);
 
-    int updateProject(int id, ProjectDto updatedProject);
+    int updateProject(ProjectDto updatedProject);
 
     int deleteProject(int id);
 }

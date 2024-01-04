@@ -2,19 +2,27 @@ package cu.edu.cujae.backend.core.dto;
 
 import java.util.Date;
 
-public class FilterDto {
+public class ProjectFilterDto {
 	
 	private Date startDate;
     private Date endDate;
+    
     private Integer minParticipants;
     private Integer maxParticipants;
+    
     private Integer minTasks;
     private Integer maxTasks;
+    
     private Integer minDelayedTasks;
     private Integer maxDelayedTasks;
+    
     private Double minCompletionRate;
     private Double maxCompletionRate;
-	public FilterDto(Date startDate, Date endDate, Integer minParticipants, Integer maxParticipants, Integer minTasks,
+    
+    
+    
+    
+	public ProjectFilterDto(Date startDate, Date endDate, Integer minParticipants, Integer maxParticipants, Integer minTasks,
 			Integer maxTasks, Integer minDelayedTasks, Integer maxDelayedTasks, Double minCompletionRate,
 			Double maxCompletionRate) {
 		super();
@@ -29,7 +37,7 @@ public class FilterDto {
 		this.minCompletionRate = minCompletionRate;
 		this.maxCompletionRate = maxCompletionRate;
 	}
-	public FilterDto() {
+	public ProjectFilterDto() {
 		
 	}
 	public Date getStartDate() {

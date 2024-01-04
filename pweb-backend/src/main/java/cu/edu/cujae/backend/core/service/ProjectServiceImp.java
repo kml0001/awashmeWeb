@@ -92,7 +92,7 @@ public class ProjectServiceImp implements ProjectsService {
 	}
 
 	@Override
-	public int updateProject(int id ,ProjectDto project) {
+	public int updateProject(ProjectDto project) {
 	    String updateSQL = "UPDATE project SET name=?, description=?, status=?, is_public=?, project_manager=? WHERE id=?";
 	    
 	    try (Connection conn = ConnectionImp.getConnection();
@@ -103,7 +103,7 @@ public class ProjectServiceImp implements ProjectsService {
 	        stmt.setString(3, project.getStatus());
 	        stmt.setBoolean(4, project.getIs_public());
 	        stmt.setInt(5, project.getProject_manager());
-	        stmt.setInt(6, id);
+	        stmt.setInt(6, project.getId());
 
 	        try (ResultSet generatedKeys = stmt.executeQuery()) {
 	            if (generatedKeys.next()) {
