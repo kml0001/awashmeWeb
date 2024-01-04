@@ -9,7 +9,6 @@ import javax.faces.bean.ViewScoped;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cu.edu.cujae.pweb.dto.ProjectDto;
 import cu.edu.cujae.pweb.dto.ProjectReportDto;
 import cu.edu.cujae.pweb.service.ProjectService;
 
@@ -19,9 +18,15 @@ import cu.edu.cujae.pweb.service.ProjectService;
 public class ProjectReportBean {
 	private List<ProjectReportDto> projectReports;
 	
-	private ProjectDto selectedProjectReport;
+	private ProjectReportDto selectedProjectReport;
 	
 	private List<ProjectReportDto> selectedProjectReports;
+	
+	private List<String> filterNames;
+	
+	private List<String> selectedFilterNames;
+	
+	private String selectedFilterName;
 	
 	@Autowired
     private ProjectService projectService;
@@ -35,12 +40,44 @@ public class ProjectReportBean {
 		this.projectReports = projects;
 	}
 
-	public ProjectDto getSelectedProject() {
+	public ProjectReportDto getSelectedProject() {
 		return selectedProjectReport;
 	}
 
-	public void setSelectedProject(ProjectDto selectedProject) {
+	public void setSelectedProject(ProjectReportDto selectedProject) {
 		this.selectedProjectReport = selectedProject;
+	}
+
+	public List<ProjectReportDto> getProjectReports() {
+		return projectReports;
+	}
+
+	public void setProjectReports(List<ProjectReportDto> projectReports) {
+		this.projectReports = projectReports;
+	}
+
+	public ProjectReportDto getSelectedProjectReport() {
+		return selectedProjectReport;
+	}
+
+	public void setSelectedProjectReport(ProjectReportDto selectedProjectReport) {
+		this.selectedProjectReport = selectedProjectReport;
+	}
+
+	public List<ProjectReportDto> getSelectedProjectReports() {
+		return selectedProjectReports;
+	}
+
+	public void setSelectedProjectReports(List<ProjectReportDto> selectedProjectReports) {
+		this.selectedProjectReports = selectedProjectReports;
+	}
+
+	public ProjectService getProjectService() {
+		return projectService;
+	}
+
+	public void setProjectService(ProjectService projectService) {
+		this.projectService = projectService;
 	}
 
 	public List<ProjectReportDto> getSelectedProjects() {
@@ -54,6 +91,35 @@ public class ProjectReportBean {
 	@PostConstruct
     public void init() {
     	projectReports = projectReports == null? projectService.getProjectReports(): projectReports;
-    	System.out.println(projectReports);
+    	this.filterNames.add("Start date");
+    	this.filterNames.add("Number of members");
+    	this.filterNames.add("Number of issues");
+    	this.filterNames.add("Number of delayed tasks");
+    	this.filterNames.add("Done ratio");
+    	System.out.println("ssssssssss" + projectReports);
     }
+
+	public List<String> getFilterNames() {
+		return filterNames;
+	}
+
+	public void setFilterNames(List<String> filterNames) {
+		this.filterNames = filterNames;
+	}
+
+	public List<String> getSelectedFilterNames() {
+		return selectedFilterNames;
+	}
+
+	public void setSelectedFilterNames(List<String> selectedFilterNames) {
+		this.selectedFilterNames = selectedFilterNames;
+	}
+
+	public String getSelectedFilterName() {
+		return selectedFilterName;
+	}
+
+	public void setSelectedFilterName(String selectedFilterName) {
+		this.selectedFilterName = selectedFilterName;
+	}
 }
