@@ -9,6 +9,12 @@ public class LoginRequestDto {
 	@NonNull
     private String password;
 
+	public LoginRequestDto(String username, String password) {
+		super();
+		this.username = username;
+		this.password = password;
+	}
+
 	public LoginRequestDto() {
 		super();
 		// TODO Auto-generated constructor stub

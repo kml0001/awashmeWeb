@@ -14,6 +14,14 @@ public class LoginRequestDto {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+	public LoginRequestDto(String username, String password) {
+		super();
+		this.username = username;
+		this.password = password;
+	}
+
+
 	public String getUsername() {
 		return username;
 	}

@@ -1,18 +1,34 @@
 package cu.edu.cujae.pweb.bean;
 
-import java.io.IOException;
-
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import cu.edu.cujae.pweb.dto.UserAuthenticatedDto;
+import cu.edu.cujae.pweb.service.AuthService;
+import cu.edu.cujae.pweb.utils.JsfUtils;
+import cu.edu.pweb.security.UserPrincipal;
+
+@Component
 @ManagedBean
+@ViewScoped
 public class LoginRequestBean {
 	
 	private String username;
 	private String password;
-	private String email;
-	
+
+	 @Autowired
+	private AuthService authService;
+	 
+	 
 	public LoginRequestBean() {
 		// TODO Auto-generated constructor stub
 	}
@@ -30,24 +46,20 @@ public class LoginRequestBean {
 	}
 	
 	public String login() {
-		if(username.equalsIgnoreCase("admin") && password.equals("admin")) {
-			try {
-				getFacesContext().getExternalContext().redirect(getRequest().getContextPath() +
-					    "/pages/home/home.jsf");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			
+			UserAuthenticatedDto userAuthenticated = authService.login(username, password);
+			
+			UserDetails userDetails = UserPrincipal.create(userAuthenticated);
+			
+			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+	        SecurityContextHolder.getContext().setAuthentication(authentication);
+			
+		} catch (Exception e) {
+	        JsfUtils.addMessageFromBundle("securityMessages", FacesMessage.SEVERITY_INFO, "message_invalid_credentials");
+	        return null;
 		}
-		return  null;
-	}
-	
-	
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
+		return "login";
 	}
 	protected HttpServletRequest getRequest() {
 	    return (HttpServletRequest) getFacesContext().getExternalContext().getRequest();
