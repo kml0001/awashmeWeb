@@ -62,14 +62,14 @@ public class SuggestionController {
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateSuggestion(@PathVariable int id, @RequestBody SuggestionDto updatedSuggestion) {
         
-    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    	UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
-    	
-    	SuggestionDto suggestion = service.getSuggestionById(id);
-    	
-    	if(!principal.getRoleList().contains("Admin") &&  principal.getId().equals(String.valueOf(suggestion.getAuthor_id())) ) {
-    		 return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reune los privilegios para realizar la operacion .Solo puede editar sus sugerencias");
-    	}
+//    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//    	UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+//    	
+//    	SuggestionDto suggestion = service.getSuggestionById(id);
+//    	
+//    	if(!principal.getRoleList().contains("Admin") &&  principal.getId().equals(String.valueOf(suggestion.getAuthor_id())) ) {
+//    		 return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reune los privilegios para realizar la operacion .Solo puede editar sus sugerencias");
+//    	}
     	
     	
         int id_updated = service.updateSuggestion(id, updatedSuggestion);
@@ -84,14 +84,14 @@ public class SuggestionController {
     public ResponseEntity<Object> deleteSuggestion(@PathVariable int id) {
      
     	
-    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    	UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
-    	
-    	SuggestionDto suggestion = service.getSuggestionById(id);
-    	
-    	if(!principal.getRoleList().contains("Admin") &&  principal.getId().equals(String.valueOf(suggestion.getAuthor_id())) ) {
-    		
-    	}
+//    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//    	UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+//    	
+//    	SuggestionDto suggestion = service.getSuggestionById(id);
+//    	
+//    	if(!principal.getRoleList().contains("Admin") &&  principal.getId().equals(String.valueOf(suggestion.getAuthor_id())) ) {
+//    		
+//    	}
     	
     	int delete_id = service.deleteSuggestion(id);
     	if(delete_id != -1)

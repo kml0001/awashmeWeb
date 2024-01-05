@@ -1,8 +1,6 @@
 package cu.edu.cujae.pweb.bean;
 
 import java.util.List;
-import java.util.UUID;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -83,21 +81,21 @@ public class SuggestionBean{
     }
 
     public void saveSuggestion() {
-        if (this.selectedSuggestion.getId() == null) {
-            this.selectedSuggestion.setId(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9));
-            this.suggestions.add(this.selectedSuggestion);
-            suggestionService.createSuggestion(selectedSuggestion);
-            suggestions = suggestionService.getSuggestions();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("SuggestionDto Added"));
-        }
-        else {
-        	suggestionService.updateSuggestion(selectedSuggestion);
-        	suggestions = suggestionService.getSuggestions();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("SuggestionDto Updated"));
-        }
-
-        PrimeFaces.current().executeScript("PF('manageSuggestionDtoDialog').hide()");
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-suggestions");
+//        if (this.selectedSuggestion.getId() == null) {
+//            this.selectedSuggestion.setId(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9));
+//            this.suggestions.add(this.selectedSuggestion);
+//            suggestionService.createSuggestion(selectedSuggestion);
+//            suggestions = suggestionService.getSuggestions();
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("SuggestionDto Added"));
+//        }
+//        else {
+//        	suggestionService.updateSuggestion(selectedSuggestion);
+//        	suggestions = suggestionService.getSuggestions();
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("SuggestionDto Updated"));
+//        }
+//
+//        PrimeFaces.current().executeScript("PF('manageSuggestionDtoDialog').hide()");
+//        PrimeFaces.current().ajax().update("form:messages", "form:dt-suggestions");
     }
 
     public void deleteSuggestionDto() {

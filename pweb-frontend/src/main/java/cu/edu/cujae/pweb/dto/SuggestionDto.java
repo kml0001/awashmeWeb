@@ -1,79 +1,66 @@
 package cu.edu.cujae.pweb.dto;
 
-import java.util.List;
-
 public class SuggestionDto {
-
-	private	String id;
-	private String name; 
-	private String description;
-	private List<UserDto> members;
+	private int id;
+	private String created_on;
 	
-	
+	private int author_id;
+	private String subject;
+	private String text;
+	private String urgency;
+	private String importance;
+	public SuggestionDto(int id, int author_id, String description, String created_on, String urgency, String importance , String subject) {
+		super();
+		this.id = id;
+		this.author_id = author_id;
+		this.text = description;
+		this.created_on = created_on;
+		this.urgency = urgency;
+		this.importance = importance;
+	}
 	public SuggestionDto() {
-		super();
 	}
-	
-	
-	
-	public SuggestionDto(String name, String description, List<UserDto> members) {
-		super();
-		this.id = null;
-		this.name = name;
-		this.description = description;
-		this.members = members;
-	}
-
-
-
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-
-
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
-
-
-
-	public String getName() {
-		return name;
+	public int getAuthor_id() {
+		return author_id;
 	}
-
-
-
-	public void setName(String name) {
-		this.name = name;
+	public void setAuthor_id(int author_id) {
+		this.author_id = author_id;
 	}
-
-
-
-	public String getDescription() {
-		return description;
+	public String getCreated_on() {
+		return created_on;
 	}
-
-
-
-	public void setDescription(String description) {
-		this.description = description;
+	public void setCreated_on(String created_on) {
+		this.created_on = created_on;
 	}
-
-
-
-	public List<UserDto> getMembers() {
-		return members;
+	public String getUrgency() {
+		return urgency;
 	}
-
-
-
-	public void setMembers(List<UserDto> members) {
-		this.members = members;
+	public void setUrgency(String urgency) {
+		this.urgency = urgency;
 	}
-
-
-	
-	
-	
+	public String getImportance() {
+		return importance;
+	}
+	public void setImportance(String importance) {
+		this.importance = importance;
+	}
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	public String getText() {
+		return text;
+	}
+	public void setText(String text) {
+		this.text = text;
+	}
 	
 }
