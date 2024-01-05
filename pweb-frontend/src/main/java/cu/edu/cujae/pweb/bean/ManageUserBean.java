@@ -50,6 +50,7 @@ public class ManageUserBean {
 	@PostConstruct
     public void init() {
 	    users = users == null ? userService.getUsers() : users;
+	    System.out.println("Inicializo users: " + users);
 		roles = roleService.getRoles();
     }
 	
@@ -61,7 +62,7 @@ public class ManageUserBean {
 	
 	//Se ejecuta al dar clic en el button con el lapicito
 	public void openForEdit() {
-		List<RoleDto> roles = this.selectedUser.getRoles();
+		List<RoleDto> roles = this.selectedUser.getRoleList();
 		this.selectedRoles = roles.stream().map(r -> r.getId()).toArray(Long[]::new);
 	}
 	

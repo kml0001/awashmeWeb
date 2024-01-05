@@ -57,12 +57,13 @@ public class UserDto {
 	public void setPasswd(String passwd) {
 		this.passwd = passwd;
 	}
-	public List<RoleDto> getRoles() {
+	public List<RoleDto> getRoleList() {
 		return roleList;
 	}
-	public void setRoles(List<RoleDto> RoleList) {
-		this.roleList = RoleList;
+	public void setRoleList(List<RoleDto> roleList) {
+		this.roleList = roleList;
 	}
+
 
 	
 }

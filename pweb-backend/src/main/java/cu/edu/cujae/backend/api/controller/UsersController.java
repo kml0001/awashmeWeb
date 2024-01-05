@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import cu.edu.cujae.backend.core.dto.UserDto;
@@ -17,7 +18,7 @@ import cu.edu.cujae.backend.core.dto.UserFilterDto;
 import cu.edu.cujae.backend.core.query.dto.UserReportDto;
 import cu.edu.cujae.backend.core.service.QueryImplement;
 import cu.edu.cujae.backend.service.UserService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 
 @RestController
 @RequestMapping("/api/v1/users")

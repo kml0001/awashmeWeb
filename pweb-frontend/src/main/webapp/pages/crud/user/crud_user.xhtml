@@ -1,79 +1,73 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:p="http://primefaces.org/ui" template="/pages/template/layout.xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<ui:define name="layout">
-		<h:form id="form">
-			<div class="card crud-demo">
+<ui:composition template="/pages/template/layout.xhtml">
+	<ui:define name="content">
+<h:form id="form">
+		<div class="card crud-demo">
+			
+				<p:growl id="messages" showDetail="true" />
+
 				<p:toolbar>
 					<p:toolbarGroup>
-					    <!-- 
-					    * La propiedad action y actionListener de los botones apunta a un method en el bean de jsf, ese method
-					      por lo general es de tipo void porque se está trabajando con AJAX.
-					    * La propiedad update permite refrescar componentes luego de ejecutarse el code definido en el action. Si son varios
-					      componente poner los Ids separados por coma.
-					    * La propiedad onComplete ejecuta un code en Javascript una vez finalizada el action del button. También es posible ejecutar
-					      code en Javascript desde el bean de Jsf
-					    -->
 						<p:commandButton value="New" icon="pi pi-plus"
 							actionListener="#{manageUserBean.openNew}"
 							update=":form:manage-user-content"
 							oncomplete="PF('manageUserDialog').show()"
-							styleClass="ui-button-success" style="margin-right: .5rem">
+							styleClass="ui-button-success" style="margin-right: .5rem"
+							process="@this">
 							<p:resetInput target=":form:manage-user-content" />
 						</p:commandButton>
+
 					</p:toolbarGroup>
 					<p:toolbarGroup align="right">
-					    <!-- Este es un button que tiene como objetivo exportar el contenido de la tabla que apunta a propiedad target
-					         del componente dataExporter. En este caso dt-users es el identificador del componente datatable -->
+<!-- 						<p:fileUpload mode="simple" skinSimple="true" label="Import" -->
+<!-- 							chooseIcon="pi pi-download" /> -->
 						<p:commandButton value="Export" icon="pi pi-upload"
 							styleClass="ui-button-help" ajax="false">
-							<p:dataExporter type="pdf" target="dt-users" fileName="users" />
+							<p:dataExporter type="pdf" target="dt-users"
+								fileName="users" />
 						</p:commandButton>
 					</p:toolbarGroup>
 				</p:toolbar>
-                
-                <!-- Componente usado para mostrar tablas con datos y ejecutar operaciones
-                	* La propiedad value: apunta a una lista de objetos de tipo UserDto que está en el bean de jsf
-                	* La propiedad var: es una instancia de esta lista para poder extaer los objetos, es como iterador
-                	  que luego permite poder decir user.<propiedad del objeto>.
-                	* La propiedad paginator: define si se quiere paginar o no y es posible definir la position del mismo usando
-                	  la propiedad pagePosition.
-                    * La propiedad rows: define la cantidad de filas
-                	* El facet header define un encabezado y agrega un button para filtrar. Por defecto esto lo hace el solo, si quieren algo
-                	  con mayor detalle ver el showcase.  
-                 -->
+
 				<p:dataTable id="dt-users" widgetVar="dtUsers" var="user"
-					value="#{manageUserBean.users}" reflow="true" paginator="true"
-					rows="10" paginatorPosition="bottom">
+					value="#{manageUserBean.users}" reflow="true" styleClass="users-table"
+					selection="#{manageUserBean.selectedUser}" rowKey="#{user.id}"
+					paginator="true" rows="10" rowSelectMode="add"
+					paginatorPosition="bottom">
 					<f:facet name="header">
-						<div class="products-table-header">
+						<div class="users-table-header">
 							<span style="font-weight: bold">USERS</span> <span
 								class="filter-container ui-input-icon-left"> <i
 								class="pi pi-search"></i> <p:inputText id="globalFilter"
-									onkeyup="PF('dtUsers').filter()" placeholder="Buscar" />
+									onkeyup="PF('dtUsers').filter()" placeholder="Search" />
 							</span>
-
 						</div>
 					</f:facet>
-					
 
-					<p:column headerText="User" sortBy="#{user.username}" filterBy="#{user.username}">
+					<p:column headerText="User name" sortBy="#{user.username}" filterBy="#{user.username}">
 						<h:outputText value="#{user.username}" />
 					</p:column>
-					<p:column headerText="ID" sortBy="#{user.identification}"
-						filterBy="#{user.identification}">
-						<h:outputText value="#{user.identification}" />
+					
+					<p:column headerText="Full name" sortBy="#{user.fullname}" filterBy="#{user.fullname}">
+						<h:outputText value="#{user.fullname}" />
 					</p:column>
-					<p:column headerText="Name" sortBy="#{user.fullName}">
-						<h:outputText value="#{user.fullName}" />
+										
+					<p:column headerText="Email" sortBy="#{user.mail}"
+						filterBy="#{user.mail}">
+						<h:outputText value="#{user.mail}" />
 					</p:column>
-					<p:column headerText="Email" sortBy="#{user.email}"
-						filterBy="#{user.email}">
-						<h:outputText value="#{user.email}" />
+
+					<p:column headerText="Roles" sortBy="#{user.roleList}"
+						filterBy="#{user.roleList}">
+						<p:orderList value="#{user.roleList}" var="role"
+							controlsLocation="none" itemLabel="#{role.roleName}" itemValue="#{role.id}" />
 					</p:column>
+
 					<p:column exportable="false">
 						<p:commandButton icon="pi pi-pencil" action="#{manageUserBean.openForEdit}"
 							update=":form:manage-user-content"
@@ -89,12 +83,11 @@
 							action="#{manageUserBean.deleteUser}" >
 							<f:setPropertyActionListener value="#{user}"
 								target="#{manageUserBean.selectedUser}" />
-							<p:confirm header="Confirmar" message="Está seguro de eliminar este usuario?" icon="pi pi-exclamation-triangle"/>
+							<p:confirm header="Confirm" message="Está seguro de eliminar este usuario?" icon="pi pi-exclamation-triangle"/>
 						</p:commandButton>
 					</p:column>
 
 				</p:dataTable>
-
 				<!-- ui:include es una etiqueta de facelet que permite incluir pages y de esta forma el code no se carga tanto -->
 				<ui:include src="new_user.xhtml"></ui:include>
 
@@ -107,7 +100,8 @@
 						styleClass="ui-confirmdialog-no ui-button-secondary"
 						icon="pi pi-times" />
 				</p:confirmDialog>
-			</div>
+		</div>
 		</h:form>
 	</ui:define>
 </ui:composition>
+</html>
