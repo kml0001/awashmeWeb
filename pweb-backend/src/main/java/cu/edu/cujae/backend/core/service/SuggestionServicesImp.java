@@ -62,16 +62,16 @@ public class SuggestionServicesImp implements SuggestionService{
 
 	@Override
 	public int createSuggestion(SuggestionDto suggestion) {
-	    String insertSQL = "INSERT INTO suggestion (author_id, description, urgency, importance ,project_id) VALUES (?, ?,?, ?,?) RETURNING id";
+	    String insertSQL = "INSERT INTO suggestion (author_id, text, urgency, importance ,subject) VALUES (?, ?,?, ?,?) RETURNING id";
 
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 
 	        stmt.setInt(1, suggestion.getAuthor_id());
-	        stmt.setString(2, suggestion.getDescription());
+	        stmt.setString(2, suggestion.getText());
 	        stmt.setString(3, suggestion.getUrgency());
 	        stmt.setString(4, suggestion.getImportance());
-	        stmt.setInt(5, suggestion.getProject_id());
+	        stmt.setString(5, suggestion.getSubject());
 	        try (ResultSet generatedKeys = stmt.executeQuery()) {
 	            if (generatedKeys.next()) {
 	                return generatedKeys.getInt("id");
@@ -85,23 +85,23 @@ public class SuggestionServicesImp implements SuggestionService{
 	        return -1; // Retorna un valor negativo para indicar un error
 	    }
 	}
-
+	
 	@Override
 	public int updateSuggestion(int id, SuggestionDto updatedSuggestion) {
-	    String updateSQL = "UPDATE suggestion SET author_id=?, description=?,urgency=?, importance=?, project_id =? WHERE id=?";
-
+	    String updateSQL = "UPDATE suggestion SET author_id=?, text=?,urgency=?, importance=?, subject =? WHERE id=?";
+	    
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
-
+	    	
 	        stmt.setInt(1, updatedSuggestion.getAuthor_id());
-	        stmt.setString(2, updatedSuggestion.getDescription());
+	        stmt.setString(2, updatedSuggestion.getText());
 	        stmt.setString(3, updatedSuggestion.getUrgency());
 	        stmt.setString(4, updatedSuggestion.getImportance());
-	        stmt.setInt(5, updatedSuggestion.getProject_id());
+	        stmt.setString(5, updatedSuggestion.getSubject());
 	        stmt.setInt(6, id);
 
 	        int rowsAffected = stmt.executeUpdate();
-
+	        
 	        return rowsAffected > 0 ? id : -1;
 
 	    } catch (SQLException e) {
@@ -135,11 +135,11 @@ public class SuggestionServicesImp implements SuggestionService{
 	        SuggestionDto suggestion = new SuggestionDto();
 	        suggestion.setId(resultSet.getInt("id"));
 	        suggestion.setAuthor_id(resultSet.getInt("author_id"));
-	        suggestion.setDescription(resultSet.getString("description"));
+	        suggestion.setText(resultSet.getString("text"));
 	        suggestion.setCreated_on(resultSet.getString("created_on"));
 	        suggestion.setUrgency(resultSet.getString("urgency"));
 	        suggestion.setImportance(resultSet.getString("importance"));
-	        suggestion.setProject_id(resultSet.getInt("project_id"));
+	        suggestion.serSubject(resultSet.getString("subject"));
 	        return suggestion;
 	    }
 	

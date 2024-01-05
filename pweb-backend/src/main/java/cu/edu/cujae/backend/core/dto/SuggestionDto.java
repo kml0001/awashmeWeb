@@ -9,7 +9,7 @@ public class SuggestionDto {
 	private String created_on;
 	
 	private int author_id;
-	private String subjet;
+	private String subject;
 	private String text;
 	private String urgency;
 	private String importance;
@@ -21,6 +21,7 @@ public class SuggestionDto {
 		this.created_on = created_on;
 		this.urgency = urgency;
 		this.importance = importance;
+		this.subject = subject;
 	}
 	public SuggestionDto() {
 	}
@@ -35,6 +36,12 @@ public class SuggestionDto {
 	}
 	public void setAuthor_id(int author_id) {
 		this.author_id = author_id;
+	}
+	public String getText() {
+		return text;
+	}
+	public void setText(String description) {
+		this.text = description;
 	}
 	public String getCreated_on() {
 		return created_on;
@@ -54,17 +61,12 @@ public class SuggestionDto {
 	public void setImportance(String importance) {
 		this.importance = importance;
 	}
-	public String getSubjet() {
-		return subjet;
-	}
-	public void setSubjet(String subjet) {
-		this.subjet = subjet;
-	}
-	public String getText() {
-		return text;
-	}
-	public void setText(String text) {
-		this.text = text;
+	
+	public String getSubject() {
+		return this.subject;
 	}
 	
+	public void serSubject(String subject) {
+		this.subject = subject;
+	}
 }
