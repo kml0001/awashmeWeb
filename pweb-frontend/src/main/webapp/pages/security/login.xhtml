@@ -9,7 +9,8 @@
     </h:head>
 
     <h:body>
-	    <h:form>
+	    <h:form prependId="false">
+	        <p:growl for="securityMessages"  globalOnly="true" showDetail="true" showSummary="false" />	
 	    	<p:spacer height="50"></p:spacer>
 	    	<div class="p-grid p-ai-center vertical-container">
 			    <div class="p-col">
@@ -20,17 +21,16 @@
 					    <f:facet name="title">
 					        Login 
 					    </f:facet>
-					    <h:outputLabel value="user: admin y pass: admin"></h:outputLabel>
 						<p:panelGrid columns="1" layout="grid">
 					      <h:panelGroup>
 					      	<p:outputLabel for="@next" value="#{msgs.label_username}"/>
-					        <p:inputText value="#{loginRequestBean.username}" style="width:100%" required="true"/>
+					        <p:inputText value="#{loginRequestBean.username}" style="width:100%" required="true" id="username"/>
 					        <p:message for="@previous"  />
 					      </h:panelGroup>
 					      
 					      <h:panelGroup>
 					      	<p:outputLabel for="@next" value="#{msgs.label_password}"/>
-					      	<p:password style="width:100%" value="#{loginRequestBean.password}" required="true"/>
+					      	<p:password style="width:100%" value="#{loginRequestBean.password}" required="true" requiredMessage="Required" id="password"/>
 					      	<p:message for="@previous"  />
 					      </h:panelGroup>
 					    </p:panelGrid>

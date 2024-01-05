@@ -56,7 +56,7 @@ public class LoginRequestBean {
 	        SecurityContextHolder.getContext().setAuthentication(authentication);
 			
 		} catch (Exception e) {
-	        JsfUtils.addMessageFromBundle("securityMessages", FacesMessage.SEVERITY_INFO, "message_invalid_credentials");
+	        JsfUtils.addMessageFromBundle("securityMessages", FacesMessage.SEVERITY_ERROR, "message_invalid_credentials");
 	        return null;
 		}
 		return "login";
