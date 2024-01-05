@@ -8,7 +8,7 @@
 	<ui:define name="content">
 		<h:form>
 			<div class="card">
-				<h5>Filters</h5>
+				<h5>Filters:</h5>
 				<div class="grid ui-fluid">
 					<div class="col-12 md:col-4">
 						<div class="ui-inputgroup">
@@ -93,6 +93,32 @@
 								maxValue="1000" decimalPlaces="0" />
 						</div>
 					</div>
+					<div class="col-12 md:col-4">
+						<div class="ui-inputgroup">
+							<p:outputLabel for="minCompletionRate" value="Min done ratio:"
+								style="width: 150px;" />
+							<div class="ui-inputgroup-addon">
+								<p:selectBooleanCheckbox
+									value="#{projectReportBean.minCompletionRateBoolean}" />
+							</div>
+							<p:inputNumber id="minCompletionRate"
+								value="#{projectReportBean.minCompletionRate}" minValue="0"
+								maxValue="1000" decimalPlaces="0" />
+						</div>
+					</div>
+					<div class="col-12 md:col-4">
+						<div class="ui-inputgroup">
+							<p:outputLabel for="maxCompletionRate" value="Max done ratio:"
+								style="width: 150px;" />
+							<div class="ui-inputgroup-addon">
+								<p:selectBooleanCheckbox
+									value="#{projectReportBean.maxCompletionRateBoolean}" />
+							</div>
+							<p:inputNumber id="maxCompletionRate"
+								value="#{projectReportBean.maxCompletionRate}" minValue="0"
+								maxValue="1000" decimalPlaces="0" />
+						</div>
+					</div>
 
 					<p:commandButton value="Apply"
 						actionListener="#{projectReportBean.applyFilters}"
@@ -113,46 +139,42 @@
 		<!--                 <h:outputText value="#{t.displayName}" /> -->
 		<!--             </p:column> -->
 		<!--         </p:selectManyMenu> -->
+		<div class="card">
+			<p:dataTable id="projectReport-accordion" var="projectReport2"
+				value="#{projectReportBean.projectReports}">
+				<p:column headerText="Number of members">
+					<h:outputText value="#{projectReport2.members}" />
+				</p:column>
 
-		<p:accordionPanel id="projectReport-accordion"
-			value="#{projectReportBean.projectReports}" var="projectReport">
-			<p:tab title="#{projectReport.name}">
-				<p:dataTable var="projectReport2"
-					value="#{projectReportBean.projectReports}">
-					<p:column headerText="Number of members">
-						<h:outputText value="#{projectReport2.members}" />
-					</p:column>
+				<p:column headerText="Project manager">
+					<h:outputText value="#{projectReport2.username}" />
+				</p:column>
 
-					<p:column headerText="Project manager">
-						<h:outputText value="#{projectReport2.username}" />
-					</p:column>
+				<p:column headerText="Start date">
+					<h:outputText value="#{projectReport2.createdOn}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
 
-					<p:column headerText="Start date">
-						<h:outputText value="#{projectReport2.createdOn}">
-							<f:convertDateTime pattern="dd/MM/yyyy" />
-						</h:outputText>
-					</p:column>
-
-					<p:column headerText="End date">
-						<h:outputText value="#{projectReport2.closedOn}">
-							<f:convertDateTime pattern="dd/MM/yyyy" />
-						</h:outputText>
-					</p:column>
-					<p:column headerText="Time pool">
-						<h:outputText value="#{projectReport2.totalHoursReported}" />
-					</p:column>
-					<p:column headerText="Done ratio">
-						<h:outputText value="#{projectReport2.averageDoneRatio}" />
-					</p:column>
-					<p:column headerText="Number of Tasks">
-						<h:outputText value="#{projectReport2.totalIssues}" />
-					</p:column>
-					<p:column headerText="Number delayed tasks">
-						<h:outputText value="#{projectReport2.delayedIssues}" />
-					</p:column>
-				</p:dataTable>
-			</p:tab>
-		</p:accordionPanel>
+				<p:column headerText="End date">
+					<h:outputText value="#{projectReport2.closedOn}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Time pool">
+					<h:outputText value="#{projectReport2.totalHoursReported}" />
+				</p:column>
+				<p:column headerText="Done ratio">
+					<h:outputText value="#{projectReport2.averageDoneRatio}" />
+				</p:column>
+				<p:column headerText="Number of Tasks">
+					<h:outputText value="#{projectReport2.totalIssues}" />
+				</p:column>
+				<p:column headerText="Number delayed tasks">
+					<h:outputText value="#{projectReport2.delayedIssues}" />
+				</p:column>
+			</p:dataTable>
+		</div>
 	</ui:define>
 </ui:composition>
 </html>

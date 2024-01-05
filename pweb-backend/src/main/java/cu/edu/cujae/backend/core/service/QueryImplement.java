@@ -120,10 +120,10 @@ public class QueryImplement   {
 	            return false;
 	        }
 	        // Verificar el número total de tareas
-	        if (filter.getMinTasks() != null && report.getTotalHoursReported() < filter.getMinTasks()) {
+	        if (filter.getMinTasks() != null && report.getTotalIssues() < filter.getMinTasks()) {
 	            return false;
 	        }
-	        if (filter.getMaxTasks() != null && report.getTotalHoursReported() > filter.getMaxTasks()) {
+	        if (filter.getMaxTasks() != null && report.getTotalIssues() > filter.getMaxTasks()) {
 	            return false;
 	        }
 	        // Verificar el número de tareas demoradas
