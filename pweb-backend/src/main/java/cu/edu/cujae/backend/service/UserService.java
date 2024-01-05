@@ -10,7 +10,7 @@ public interface UserService {
 	
 	int createUser(UserDto user) throws SQLException;
 	
-	int updateUser(int id ,UserDto user) throws SQLException;
+	int updateUser(UserDto user) throws SQLException;
 	
 	List<UserDto> listUsers() throws SQLException;
 	

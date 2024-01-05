@@ -2,8 +2,6 @@ package cu.edu.cujae.pweb.bean;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -31,7 +29,9 @@ public class ManageUserBean {
 	
 	private List<RoleDto> roles;
 	private List<RoleDto> selectedRoles;
-	private List<Integer> selectedRolesId;
+	private List<String> selectedRolesId;
+	
+	private boolean editMode;
 
 	@Autowired
 	private UserService userService;
@@ -48,85 +48,56 @@ public class ManageUserBean {
     public void init() {
 		this.selectedUser = null;
 		this.userDto = null;
-	    users = users == null ? userService.getUsers() : users;
+	    this.users = users == null ? userService.getUsers() : users;
 	    System.out.println("Inicializo users: " + users);
-		roles = roleService.getRoles();
+		this.roles = roleService.getRoles();
 		System.out.println("Inicializo roles: " + roles);
     }
 	
 	public void openNew() {
         this.selectedUser = new UserDto();
+        this.editMode = false;
     }
 	
 	public void openForEdit() {
-		List<RoleDto> userRoles = this.selectedUser.getRoleList();
-//		this.selectedRoles = roles.stream().map(r -> r.getId()).toArray(Long[]::new);
+		this.editMode = true;
+		this.selectedRolesId = new ArrayList<>();
+		List<RoleDto> trueRoles = this.selectedUser.getRoleList();
+		for (RoleDto roleDto : trueRoles) {
+			this.selectedRolesId.add(String.valueOf(roleDto.getId()));
+		}
 	}
 	
 	public void saveUser() {
-//    	System.out.println("rarara");
-//        this.selectedIssue.setProject_id(selectedProjectid);
-//        this.selectedIssue.setAssigned_to_id(selectedUserid);
-//        this.selectedIssue.setAuthor_id(1);
-//        
-//        if (this.selectedIssue.getId() == -1) {
-//            //this.selectedIssue.setId(Integer.valueOf(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9)));
-//            issueService.createIssue(selectedIssue);
-//            issues = issueService.getIssues();
-//            
-//            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_added");
-//            System.out.println("entro al if");
-//        }
-//        else {
-//        	issueService.updateIssue(selectedIssue);
-//        	issues = issueService.getIssues();
-//        	JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_updated");
-//            System.out.println("entro al else");
-//            
-//        }
-//
-//        PrimeFaces.current().executeScript("PF('manageIssueDialog').hide()");
-//        PrimeFaces.current().ajax().update("form:dt-issues");
-		
-		
-		
-		
-		
+    	List<RoleDto> rolesToAdd = new ArrayList<>();
+    	for (String roleDtoId : this.selectedRolesId) {
+			RoleDto newRol = this.roleService.getRolesById(roleDtoId);
+			rolesToAdd.add(newRol);
+		}
+    	System.out.println("Los roles: " + rolesToAdd);
+    	this.selectedUser.setRoleList(rolesToAdd);
+    	
         if (this.selectedUser.getId() == -1) {
-//            List<RoleDto> rolesToAdd = new ArrayList<RoleDto>();
-//            
-//            for (RoleDto roleDto : this.selectedRoles) {
-//				rolesToAdd.add(roleDto);
-//			}
-//            for(int i = 0; i < this.selectedRoles.length; i++) {
-//            	rolesToAdd.add(roleService.getRolesById(String.valueOf(selectedRoles[i])));
-//            }
-        	System.out.println("Mira un rol: " + this.selectedUser.getRoleList().get(0).getRoleName());
             this.userService.createUser(this.selectedUser);
-            this.users = this.userService.getUsers();
-            
             JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "userDto_added");
         }
         else {
+        	System.out.println("entro en el else");
         	this.userService.updateUser(this.selectedUser);
-        	this.users = userService.getUsers();
         	JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "userDto_updated");
         }
-
-        PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");//Este code permite cerrar el dialog cuyo id es manageUserDialog. Este identificador es el widgetVar
-        PrimeFaces.current().ajax().update("form:dt-users");// Este code es para refrescar el componente con id dt-users que se encuentra dentro del formulario con id form
+        this.users = userService.getUsers();
+        PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
+        PrimeFaces.current().ajax().update("form:dt-users");
     }
 
-	//Permite eliminar un usuario
+
     public void deleteUser() {
-    	try {
-    		this.users.remove(this.selectedUser);
-            this.selectedUser = null;
-            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO, "message_user_removed");
-            PrimeFaces.current().ajax().update("form:dt-users");// Este code es para refrescar el componente con id dt-users que se encuentra dentro del formulario con id form
-		} catch (Exception e) {
-			JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_ERROR, "message_error");
-		}
+    	System.out.println(selectedUser.getId());
+        this.userService.deleteUser(String.valueOf(selectedUser.getId()));
+        this.users = this.userService.getUsers();
+        JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_deleted");
+        PrimeFaces.current().ajax().update("form:dt-users");
         
     }
 
@@ -186,12 +157,20 @@ public class ManageUserBean {
 		this.roles = roles;
 	}
 
-	public List<Integer> getSelectedRolesId() {
+	public List<String> getSelectedRolesId() {
 		return selectedRolesId;
 	}
 
-	public void setSelectedRolesId(List<Integer> selectedRolesId) {
+	public void setSelectedRolesId(List<String> selectedRolesId) {
 		this.selectedRolesId = selectedRolesId;
+	}
+
+	public boolean isEditMode() {
+		return editMode;
+	}
+
+	public void setEditMode(boolean editMode) {
+		this.editMode = editMode;
 	}
 
 }

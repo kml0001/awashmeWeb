@@ -69,7 +69,7 @@ public class UserServiceImp implements UserService{
     }
 
 	@Override
-	public int updateUser(int userId, UserDto updatedUser) {
+	public int updateUser(UserDto updatedUser) {
         String updateSQL = "UPDATE users SET username=?, lastname=?, mail=?, passwd=? WHERE id=?";
 
         try (Connection conn = ConnectionImp.getConnection();
@@ -79,14 +79,14 @@ public class UserServiceImp implements UserService{
             stmt.setString(2, updatedUser.getFullname());
             stmt.setString(3, updatedUser.getMail());
             stmt.setString(4, encodePass(updatedUser.getPasswd()));
-            stmt.setInt(5, userId);
+            stmt.setInt(5, updatedUser.getId());
 
             int rowsAffected = stmt.executeUpdate();
 
             if (rowsAffected > 0) {
                 // Ahora, actualizar roles asociados al usuario
             	for(RoleDto role : updatedUser.getRoleList()) {
-            		roleservice.updateRolesForUser(userId,role );
+            		roleservice.updateRolesForUser(updatedUser.getId(),role );
             	}
             	
                 return rowsAffected;

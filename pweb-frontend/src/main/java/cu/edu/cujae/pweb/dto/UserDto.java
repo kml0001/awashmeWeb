@@ -23,6 +23,7 @@ public class UserDto {
 		this.roleList = roleList;
 	}
 	public UserDto(){
+		this.id = -1;
 		this.roleList = new ArrayList<>();
 	}
 	

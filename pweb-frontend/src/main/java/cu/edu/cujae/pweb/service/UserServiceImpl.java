@@ -56,13 +56,13 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void createUser(UserDto user) {
-		restService.POST("/api/v1/users", user, String.class).getBody();
+		restService.POST("/api/v1/users/", user, String.class).getBody();
 	}
 
 	@Override
 	public void updateUser(UserDto user) {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		restService.PUT("/api/v1/users", params, user, String.class).getBody();
+		restService.PUT("/api/v1/users/", params, user, String.class).getBody();
 	}
 
 	@Override

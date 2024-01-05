@@ -59,7 +59,7 @@ public class UsersController {
     }
     @PostMapping("/")
     public ResponseEntity<Object> createUser(@RequestBody UserDto user) throws SQLException {
-    	
+//    	System.out.println("Usuario en el backend: " + user.getFullname());
     	int newUser_id = (int) service.createUser(user);
     	//sendMailToUserWithCredentials(user.getFirstname(), user.getMail());
     	if(newUser_id != -1) {
@@ -69,10 +69,10 @@ public class UsersController {
     	
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> updateUser(@PathVariable int id, @RequestBody UserDto user) throws SQLException {
+    @PutMapping("/")
+    public ResponseEntity<Object> updateUser(@RequestBody UserDto user) throws SQLException {
       
-    	int updated_id = service.updateUser(id , user);
+    	int updated_id = service.updateUser(user);
         if (updated_id != -1) {
             return ResponseEntity.ok("Usuario actualizado");
         } else {
