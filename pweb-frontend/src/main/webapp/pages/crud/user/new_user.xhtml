@@ -13,29 +13,20 @@
 						<div class="p-field">
 							<p:outputLabel for="@next">Full name</p:outputLabel>
 							<p:inputText id="name" required="true" 
-								value="#{manageUserBean.selectedUser.fullName}" />
+								value="#{manageUserBean.selectedUser.fullname}" />
 							<p:message for="@previous" ></p:message>
 						</div>
 						<div class="p-field">
-							<p:outputLabel for="@next">Username</p:outputLabel>
+							<p:outputLabel for="@next">User name</p:outputLabel>
 							<p:inputText id="username" required="true"
 								value="#{manageUserBean.selectedUser.username}" />
 							<p:message for="@previous"></p:message>
 						</div>
 						<div class="p-field">
-							<p:outputLabel for="@next">ID</p:outputLabel>
-							<p:inputText id="ci" required="true"
-								value="#{manageUserBean.selectedUser.identification}"
-								maxlength="11">
-								<p:keyFilter mask="num" />
-							</p:inputText>
-							<p:message for="@previous"></p:message>
-						</div>
-						<div class="p-field">
 							<p:outputLabel for="@next">Email</p:outputLabel>
 							<p:inputText id="email" required="true"
-								value="#{manageUserBean.selectedUser.email}"
-								validatorMessage="Email mal formado">
+								value="#{manageUserBean.selectedUser.mail}"
+								validatorMessage="Bad format email">
 								<f:validateRegex
 									pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 							</p:inputText>
@@ -46,7 +37,7 @@
 					    <div class="p-field">
 							<p:outputLabel for="@next" rendered="#{empty manageUserBean.selectedUser.id}">Roles</p:outputLabel>
 							<p:selectCheckboxMenu id="multiple" required="true"
-								value="#{manageUserBean.selectedRoles}" label="Seleccione"
+								value="#{manageUserBean.selectedRoles}" label="Select"
 								style="min-width: 15rem" multiple="true" filter="true"
 								filterMatchMode="startsWith" panelStyle="width: 30rem"
 								scrollHeight="250" rendered="#{empty manageUserBean.selectedUser.id}">
@@ -58,7 +49,7 @@
 							<p:outputLabel for="@next" rendered="#{empty manageUserBean.selectedUser.id}">Password</p:outputLabel>
 							<p:password id="password1" required="true"
 								rendered="#{empty manageUserBean.selectedUser.id}"
-								value="#{manageUserBean.selectedUser.password}"
+								value="#{manageUserBean.selectedUser.passwd}"
 								match="password2">
 							</p:password>
 							<p:message for="@previous" rendered="#{empty manageUserBean.selectedUser.id}"></p:message>
@@ -66,7 +57,7 @@
 						<div class="p-field">
 							<p:outputLabel for="@next" rendered="#{empty manageUserBean.selectedUser.id}">Confirm Password</p:outputLabel>
 							<p:password id="password2" required="true"
-								value="#{manageUserBean.selectedUser.password}"
+								value="#{manageUserBean.selectedUser.passwd}"
 								rendered="#{empty manageUserBean.selectedUser.id}">
 							</p:password>
 							<p:message for="@previous" rendered="#{empty manageUserBean.selectedUser.id}"></p:message>

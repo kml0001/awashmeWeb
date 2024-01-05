@@ -49,6 +49,8 @@ public class ManageUserBean {
 	//Esta anotacion permite que se ejecute code luego de haberse ejecuta el constructor de la clase. 
 	@PostConstruct
     public void init() {
+		this.selectedUser = null;
+		this.userDto = null;
 	    users = users == null ? userService.getUsers() : users;
 	    System.out.println("Inicializo users: " + users);
 		roles = roleService.getRoles();
