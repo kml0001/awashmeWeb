@@ -44,7 +44,7 @@ public class SuggestionBean{
 
 	@PostConstruct
     public void init() {
-    	suggestions = suggestions == null? suggestionService.getSuggestions(): suggestions;
+    	this.suggestions = suggestions == null? suggestionService.getSuggestions(): suggestions;
     }
 
     public List<SuggestionDto> getSuggestions() {

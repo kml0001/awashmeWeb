@@ -21,11 +21,14 @@ public class SuggestionServiceImpl implements SuggestionService{
 
 	@Override
 	public List<SuggestionDto> getSuggestions(){
+		System.out.println("Entro en la peticion");
 		List<SuggestionDto> SuggestionList = new ArrayList<SuggestionDto>();
 	    try {
 	    	MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		    ApiRestMapper<SuggestionDto> apiRestMapper = new ApiRestMapper<>();
-		    String response = (String)restService.GET("/api/v1/suggestions", params, String.class).getBody();
+		    String response = (String)restService.GET("/api/v1/suggestions/", params, String.class).getBody();
+		    System.out.println(response);
+		    System.out.println("asd");
 		    SuggestionList = apiRestMapper.mapList(response, SuggestionDto.class);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -53,13 +56,13 @@ public class SuggestionServiceImpl implements SuggestionService{
 
 	@Override
 	public void createSuggestion(SuggestionDto Suggestion) {
-		restService.POST("/api/v1/suggestions", Suggestion, String.class).getBody();
+		restService.POST("/api/v1/suggestions/", Suggestion, String.class).getBody();
 	}
 
 	@Override
 	public void updateSuggestion(SuggestionDto Suggestion) {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		restService.PUT("/api/v1/suggestions", params, Suggestion, String.class).getBody();
+		restService.PUT("/api/v1/suggestions/", params, Suggestion, String.class).getBody();
 	}
 
 	@Override

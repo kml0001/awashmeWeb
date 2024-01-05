@@ -2,6 +2,7 @@ package cu.edu.cujae.pweb.dto;
 
 public class SuggestionDto {
 	private int id;
+
 	private String created_on;
 	
 	private int author_id;
@@ -17,6 +18,7 @@ public class SuggestionDto {
 		this.created_on = created_on;
 		this.urgency = urgency;
 		this.importance = importance;
+		this.subject = subject;
 	}
 	public SuggestionDto() {
 	}
@@ -31,6 +33,12 @@ public class SuggestionDto {
 	}
 	public void setAuthor_id(int author_id) {
 		this.author_id = author_id;
+	}
+	public String getText() {
+		return text;
+	}
+	public void setText(String description) {
+		this.text = description;
 	}
 	public String getCreated_on() {
 		return created_on;
@@ -50,17 +58,13 @@ public class SuggestionDto {
 	public void setImportance(String importance) {
 		this.importance = importance;
 	}
+	
 	public String getSubject() {
-		return subject;
-	}
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-	public String getText() {
-		return text;
-	}
-	public void setText(String text) {
-		this.text = text;
+		return this.subject;
 	}
 	
+	public void serSubject(String subject) {
+		this.subject = subject;
+	}
 }
+
