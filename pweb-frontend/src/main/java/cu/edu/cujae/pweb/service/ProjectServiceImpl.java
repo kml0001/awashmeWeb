@@ -74,30 +74,30 @@ public class ProjectServiceImpl implements ProjectService{
 		restService.DELETE(uri, params, String.class, null).getBody();
 	}
 	
-	@Override
-	public void getProjectReports(ProjectFilterDto Issue) {
-		Object asd = restService.POST("/api/v1/projects/report", Issue, String.class).getBody();
-		System.out.println("dasss" + asd);
-	}
 //	@Override
-//	public List<ProjectReportDto> getProjectReports(ProjectFilterDto filter){
-//		List<ProjectReportDto> projectReportList = new ArrayList<ProjectReportDto>();
-//		ApiRestMapper<ProjectReportDto> apiRestMapper = new ApiRestMapper<>();
-//		
-//		System.out.println("filtro min: " + filter.getMinParticipants());
-//		System.out.println("filtro max: " + filter.getMaxParticipants());
-//		
-//		Object response = restService.POST("/api/v1/projects/report", filter, String.class).getBody();
-//		
-//		System.out.println(response);
-//		try {
-//			projectReportList = apiRestMapper.mapList(response, ProjectReportDto.class);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return projectReportList;
+//	public void getProjectReports(ProjectFilterDto Issue) {
+//		Object asd = restService.POST("/api/v1/projects/report", Issue, String.class).getBody();
+//		System.out.println("dasss" + asd);
 //	}
+	@Override
+	public List<ProjectReportDto> getProjectReports(ProjectFilterDto filter){
+		List<ProjectReportDto> projectReportList = new ArrayList<ProjectReportDto>();
+		ApiRestMapper<ProjectReportDto> apiRestMapper = new ApiRestMapper<>();
+		
+		System.out.println("filtro min: " + filter.getMinParticipants());
+		System.out.println("filtro max: " + filter.getMaxParticipants());
+		
+		Object response = restService.POST("/api/v1/projects/report", filter, String.class).getBody();
+		
+		System.out.println(response);
+		try {
+			projectReportList = apiRestMapper.mapList(response, ProjectReportDto.class);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return projectReportList;
+	}
 
 //	@Override
 //	public List<ProjectReportDto> getProjectReports() {
