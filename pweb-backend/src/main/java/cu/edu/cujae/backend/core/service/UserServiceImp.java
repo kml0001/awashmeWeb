@@ -31,7 +31,7 @@ public class UserServiceImp implements UserService{
              PreparedStatement stmt = conn.prepareStatement(insertSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, user.getUsername());
-            stmt.setString(2, user.getfullname());
+            stmt.setString(2, user.getFullname());
             stmt.setString(3, user.getMail());
             stmt.setString(4,encodePass(user.getPasswd()));
 
@@ -45,9 +45,9 @@ public class UserServiceImp implements UserService{
                         
                         // Ahora, insertar roles asociados al usuario
                         
-                        if(!user.getRoles().isEmpty()) {
+                        if(!user.getRoleList().isEmpty()) {
                         	
-                        	List<RoleDto> ListRoles = user.getRoles();
+                        	List<RoleDto> ListRoles = user.getRoleList();
                         	for(RoleDto role : ListRoles) {
                         		roleservice.insertUserRoles(userId, role);
                         	}
@@ -76,7 +76,7 @@ public class UserServiceImp implements UserService{
              PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
 
             stmt.setString(1, updatedUser.getUsername());
-            stmt.setString(2, updatedUser.getfullname());
+            stmt.setString(2, updatedUser.getFullname());
             stmt.setString(3, updatedUser.getMail());
             stmt.setString(4, encodePass(updatedUser.getPasswd()));
             stmt.setInt(5, userId);
@@ -85,7 +85,7 @@ public class UserServiceImp implements UserService{
 
             if (rowsAffected > 0) {
                 // Ahora, actualizar roles asociados al usuario
-            	for(RoleDto role : updatedUser.getRoles()) {
+            	for(RoleDto role : updatedUser.getRoleList()) {
             		roleservice.updateRolesForUser(userId,role );
             	}
             	
@@ -206,13 +206,13 @@ public class UserServiceImp implements UserService{
         UserDto user = new UserDto();
         user.setId(resultSet.getInt("id"));
         user.setUsername(resultSet.getString("username"));
-        user.setfullname(resultSet.getString("lastname"));
+        user.setFullname(resultSet.getString("lastname"));
         user.setMail(resultSet.getString("mail"));
         user.setPasswd((resultSet.getString("passwd")));
 
         // Recuperar roles asociados al usuario, si es necesario
         List<RoleDto> roles = roleservice.getRolesByUserId(resultSet.getInt("id"));
-        user.SetRoles(roles);
+        user.setRoleList(roles);
         return user;
     }
 

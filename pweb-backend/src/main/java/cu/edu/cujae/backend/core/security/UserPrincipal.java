@@ -46,7 +46,7 @@ public class UserPrincipal implements UserDetails {
     public static UserPrincipal create(UserDto user) {
     	List<GrantedAuthority> authorities;
     	try {
-    		Collection<String> roleNames = user.getRoles().stream().map(role -> role.getRoleName()).collect(Collectors.toList());
+    		Collection<String> roleNames = user.getRoleList().stream().map(role -> role.getRoleName()).collect(Collectors.toList());
     		authorities = AuthorityUtils.createAuthorityList(roleNames.toArray(new String[0]));
 		} catch (Exception e) {
 			authorities = Collections.
@@ -56,11 +56,11 @@ public class UserPrincipal implements UserDetails {
     	return new UserPrincipal(
                 user.getId(),
                 user.getUsername(),
-                user.getfullname(),
+                user.getFullname(),
                 user.getMail(),
                 user.getPasswd(),
                 authorities,
-                user.getRoles()
+                user.getRoleList()
         );
     }
 

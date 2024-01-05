@@ -52,6 +52,7 @@ public class ManageUserBean {
 	    users = users == null ? userService.getUsers() : users;
 	    System.out.println("Inicializo users: " + users);
 		roles = roleService.getRoles();
+		System.out.println("Inicializo roles: " + roles);
     }
 	
 	//Se ejecuta al dar clic en el button Nuevo
