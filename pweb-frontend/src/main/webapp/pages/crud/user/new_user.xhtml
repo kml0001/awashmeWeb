@@ -4,7 +4,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-	<p:dialog header="User" showEffect="fade" modal="true"
+	<p:dialog header="Usuario" showEffect="fade" modal="true"
 		widgetVar="manageUserDialog" responsive="true">
 		<p:outputPanel id="manage-user-content" class="ui-fluid">
 			<p:outputPanel rendered="#{not empty manageUserBean.selectedUser}">
@@ -34,33 +34,33 @@
 						</div>
 					</h:panelGroup>
 					<h:panelGroup>
-					    <div class="p-field">
-							<p:outputLabel for="@next" rendered="#{empty manageUserBean.selectedUser.id}">Roles</p:outputLabel>
-							<p:selectCheckboxMenu id="multiple" required="true"
-								value="#{manageUserBean.selectedRoles}" label="Select"
-								style="min-width: 15rem" multiple="true" filter="true"
-								filterMatchMode="startsWith" panelStyle="width: 30rem"
-								scrollHeight="250" rendered="#{empty manageUserBean.selectedUser.id}">
+						<div class="p-field">
+							<p:outputLabel for="@next">Roles</p:outputLabel>
+							<p:selectManyMenu id="roles"
+								value="#{manageUserBean.selectedRoles}"
+								var="c" filter="true"
+								filterMatchMode="contains" filterNormalize="true"
+								showCheckbox="true" styleClass="manymenu-advanced">
 								<f:selectItems value="#{manageUserBean.roles}" var="role"
-									itemLabel="#{role.roleName}" itemValue="#{role.id}" />
-							</p:selectCheckboxMenu>
+									itemLabel="#{role.roleName}" itemValue="#{role}" />
+							</p:selectManyMenu>
 						</div>
 						<div class="p-field">
-							<p:outputLabel for="@next" rendered="#{empty manageUserBean.selectedUser.id}">Password</p:outputLabel>
+							<p:outputLabel for="@next" rendered="#{not empty manageUserBean.selectedUser.id}">Password</p:outputLabel>
 							<p:password id="password1" required="true"
-								rendered="#{empty manageUserBean.selectedUser.id}"
+								rendered="#{not empty manageUserBean.selectedUser.id}"
 								value="#{manageUserBean.selectedUser.passwd}"
 								match="password2">
 							</p:password>
-							<p:message for="@previous" rendered="#{empty manageUserBean.selectedUser.id}"></p:message>
+							<p:message for="@previous" rendered="#{not empty manageUserBean.selectedUser.id}"></p:message>
 						</div>
 						<div class="p-field">
-							<p:outputLabel for="@next" rendered="#{empty manageUserBean.selectedUser.id}">Confirm Password</p:outputLabel>
+							<p:outputLabel for="@next" rendered="#{not empty manageUserBean.selectedUser.id}">Confirm password</p:outputLabel>
 							<p:password id="password2" required="true"
 								value="#{manageUserBean.selectedUser.passwd}"
-								rendered="#{empty manageUserBean.selectedUser.id}">
+								rendered="#{not empty manageUserBean.selectedUser.id}">
 							</p:password>
-							<p:message for="@previous" rendered="#{empty manageUserBean.selectedUser.id}"></p:message>
+							<p:message for="@previous" rendered="#{not empty manageUserBean.selectedUser.id}"></p:message>
 						</div>
 						
 					</h:panelGroup>
@@ -69,10 +69,10 @@
 		</p:outputPanel>
 
 		<f:facet name="footer">
-			<p:commandButton value="Salvar" icon="pi pi-check"
+			<p:commandButton value="Save" icon="pi pi-save"
 				actionListener="#{manageUserBean.saveUser}"
 				update="manage-user-content" process="manage-user-content @this" />
-			<p:commandButton value="Cancelar" icon="pi pi-times"
+			<p:commandButton value="Cancel" icon="pi pi-times"
 				onclick="PF('manageUserDialog').hide()" class="ui-button-secondary" />
 		</f:facet>
 	</p:dialog>

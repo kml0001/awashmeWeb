@@ -20,21 +20,19 @@ import cu.edu.cujae.pweb.service.UserService;
 import cu.edu.cujae.pweb.utils.JsfUtils;
 
 
-@Component //Le indica a spring es un componete registrado
+@Component 
 @ManagedBean
-@ViewScoped //Este es el alcance utilizado para trabajar con Ajax
+@ViewScoped 
 public class ManageUserBean {
 	
 	private UserDto userDto;
 	private UserDto selectedUser;
 	private List<UserDto> users;
-	private Long[] selectedRoles;
 	
 	private List<RoleDto> roles;
-	
-	/* @Autowired es la manera para inyectar una dependencia/clase anotada con @service en spring
-	 * Tener en cuenta que lo que se inyecta siempre es la interfaz y no la clase
-	 */
+	private List<RoleDto> selectedRoles;
+	private List<Integer> selectedRolesId;
+
 	@Autowired
 	private UserService userService;
 	
@@ -46,7 +44,6 @@ public class ManageUserBean {
 		
 	}
 	
-	//Esta anotacion permite que se ejecute code luego de haberse ejecuta el constructor de la clase. 
 	@PostConstruct
     public void init() {
 		this.selectedUser = null;
@@ -57,33 +54,63 @@ public class ManageUserBean {
 		System.out.println("Inicializo roles: " + roles);
     }
 	
-	//Se ejecuta al dar clic en el button Nuevo
 	public void openNew() {
         this.selectedUser = new UserDto();
-        this.selectedRoles = null;
     }
 	
-	//Se ejecuta al dar clic en el button con el lapicito
 	public void openForEdit() {
-		List<RoleDto> roles = this.selectedUser.getRoleList();
-		this.selectedRoles = roles.stream().map(r -> r.getId()).toArray(Long[]::new);
+		List<RoleDto> userRoles = this.selectedUser.getRoleList();
+//		this.selectedRoles = roles.stream().map(r -> r.getId()).toArray(Long[]::new);
 	}
 	
-	//Se ejecuta al dar clic en el button dentro del dialog para salvar o registrar al usuario
 	public void saveUser() {
-        if (String.valueOf(this.selectedUser.getId()) == null) {
-            this.selectedUser.setId(Integer.valueOf(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9)));
-
-            List<RoleDto> rolesToAdd = new ArrayList<RoleDto>();
-            for(int i = 0; i < this.selectedRoles.length; i++) {
-            	rolesToAdd.add(roleService.getRolesById(String.valueOf(selectedRoles[i])));
-            }
+//    	System.out.println("rarara");
+//        this.selectedIssue.setProject_id(selectedProjectid);
+//        this.selectedIssue.setAssigned_to_id(selectedUserid);
+//        this.selectedIssue.setAuthor_id(1);
+//        
+//        if (this.selectedIssue.getId() == -1) {
+//            //this.selectedIssue.setId(Integer.valueOf(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9)));
+//            issueService.createIssue(selectedIssue);
+//            issues = issueService.getIssues();
+//            
+//            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_added");
+//            System.out.println("entro al if");
+//        }
+//        else {
+//        	issueService.updateIssue(selectedIssue);
+//        	issues = issueService.getIssues();
+//        	JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_updated");
+//            System.out.println("entro al else");
+//            
+//        }
+//
+//        PrimeFaces.current().executeScript("PF('manageIssueDialog').hide()");
+//        PrimeFaces.current().ajax().update("form:dt-issues");
+		
+		
+		
+		
+		
+        if (this.selectedUser.getId() == -1) {
+//            List<RoleDto> rolesToAdd = new ArrayList<RoleDto>();
+//            
+//            for (RoleDto roleDto : this.selectedRoles) {
+//				rolesToAdd.add(roleDto);
+//			}
+//            for(int i = 0; i < this.selectedRoles.length; i++) {
+//            	rolesToAdd.add(roleService.getRolesById(String.valueOf(selectedRoles[i])));
+//            }
+        	System.out.println("Mira un rol: " + this.selectedUser.getRoleList().get(0).getRoleName());
+            this.userService.createUser(this.selectedUser);
+            this.users = this.userService.getUsers();
             
-            this.users.add(this.selectedUser);
-            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO, "message_user_added"); //Este code permite mostrar un mensaje exitoso (FacesMessage.SEVERITY_INFO) obteniendo el mensage desde el fichero de recursos, con la llave message_user_added
+            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "userDto_added");
         }
         else {
-            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO, "message_user_edited");
+        	this.userService.updateUser(this.selectedUser);
+        	this.users = userService.getUsers();
+        	JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "userDto_updated");
         }
 
         PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");//Este code permite cerrar el dialog cuyo id es manageUserDialog. Este identificador es el widgetVar
@@ -127,12 +154,28 @@ public class ManageUserBean {
 		this.users = users;
 	}
 
-	public Long[] getSelectedRoles() {
+	public List<RoleDto> getSelectedRoles() {
 		return selectedRoles;
 	}
 
-	public void setSelectedRoles(Long[] selectedRoles) {
+	public void setSelectedRoles(List<RoleDto> selectedRoles) {
 		this.selectedRoles = selectedRoles;
+	}
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+	public RoleService getRoleService() {
+		return roleService;
+	}
+
+	public void setRoleService(RoleService roleService) {
+		this.roleService = roleService;
 	}
 
 	public List<RoleDto> getRoles() {
@@ -141,6 +184,14 @@ public class ManageUserBean {
 
 	public void setRoles(List<RoleDto> roles) {
 		this.roles = roles;
+	}
+
+	public List<Integer> getSelectedRolesId() {
+		return selectedRolesId;
+	}
+
+	public void setSelectedRolesId(List<Integer> selectedRolesId) {
+		this.selectedRolesId = selectedRolesId;
 	}
 
 }

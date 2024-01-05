@@ -7,13 +7,13 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
 @ManagedBean
-public class UserBean {
+public class LoginRequestBean {
 	
 	private String username;
 	private String password;
 	private String email;
 	
-	public UserBean() {
+	public LoginRequestBean() {
 		// TODO Auto-generated constructor stub
 	}
 	public String getUsername() {
