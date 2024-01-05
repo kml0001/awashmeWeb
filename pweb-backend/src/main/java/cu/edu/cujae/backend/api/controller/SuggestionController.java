@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,13 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import cu.edu.cujae.backend.core.dto.SuggestionDto;
-import cu.edu.cujae.backend.core.security.UserPrincipal;
 import cu.edu.cujae.backend.service.SuggestionService;
 
 @RestController
-@RequestMapping("/api/v1/suggestion")
+@RequestMapping("/api/v1/suggestions")
 public class SuggestionController {
 
 	
@@ -33,27 +29,27 @@ public class SuggestionController {
     @GetMapping("/")
     public ResponseEntity<List<SuggestionDto>> getSuggestions() {
         
-        List<SuggestionDto> suggestions = service.getSuggestion();
-        return ResponseEntity.ok(suggestions);
+        List<SuggestionDto> suggestionss = service.getSuggestion();
+        return ResponseEntity.ok(suggestionss);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getSuggestionById(@PathVariable int id) {
-        // Obtener una suggestion específica de la base de datos por su ID
-    	SuggestionDto suggestion = service.getSuggestionById(id);
+        // Obtener una suggestions específica de la base de datos por su ID
+    	SuggestionDto suggestions = service.getSuggestionById(id);
 
-        if (suggestion != null) {
-            return ResponseEntity.ok(suggestion);
+        if (suggestions != null) {
+            return ResponseEntity.ok(suggestions);
         } else {
-        	 return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id de la suggestion no existe");
+        	 return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id de la suggestions no existe");
         }
     }
 
     @PostMapping("/")
-    public ResponseEntity<Object> createSuggestion(@RequestBody SuggestionDto suggestion) {
+    public ResponseEntity<Object> createSuggestion(@RequestBody SuggestionDto suggestions) {
         
-        int suggestion_id = service.createSuggestion(suggestion);
-        if(suggestion_id != -1)
+        int suggestions_id = service.createSuggestion(suggestions);
+        if(suggestions_id != -1)
         	return ResponseEntity.status(HttpStatus.CREATED).body("Suggestion creada");
         else
         	return null;
@@ -65,9 +61,9 @@ public class SuggestionController {
 //    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //    	UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
 //    	
-//    	SuggestionDto suggestion = service.getSuggestionById(id);
+//    	SuggestionDto suggestions = service.getSuggestionById(id);
 //    	
-//    	if(!principal.getRoleList().contains("Admin") &&  principal.getId().equals(String.valueOf(suggestion.getAuthor_id())) ) {
+//    	if(!principal.getRoleList().contains("Admin") &&  principal.getId().equals(String.valueOf(suggestions.getAuthor_id())) ) {
 //    		 return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reune los privilegios para realizar la operacion .Solo puede editar sus sugerencias");
 //    	}
     	
@@ -87,9 +83,9 @@ public class SuggestionController {
 //    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //    	UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
 //    	
-//    	SuggestionDto suggestion = service.getSuggestionById(id);
+//    	SuggestionDto suggestions = service.getSuggestionById(id);
 //    	
-//    	if(!principal.getRoleList().contains("Admin") &&  principal.getId().equals(String.valueOf(suggestion.getAuthor_id())) ) {
+//    	if(!principal.getRoleList().contains("Admin") &&  principal.getId().equals(String.valueOf(suggestions.getAuthor_id())) ) {
 //    		
 //    	}
     	

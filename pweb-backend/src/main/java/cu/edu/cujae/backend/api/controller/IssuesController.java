@@ -15,12 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cu.edu.cujae.backend.core.dto.IssueDto;
-import cu.edu.cujae.backend.core.security.UserPrincipal;
 import cu.edu.cujae.backend.core.service.IssuesServiceImp;
-
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 
 @RestController
