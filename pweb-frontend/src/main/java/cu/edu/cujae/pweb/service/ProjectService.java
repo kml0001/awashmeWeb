@@ -12,6 +12,6 @@ public interface ProjectService {
 	void createProject(ProjectDto Project);
 	void updateProject(ProjectDto Project);
 	void deleteProject(String id);
-	List<ProjectReportDto> getProjectReports(ProjectFilterDto filter);
+	void getProjectReports(ProjectFilterDto filter);
 //	List<ProjectReportDto> getProjectReports();
 }

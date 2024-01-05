@@ -19,6 +19,8 @@ import cu.edu.cujae.backend.core.util.ConnectionImp;
 public class QueryImplement   {
 
 	public static List<ProjectReportDto> getProjectReports(ProjectFilterDto filter) {
+		System.out.println("El filtro en el backend max: " + filter.getMaxParticipants());
+		System.out.println("El filtro en el backend min: " + filter.getMinParticipants());
         List<ProjectReportDto> projectReports = new ArrayList<>();
 
         try (Connection conn = ConnectionImp.getConnection()) {
@@ -57,7 +59,7 @@ public class QueryImplement   {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        System.out.println("Cantidad de proyectos filtrados en el backend: " + projectReports.size());
         return projectReports;
     }
 	

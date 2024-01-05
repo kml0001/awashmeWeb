@@ -106,6 +106,7 @@ public class IssuesServiceImp implements IssuesService{
 
 	@Override
 	public int createIssue(IssueDto issue)  {
+		System.out.println("El issue en el backend: " + issue.getSubject());
         String insertSQL = "INSERT INTO issue (subject, done_ratio, due_date, project_id, author_id, assigned_to_id ,hours_reported , closed_on) VALUES (?,?, ?, ?, ?, ?, ?,?)";
         int id = -1;
         try (Connection conn = ConnectionImp.getConnection();

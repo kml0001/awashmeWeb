@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,9 @@ public class ProjectReportBean {
 	private String selectedFilterName;
 	
 	private ProjectFilterDto filter;
+	
+	private int minParticipants;
+	private int maxParticipants;
 	
 	@Autowired
     private ProjectService projectService;
@@ -93,8 +97,7 @@ public class ProjectReportBean {
 
 	@PostConstruct
     public void init() {
-    	filter = new ProjectFilterDto();
-    	projectReports = projectReports == null? projectService.getProjectReports(filter): projectReports;
+//    	projectReports = projectReports == null? projectService.getProjectReports(new ProjectFilterDto()): projectReports;
 
 //    	this.filterNames.add("Start date");
 //    	this.filterNames.add("Number of members");
@@ -137,8 +140,31 @@ public class ProjectReportBean {
 	}
 	
 	public void applyFilters() {
-        this.projectReports = projectService.getProjectReports(filter);
-        System.out.println(projectReports.size());
+		ProjectFilterDto pfdto = new ProjectFilterDto();
+		pfdto.setMinParticipants(this.minParticipants);
+		pfdto.setMaxParticipants(this.maxParticipants);
+		System.out.println(pfdto.getMaxParticipants());
+		System.out.println(pfdto.getMinParticipants());
+        //this.projectReports = projectService.getProjectReports(pfdto);
+        projectService.getProjectReports(pfdto);
+        //System.out.println(projectReports.size());
         System.out.println("asd");
+        PrimeFaces.current().ajax().update("accordionPanel:projectReport2");
+	}
+
+	public int getMinParticipants() {
+		return minParticipants;
+	}
+
+	public void setMinParticipants(int minParticipants) {
+		this.minParticipants = minParticipants;
+	}
+
+	public int getMaxParticipants() {
+		return maxParticipants;
+	}
+
+	public void setMaxParticipants(int maxParticipants) {
+		this.maxParticipants = maxParticipants;
 	}
 }
