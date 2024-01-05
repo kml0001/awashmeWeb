@@ -64,8 +64,12 @@
 
 					<p:column headerText="Roles" sortBy="#{user.roleList}"
 						filterBy="#{user.roleList}">
-						<p:orderList value="#{user.roleList}" var="role"
-							controlsLocation="none" itemLabel="#{role.roleName}" itemValue="#{role.id}" />
+						<p:commandButton id="basic" value="Show" type="button" />
+						<p:overlayPanel for="basic" style="width:350px">
+							<p:orderList value="#{user.roleList}" var="role"
+								controlsLocation="none" itemLabel="#{role.roleName}"
+								itemValue="#{role.id}" />
+						</p:overlayPanel>
 					</p:column>
 
 					<p:column exportable="false">
