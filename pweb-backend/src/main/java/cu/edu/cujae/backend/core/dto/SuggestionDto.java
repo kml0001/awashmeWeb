@@ -36,12 +36,6 @@ public class SuggestionDto {
 	public void setAuthor_id(int author_id) {
 		this.author_id = author_id;
 	}
-	public String getDescription() {
-		return text;
-	}
-	public void setDescription(String description) {
-		this.text = description;
-	}
 	public String getCreated_on() {
 		return created_on;
 	}
