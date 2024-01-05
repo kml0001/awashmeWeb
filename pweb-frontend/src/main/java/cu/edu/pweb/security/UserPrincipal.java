@@ -130,4 +130,11 @@ public class UserPrincipal implements UserDetails {
 	    public void setRoleList(List<RoleDto> roleList) {
 	        this.roleList = roleList;
 	    }
+	    
+	    public String getToken() {
+	    	return token;
+	    }
+	    public void setToken(String token) {
+	    	this.token = token;
+	    }
 	}

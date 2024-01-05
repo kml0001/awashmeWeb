@@ -9,11 +9,11 @@ public class SuggestionDto {
 	private String created_on;
 	
 	private int author_id;
-	private int project_id;
+
 	private String description;
 	private String urgency;
 	private String importance;
-	public SuggestionDto(int id, int author_id, String description, String created_on, String urgency, String importance , int project_id) {
+	public SuggestionDto(int id, int author_id, String description, String created_on, String urgency, String importance ) {
 		super();
 		this.id = id;
 		this.author_id = author_id;
@@ -21,16 +21,8 @@ public class SuggestionDto {
 		this.created_on = created_on;
 		this.urgency = urgency;
 		this.importance = importance;
-		this.project_id = project_id;
 	}
 	public SuggestionDto() {
-	}
-	
-	public int getProject_id() {
-		return project_id;
-	}
-	public void setProject_id(int project_id) {
-		this.project_id = project_id;
 	}
 	public int getId() {
 		return id;
