@@ -9,12 +9,39 @@
 		<h:form id="form">
 			<p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true" />
 			<div class="card">
+				<p:toolbar>
+					<p:toolbarGroup>
+						<p:commandButton value="New" icon="pi pi-plus"
+							actionListener="#{suggestionBean.openNew}"
+							update=":form:manage-suggestion-content"
+							oncomplete="PF('manageSuggestionDialog').show()"
+							styleClass="ui-button-success" style="margin-right: .5rem"
+							process="@this">
+							<p:resetInput target=":form:manage-suggestion-content" />
+						</p:commandButton>
+
+					</p:toolbarGroup>
+				</p:toolbar>
 				<h5>Suggestions:</h5>
-				<p:accordionPanel multiple="true" widgetVar="options" value="#{suggestionBean.suggestions}" var="suggestion">
+				<p:accordionPanel multiple="true" widgetVar="options"
+					value="#{suggestionBean.suggestions}" var="suggestion">
+
 					<p:tab title="#{suggestion.subject}">
+						<f:facet name="actions">
+							<p:commandLink
+								styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default">
+								<h:outputText styleClass="ui-icon pi pi-pencil" />
+							</p:commandLink>
+							<p:commandLink
+								styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default">
+								<h:outputText styleClass="ui-icon pi pi-trash" />
+							</p:commandLink>
+						</f:facet>
 						<p class="m-0">"#{suggestion.text}"</p>
 					</p:tab>
 				</p:accordionPanel>
+
+				<ui:include src="new_suggestion.xhtml"></ui:include>
 			</div>
 		</h:form>
 	</ui:define>
