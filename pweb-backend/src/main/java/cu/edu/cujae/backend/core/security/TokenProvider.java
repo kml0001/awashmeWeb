@@ -30,7 +30,7 @@ public class TokenProvider {
     
     private String secretKey = "Pweb*StrongToken*SecretKey*Pweb*";
     
-     public TokenProvider() {
+    public TokenProvider() {
     }
 
     public String createToken(Authentication authentication) {
@@ -58,9 +58,6 @@ public class TokenProvider {
         return claims.getSubject();
     }
 
-    
-    
-    
     public UserDto getUserDtoFromToken(String token){
     	UserDto r = null;
     	int id = Integer.valueOf(this.getUserIdFromToken(token));
@@ -70,11 +67,6 @@ public class TokenProvider {
     	
     	return r;
     }
-    
-    
-    
-    
-    
     
     public boolean validateToken(String authToken) {
         try {

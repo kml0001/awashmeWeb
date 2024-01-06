@@ -46,7 +46,9 @@ public class UserPrincipal implements UserDetails {
     public static UserPrincipal create(UserDto user) {
         List<GrantedAuthority> authorities;
         try {
-            Collection<String> roleNames = user.getRoleList().stream().map(RoleDto::getRoleName).collect(Collectors.toList());
+        	Collection<String> roleNames = user.getRoleList().stream()
+                    .map(role -> "ROLE_" + role.getRoleName())
+                    .collect(Collectors.toList());
             authorities = AuthorityUtils.createAuthorityList(roleNames.toArray(new String[0]));
             System.out.println(authorities); // Puedes imprimir la lista completa si es necesario.
         } catch (Exception e) {

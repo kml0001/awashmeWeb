@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+
 import cu.edu.cujae.backend.core.dto.UserDto;
 import cu.edu.cujae.backend.core.service.UserServiceImp;
 
@@ -27,9 +28,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserServiceImp userService;
-
+    
+    
+    
+    
     private static final Logger logger = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
-
+    
+    
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
