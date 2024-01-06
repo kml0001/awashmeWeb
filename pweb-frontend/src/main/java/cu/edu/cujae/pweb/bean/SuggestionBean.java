@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component;
 
 import cu.edu.cujae.pweb.dto.SuggestionDto;
 import cu.edu.cujae.pweb.dto.UserDto;
+import cu.edu.cujae.pweb.security.UserPrincipal;
 import cu.edu.cujae.pweb.service.SuggestionService;
 import cu.edu.cujae.pweb.utils.JsfUtils;
-import cu.edu.pweb.security.UserPrincipal;
 
 @Component
 @ManagedBean

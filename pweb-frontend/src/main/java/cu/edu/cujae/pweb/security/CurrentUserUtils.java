@@ -1,8 +1,8 @@
-package cu.edu.cujae.pweb.utils;
+package cu.edu.cujae.pweb.security;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import cu.edu.pweb.security.UserPrincipal;
+import cu.edu.cujae.pweb.security.UserPrincipal;
 
 
 
@@ -41,7 +41,7 @@ public class CurrentUserUtils {
 	public static String getFullName() {
 		String fullName = "Invitado";
 		if (isLogged()) {
-			fullName = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getFirstname();
+			fullName = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getFullname();
 		}
 		return fullName;
 	}

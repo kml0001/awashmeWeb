@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import cu.edu.cujae.pweb.dto.RoleDto;
 import cu.edu.cujae.pweb.dto.UserDto;
+import cu.edu.cujae.pweb.security.CurrentUserUtils;
 import cu.edu.cujae.pweb.service.RoleService;
 import cu.edu.cujae.pweb.service.UserService;
 import cu.edu.cujae.pweb.utils.JsfUtils;
@@ -69,6 +70,7 @@ public class ManageUserBean {
 	}
 	
 	public void saveUser() {
+		System.out.println("Probando: " + CurrentUserUtils.getUsername());
     	List<RoleDto> rolesToAdd = new ArrayList<>();
     	for (String roleDtoId : this.selectedRolesId) {
 			RoleDto newRol = this.roleService.getRolesById(roleDtoId);

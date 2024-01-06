@@ -1,4 +1,4 @@
-package cu.edu.pweb.security;
+package cu.edu.cujae.pweb.security;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -22,8 +22,7 @@ public class UserPrincipal implements UserDetails {
 	 */
 	private static final long serialVersionUID = 1L;
 		private String id;
-	    private String firstname;
-	    private String lastname;
+	    private String fullname;
 	    private String mail;
 	    private String passwd;
 	    private Collection<? extends GrantedAuthority> authorities;
@@ -31,39 +30,44 @@ public class UserPrincipal implements UserDetails {
 	    private List<RoleDto> roleList;
 	    private String token;
 
-	    public UserPrincipal(int id, String firstname, String lastname, String mail, String passwd, Collection<? extends GrantedAuthority> authorities, List<RoleDto> roleList ,String token) {
+	    public UserPrincipal(int id, String fullname, String mail, String passwd, Collection<? extends GrantedAuthority> authorities, String username, List<RoleDto> roleList ,String token) {
 	        this.id = String.valueOf(id);
-	        this.firstname = firstname;
-	        this.lastname = lastname;
+	        this.setFullname(fullname);
 	        this.mail = mail;
 	        this.passwd = passwd;
 	        this.authorities = authorities;
+	        this.setUsername(username);
 	        this.roleList = roleList;
 	        this.token = token;
 	    }
 
 	    public static UserPrincipal create(UserAuthenticatedDto user) {
+	    	System.out.println("username en user principal: " + user.getUsername());
 	    	List<GrantedAuthority> authorities;
 	    	try {
 	    		Collection<String> roleNames = user.getRoles().stream().map(role -> role.getRoleName()).collect(Collectors.toList());
 	    		authorities = AuthorityUtils.createAuthorityList(roleNames.toArray(new String[0]));
 			} catch (Exception e) {
+				e.printStackTrace();
 				authorities = Collections.
 		                singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 				
 			}
 	    	
 	    	
-	        return new UserPrincipal(
+	        UserPrincipal result = new UserPrincipal(
 	                Integer.valueOf(user.getId()),
-	                user.getUsername(),
 	                user.getFullName(),
 	                user.getEmail(),
 	                user.getPassword(),
 	                authorities,
+	                user.getUsername(),
 	                user.getRoles(),
 	                user.getToken()
 	        );
+	        System.out.println("token en user principal" + result.getUsername());
+	        
+	        return result;
 	    }
 
 	    public static UserPrincipal create(UserAuthenticatedDto user, Map<String, Object> attributes) {
@@ -114,14 +118,6 @@ public class UserPrincipal implements UserDetails {
 	        return authorities;
 	    }
 
-	    public String getFirstname() {
-	        return firstname;
-	    }
-
-	    public String getLastname() {
-	        return lastname;
-	    }
-
 	    public List<RoleDto> getRoleList() {
 	        return roleList;
 	    }
@@ -136,4 +132,44 @@ public class UserPrincipal implements UserDetails {
 	    public void setToken(String token) {
 	    	this.token = token;
 	    }
+
+		public String getFullname() {
+			return fullname;
+		}
+
+		public void setFullname(String fullname) {
+			this.fullname = fullname;
+		}
+
+		public String getMail() {
+			return mail;
+		}
+
+		public void setMail(String mail) {
+			this.mail = mail;
+		}
+
+		public String getPasswd() {
+			return passwd;
+		}
+
+		public void setPasswd(String passwd) {
+			this.passwd = passwd;
+		}
+
+		public static long getSerialversionuid() {
+			return serialVersionUID;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
+
+		public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+			this.authorities = authorities;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
 	}

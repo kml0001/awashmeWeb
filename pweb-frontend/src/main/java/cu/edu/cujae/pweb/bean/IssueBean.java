@@ -15,12 +15,13 @@ import org.springframework.stereotype.Component;
 import cu.edu.cujae.pweb.dto.IssueDto;
 import cu.edu.cujae.pweb.dto.ProjectDto;
 import cu.edu.cujae.pweb.dto.UserDto;
+import cu.edu.cujae.pweb.security.CurrentUserUtils;
+import cu.edu.cujae.pweb.security.UserPrincipal;
 import cu.edu.cujae.pweb.service.IssueService;
 import cu.edu.cujae.pweb.service.ProjectService;
 import cu.edu.cujae.pweb.service.UserService;
-import cu.edu.cujae.pweb.utils.CurrentUserUtils;
+
 import cu.edu.cujae.pweb.utils.JsfUtils;
-import cu.edu.pweb.security.UserPrincipal;
 
 @Component
 @ManagedBean
@@ -94,10 +95,11 @@ public class IssueBean{
 		this.selectedUserid = this.selectedIssue.getAssigned_to_id();
 	}
 
-    public void saveIssue() {    	
+    public void saveIssue() {  
+    	System.out.println("User id en issueBean: " + CurrentUserUtils.getUserId());
         this.selectedIssue.setProject_id(this.selectedProjectid);
         this.selectedIssue.setAssigned_to_id(this.selectedUserid);
-        this.selectedIssue.setAuthor_id(1);
+        this.selectedIssue.setAuthor_id(CurrentUserUtils.getUserId());
         
         if (this.selectedIssue.getId() == -1) {
             issueService.createIssue(selectedIssue);

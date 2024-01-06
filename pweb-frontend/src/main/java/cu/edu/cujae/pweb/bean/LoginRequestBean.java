@@ -15,9 +15,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import cu.edu.cujae.pweb.dto.UserAuthenticatedDto;
+import cu.edu.cujae.pweb.security.CurrentUserUtils;
+import cu.edu.cujae.pweb.security.UserPrincipal;
 import cu.edu.cujae.pweb.service.AuthService;
+
 import cu.edu.cujae.pweb.utils.JsfUtils;
-import cu.edu.pweb.security.UserPrincipal;
 
 @Component
 @ManagedBean
@@ -53,14 +55,16 @@ public class LoginRequestBean {
 			UserAuthenticatedDto userAuthenticated = authService.login(username, password);
 			
 			UserDetails userDetails = UserPrincipal.create(userAuthenticated);
+			System.out.println(userDetails.getUsername());
 			
 			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 	        SecurityContextHolder.getContext().setAuthentication(authentication);
-			
+			System.out.println("autentication set en login:" + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		} catch (Exception e) {
 	        JsfUtils.addMessageFromBundle("securityMessages", FacesMessage.SEVERITY_ERROR, "message_invalid_credentials");
 	        return null;
 		}
+		System.out.println("Usando el current util: " + CurrentUserUtils.getUsername());
 		return "login";
 	}
 	protected HttpServletRequest getRequest() {
