@@ -38,6 +38,8 @@ public class SuggestionBean{
     private List<String> importanceList;
     private String selectedImportance;
     
+    private int authorId;
+    
     
     @Autowired
     private SuggestionService suggestionService;
@@ -57,6 +59,7 @@ public class SuggestionBean{
 	@PostConstruct
     public void init() {
     	this.suggestions = suggestions == null? suggestionService.getSuggestions(): suggestions;
+    	
     	
     	this.importanceList = new ArrayList<>();
     	this.importanceList.add("Informative");
@@ -109,10 +112,7 @@ public class SuggestionBean{
 	}
 	
     public void saveSuggestion() {
-    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    	UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
-    	String authorId = principal.getId();
-    	System.out.println(authorId);
+    	this.selectedSuggestion.setAuthor_id(1);
     	
         if (this.selectedSuggestion.getId() == -1) {
             this.suggestionService.createSuggestion(this.selectedSuggestion);
@@ -126,8 +126,8 @@ public class SuggestionBean{
         }
         
     	this.suggestions = suggestionService.getSuggestions();
-        PrimeFaces.current().executeScript("PF('manageSuggestionDtoDialog').hide()");
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-suggestions");
+        PrimeFaces.current().executeScript("PF('manageSuggestionDialog').hide()");
+        PrimeFaces.current().ajax().update("form:ac-suggestions");
     }
 
     public void deleteSuggestionDto() {
@@ -189,6 +189,14 @@ public class SuggestionBean{
 
 	public void setSelectedImportance(String selectedImportance) {
 		this.selectedImportance = selectedImportance;
+	}
+
+	public int getAuthorId() {
+		return authorId;
+	}
+
+	public void setAuthorId(int authorId) {
+		this.authorId = authorId;
 	}
 
 }

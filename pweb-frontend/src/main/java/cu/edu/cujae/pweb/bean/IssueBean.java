@@ -94,21 +94,12 @@ public class IssueBean{
 		this.selectedUserid = this.selectedIssue.getAssigned_to_id();
 	}
 
-    public void saveIssue() {
-    	
-    	
-    	
-   
-    	
-    	System.out.println(CurrentUserUtils.getUserId());
-    	System.out.println(CurrentUserUtils.getTokenBearer());
-    	
-        this.selectedIssue.setProject_id(selectedProjectid);
-        this.selectedIssue.setAssigned_to_id(selectedUserid);
+    public void saveIssue() {    	
+        this.selectedIssue.setProject_id(this.selectedProjectid);
+        this.selectedIssue.setAssigned_to_id(this.selectedUserid);
         this.selectedIssue.setAuthor_id(1);
         
         if (this.selectedIssue.getId() == -1) {
-            //this.selectedIssue.setId(Integer.valueOf(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9)));
             issueService.createIssue(selectedIssue);
             issues = issueService.getIssues();
             

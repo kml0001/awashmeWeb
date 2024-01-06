@@ -23,16 +23,16 @@
 					</p:toolbarGroup>
 				</p:toolbar>
 				<h5>Suggestions:</h5>
-				<p:accordionPanel multiple="true" widgetVar="options"
+				<p:accordionPanel id="ac-suggestions" multiple="true" widgetVar="options"
 					value="#{suggestionBean.suggestions}" var="suggestion">
 
 					<p:tab title="#{suggestion.subject}">
 						<f:facet name="actions">
-							<p:commandLink
+							<p:commandLink rendered="#{suggestionBean.authorId == suggestion.author_id}"
 								styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default">
 								<h:outputText styleClass="ui-icon pi pi-trash" />
 							</p:commandLink>
-							<p:commandLink
+							<p:commandLink rendered="#{suggestionBean.authorId == suggestion.author_id}"
 								styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default">
 								<h:outputText styleClass="ui-icon pi pi-pencil" />
 							</p:commandLink>
@@ -40,7 +40,7 @@
 						</f:facet>
 						<p:panel id="basic" style="margin-bottom:20px">
 							<h:panelGrid columns="2" cellpadding="10">
-								<p class="m-0">"#{suggestion.text}"</p>
+								<p class="m-0">#{suggestion.text}</p>
 							</h:panelGrid>
 							<f:facet name="footer">
 								<h:form id="commentForm">
