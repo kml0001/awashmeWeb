@@ -45,7 +45,7 @@ public class UserServiceImp implements UserService{
                         
                         // Ahora, insertar roles asociados al usuario
                         
-                        if(!user.getRoleList().isEmpty()) {
+                        if(user.getRoleList() != null && !user.getRoleList().isEmpty() ) {
                         	
                         	List<RoleDto> ListRoles = user.getRoleList();
                         	for(RoleDto role : ListRoles) {

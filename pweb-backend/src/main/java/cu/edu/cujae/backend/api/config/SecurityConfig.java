@@ -2,6 +2,7 @@ package cu.edu.cujae.backend.api.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,7 +21,7 @@ import cu.edu.cujae.backend.core.security.CustomUserDetailsService;
 import cu.edu.cujae.backend.core.security.RestAuthenticationEntryPoint;
 import cu.edu.cujae.backend.core.security.TokenAuthenticationFilter;
 
-
+@Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -76,19 +77,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/api/v1/auth/**")
                         .permitAll()
                         
-   
-                    
-                    .antMatchers("/api/v1/issues/**").permitAll()
-                    .antMatchers("/api/v1/suggestions/**").permitAll()
-                    .antMatchers("/api/v1/projects/**").permitAll()
-                    .antMatchers("/api/v1/roles/**").permitAll()
-                    .antMatchers("/api/v1/members/**").permitAll()
-                    .antMatchers("/api/v1/users/**").permitAll()
-
+//                        .antMatchers(HttpMethod.GET,"/api/v1/projects**").hasRole("Project Manager")
+//                        .antMatchers(HttpMethod.POST,"/api/v1/projects**").hasRole("Project Manager")
+//                        .antMatchers(HttpMethod.DELETE,"/api/v1/projects**").hasRole("Project Manager")
+//                        .antMatchers(HttpMethod.PUT, "/api/v1/projects**").hasRole("Project Manager")
+//                     
+//                        
+//                        
+//                        .antMatchers(HttpMethod.POST, "/api/v1/roles**").hasRole("Admin")
+//                        .antMatchers(HttpMethod.DELETE, "/api/v1/roles**").hasRole("Admin")
+//                        .antMatchers(HttpMethod.PUT, "/api/v1/roles**").hasRole("Admin")
+//                        
+//                        
+//                        .antMatchers(HttpMethod.POST, "/api/v1/members**").hasRole("Project Manager")
+//                        .antMatchers(HttpMethod.DELETE, "/api/v1/members**").hasRole("Project Manager")
+//                        .antMatchers(HttpMethod.PUT, "/api/v1/members**").hasRole("Project Manager")
+                       
+                        
+                        
+                        .antMatchers("/api/v1/issues**").permitAll()
+                        .antMatchers("/api/v1/suggestions**").permitAll()
+                          
+                        
+//                      .antMatchers(HttpMethod.POST, "/api/v1/users/**").hasRole("Admin")
+//                      .antMatchers(HttpMethod.DELETE, "/api/v1/users/**").hasRole("Admin")
+//                      .antMatchers(HttpMethod.PUT, "/api/v1/users/**").hasRole("Admin")
                 
                     
+                        
+                        .antMatchers("/api/v1/users**").permitAll()
+                     
+          
+                        
                     .anyRequest()
-                        .authenticated();
+                        .permitAll();
 
         // Add our custom Token based authentication filter
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

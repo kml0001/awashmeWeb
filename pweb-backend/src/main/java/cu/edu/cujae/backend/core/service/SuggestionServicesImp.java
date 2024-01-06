@@ -18,7 +18,7 @@ public class SuggestionServicesImp implements SuggestionService{
 
 	@Override
 	public List<SuggestionDto> getSuggestion() {
-	    String selectSQL = "SELECT * FROM suggestion";
+	    String selectSQL = "SELECT suggestion.*, users.username FROM suggestion JOIN users ON users.id = suggestion.author_id";
 	    List<SuggestionDto> suggestions = new ArrayList<>();
 
 	    try (Connection conn = ConnectionImp.getConnection();
@@ -26,7 +26,15 @@ public class SuggestionServicesImp implements SuggestionService{
 	         ResultSet resultSet = stmt.executeQuery()) {
 
 	        while (resultSet.next()) {
-	            SuggestionDto suggestion = mapResultSetToSuggestion(resultSet);
+	            SuggestionDto suggestion =new SuggestionDto();
+	            suggestion.setId(resultSet.getInt("id"));
+		        suggestion.setAuthor_id(resultSet.getInt("author_id"));
+		        suggestion.setText(resultSet.getString("text"));
+		        suggestion.setCreated_on(resultSet.getString("created_on"));
+		        suggestion.setUrgency(resultSet.getString("urgency"));
+		        suggestion.setImportance(resultSet.getString("importance"));
+		        suggestion.serSubject(resultSet.getString("subject"));
+		        suggestion.setAuthor_name(resultSet.getString("username"));
 	            suggestions.add(suggestion);
 	        }
 
