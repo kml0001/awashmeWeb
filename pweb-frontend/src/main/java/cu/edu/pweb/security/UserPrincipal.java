@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import cu.edu.cujae.pweb.dto.RoleDto;
 import cu.edu.cujae.pweb.dto.UserAuthenticatedDto;
-import cu.edu.cujae.pweb.dto.UserDto;
 
 
 

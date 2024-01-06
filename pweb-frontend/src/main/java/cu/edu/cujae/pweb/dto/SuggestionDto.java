@@ -24,6 +24,7 @@ public class SuggestionDto {
 		this.subject = subject;
 	}
 	public SuggestionDto() {
+		this.id = -1;
 	}
 	public int getId() {
 		return id;
@@ -66,7 +67,7 @@ public class SuggestionDto {
 		return this.subject;
 	}
 	
-	public void serSubject(String subject) {
+	public void setSubject(String subject) {
 		this.subject = subject;
 	}
 	public String getAuthor_name() {

@@ -9,11 +9,15 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import cu.edu.cujae.pweb.dto.SuggestionDto;
 import cu.edu.cujae.pweb.dto.UserDto;
 import cu.edu.cujae.pweb.service.SuggestionService;
+import cu.edu.cujae.pweb.utils.JsfUtils;
+import cu.edu.pweb.security.UserPrincipal;
 
 @Component
 @ManagedBean
@@ -33,6 +37,7 @@ public class SuggestionBean{
     
     private List<String> importanceList;
     private String selectedImportance;
+    
     
     @Autowired
     private SuggestionService suggestionService;
@@ -99,30 +104,38 @@ public class SuggestionBean{
         this.selectedSuggestion = new SuggestionDto();
     }
 
+	public void openForEdit() {							
+
+	}
+	
     public void saveSuggestion() {
-//        if (this.selectedSuggestion.getId() == null) {
-//            this.selectedSuggestion.setId(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9));
-//            this.suggestions.add(this.selectedSuggestion);
-//            suggestionService.createSuggestion(selectedSuggestion);
-//            suggestions = suggestionService.getSuggestions();
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("SuggestionDto Added"));
-//        }
-//        else {
-//        	suggestionService.updateSuggestion(selectedSuggestion);
-//        	suggestions = suggestionService.getSuggestions();
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("SuggestionDto Updated"));
-//        }
-//
-//        PrimeFaces.current().executeScript("PF('manageSuggestionDtoDialog').hide()");
-//        PrimeFaces.current().ajax().update("form:messages", "form:dt-suggestions");
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+    	String authorId = principal.getId();
+    	System.out.println(authorId);
+    	
+        if (this.selectedSuggestion.getId() == -1) {
+            this.suggestionService.createSuggestion(this.selectedSuggestion);
+            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "suggestionDto_added");
+            System.out.println("entro al if");
+        }
+        else {
+        	this.suggestionService.updateSuggestion(this.selectedSuggestion);
+        	JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "suggestionDto_updated");
+            System.out.println("entro al else");
+        }
+        
+    	this.suggestions = suggestionService.getSuggestions();
+        PrimeFaces.current().executeScript("PF('manageSuggestionDtoDialog').hide()");
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-suggestions");
     }
 
     public void deleteSuggestionDto() {
-        this.suggestions.remove(this.selectedSuggestion);
-        this.selectedSuggestions.remove(this.selectedSuggestion);
-        this.selectedSuggestion = null;
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("SuggestionDto Removed"));
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-suggestions");
+    	System.out.println(selectedSuggestion.getId());
+        this.suggestionService.deleteSuggestion(String.valueOf(selectedSuggestion.getId()));
+        this.suggestions = suggestionService.getSuggestions();
+        JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "suggestionDto_deleted");
+        PrimeFaces.current().ajax().update("form:dt-suggestions");
     }
 
     public String getDeleteButtonMessage() {

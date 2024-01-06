@@ -33,7 +33,7 @@ public class SuggestionServicesImp implements SuggestionService{
 		        suggestion.setCreated_on(resultSet.getString("created_on"));
 		        suggestion.setUrgency(resultSet.getString("urgency"));
 		        suggestion.setImportance(resultSet.getString("importance"));
-		        suggestion.serSubject(resultSet.getString("subject"));
+		        suggestion.setSubject(resultSet.getString("subject"));
 		        suggestion.setAuthor_name(resultSet.getString("username"));
 	            suggestions.add(suggestion);
 	        }
@@ -147,7 +147,7 @@ public class SuggestionServicesImp implements SuggestionService{
 	        suggestion.setCreated_on(resultSet.getString("created_on"));
 	        suggestion.setUrgency(resultSet.getString("urgency"));
 	        suggestion.setImportance(resultSet.getString("importance"));
-	        suggestion.serSubject(resultSet.getString("subject"));
+	        suggestion.setSubject(resultSet.getString("subject"));
 	        return suggestion;
 	    }
 	

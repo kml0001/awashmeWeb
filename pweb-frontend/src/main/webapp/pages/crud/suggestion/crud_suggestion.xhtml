@@ -38,7 +38,30 @@
 							</p:commandLink>
 
 						</f:facet>
-						<p class="m-0">"#{suggestion.text}"</p>
+						<p:panel id="basic" style="margin-bottom:20px">
+							<h:panelGrid columns="2" cellpadding="10">
+								<p class="m-0">"#{suggestion.text}"</p>
+							</h:panelGrid>
+							<f:facet name="footer">
+								<h:form id="commentForm">
+									<p:panelGrid columns="2" header="Suggestion details:">
+										<p:outputLabel value="Autor:" />
+										<h:outputText value="#{suggestion.author_name}" />
+
+										<p:outputLabel value="Created on:" />
+										<h:outputText value="#{suggestion.created_on}">
+											<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+										</h:outputText>
+
+										<p:outputLabel value="Importance:" />
+										<h:outputText value="#{suggestion.importance}" />
+
+										<p:outputLabel value="Urgency:" />
+										<h:outputText value="#{suggestion.urgency}" />
+									</p:panelGrid>
+								</h:form>
+							</f:facet>
+						</p:panel>
 					</p:tab>
 				</p:accordionPanel>
 
