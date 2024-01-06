@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,7 +17,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import org.springframework.security.config.BeanIds;
 import cu.edu.cujae.backend.core.security.CustomUserDetailsService;
 import cu.edu.cujae.backend.core.security.RestAuthenticationEntryPoint;
 import cu.edu.cujae.backend.core.security.TokenAuthenticationFilter;
@@ -69,46 +69,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                     .disable()
                 .exceptionHandling()
-                    .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-                    .and()
-                .authorizeRequests()
-                    .antMatchers("/")
-                        .permitAll()
-                    .antMatchers("/api/v1/auth/**")
-                        .permitAll()
-                        
-//                        .antMatchers(HttpMethod.GET,"/api/v1/projects**").hasRole("Project Manager")
-//                        .antMatchers(HttpMethod.POST,"/api/v1/projects**").hasRole("Project Manager")
-//                        .antMatchers(HttpMethod.DELETE,"/api/v1/projects**").hasRole("Project Manager")
-//                        .antMatchers(HttpMethod.PUT, "/api/v1/projects**").hasRole("Project Manager")
-//                     
-//                        
-//                        
-//                        .antMatchers(HttpMethod.POST, "/api/v1/roles**").hasRole("Admin")
-//                        .antMatchers(HttpMethod.DELETE, "/api/v1/roles**").hasRole("Admin")
-//                        .antMatchers(HttpMethod.PUT, "/api/v1/roles**").hasRole("Admin")
-//                        
-//                        
-//                        .antMatchers(HttpMethod.POST, "/api/v1/members**").hasRole("Project Manager")
-//                        .antMatchers(HttpMethod.DELETE, "/api/v1/members**").hasRole("Project Manager")
-//                        .antMatchers(HttpMethod.PUT, "/api/v1/members**").hasRole("Project Manager")
-                       
-                        
-                        
-                        .antMatchers("/api/v1/issues**").permitAll()
-                        .antMatchers("/api/v1/suggestions**").permitAll()
-                          
-                        
-//                      .antMatchers(HttpMethod.POST, "/api/v1/users/**").hasRole("Admin")
-//                      .antMatchers(HttpMethod.DELETE, "/api/v1/users/**").hasRole("Admin")
-//                      .antMatchers(HttpMethod.PUT, "/api/v1/users/**").hasRole("Admin")
-                
-                    
-                        
-                        .antMatchers("/api/v1/users**").permitAll()
+         
+                    .authenticationEntryPoint(new RestAuthenticationEntryPoint()).and()
+                    .authorizeRequests()
+                        .antMatchers("/", "/api/v1/auth/**").permitAll()
+//                        .antMatchers(HttpMethod.GET, "/api/v1/issues/**").hasRole("Project Manager")
+//                        .antMatchers(HttpMethod.POST, "/api/v1/issues/**").hasRole("Project Manager")
+//                        .antMatchers(HttpMethod.DELETE, "/api/v1/issues/**").hasRole("Project Manager")
+//                        .antMatchers(HttpMethod.PUT, "/api/v1/issues/**").hasRole("Project Manager")
+//                        .antMatchers("/api/v1/suggestions/*").permitAll()
+//                        .antMatchers("/api/v1/users/**").permitAll()
                      
-          
-                        
                     .anyRequest()
                         .permitAll();
 

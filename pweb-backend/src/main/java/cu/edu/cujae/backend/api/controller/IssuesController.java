@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cu.edu.cujae.backend.core.dto.IssueDto;
+import cu.edu.cujae.backend.core.security.TokenProvider;
 import cu.edu.cujae.backend.core.service.IssuesServiceImp;
 
 
@@ -25,10 +26,12 @@ public class IssuesController {
 	@Autowired
     private IssuesServiceImp service;
 	
-	
+	@Autowired
+	private TokenProvider token;
 	
 	    @GetMapping("/")
 	    public ResponseEntity<Object> getIssues() {
+	    	
 	    	List<IssueDto> issues = service.getIssues();
 	        return ResponseEntity.ok(issues);
 	    }

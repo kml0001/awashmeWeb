@@ -8,6 +8,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import cu.edu.cujae.pweb.dto.IssueDto;
@@ -16,7 +18,9 @@ import cu.edu.cujae.pweb.dto.UserDto;
 import cu.edu.cujae.pweb.service.IssueService;
 import cu.edu.cujae.pweb.service.ProjectService;
 import cu.edu.cujae.pweb.service.UserService;
+import cu.edu.cujae.pweb.utils.CurrentUserUtils;
 import cu.edu.cujae.pweb.utils.JsfUtils;
+import cu.edu.pweb.security.UserPrincipal;
 
 @Component
 @ManagedBean
@@ -91,7 +95,14 @@ public class IssueBean{
 	}
 
     public void saveIssue() {
-    	System.out.println("rarara");
+    	
+    	
+    	
+   
+    	
+    	System.out.println(CurrentUserUtils.getUserId());
+    	System.out.println(CurrentUserUtils.getTokenBearer());
+    	
         this.selectedIssue.setProject_id(selectedProjectid);
         this.selectedIssue.setAssigned_to_id(selectedUserid);
         this.selectedIssue.setAuthor_id(1);

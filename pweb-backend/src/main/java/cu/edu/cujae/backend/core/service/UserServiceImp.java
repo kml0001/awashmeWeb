@@ -36,7 +36,7 @@ public class UserServiceImp implements UserService{
             stmt.setString(4,encodePass(user.getPasswd()));
 
             int rowsAffected = stmt.executeUpdate();
-
+            
             if (rowsAffected > 0) {
                 // Obtener el ID generado
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {

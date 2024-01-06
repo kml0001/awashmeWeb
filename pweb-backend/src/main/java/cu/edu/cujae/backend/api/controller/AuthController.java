@@ -43,9 +43,7 @@ import io.swagger.annotations.Api;
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 
 				String token = tokenProvider.createToken(authentication);
-				
 				UserDto user = userService.getUserByUsername(loginRequestDto.getUsername());
-				
 				UserAuthenticatedDto userAuth = new UserAuthenticatedDto(String.valueOf(user.getId()), user.getUsername(), user.getFullname(), null,user.getMail(), user.getRoleList(), token);
 				
 				

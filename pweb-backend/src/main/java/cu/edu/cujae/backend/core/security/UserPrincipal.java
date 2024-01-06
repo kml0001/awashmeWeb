@@ -44,16 +44,15 @@ public class UserPrincipal implements UserDetails {
     }
 
     public static UserPrincipal create(UserDto user) {
-    	List<GrantedAuthority> authorities;
-    	try {
-    		Collection<String> roleNames = user.getRoleList().stream().map(role -> role.getRoleName()).collect(Collectors.toList());
-    		authorities = AuthorityUtils.createAuthorityList(roleNames.toArray(new String[0]));
-		} catch (Exception e) {
-			authorities = Collections.
-	                singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-			
-		}
-    	return new UserPrincipal(
+        List<GrantedAuthority> authorities;
+        try {
+            Collection<String> roleNames = user.getRoleList().stream().map(RoleDto::getRoleName).collect(Collectors.toList());
+            authorities = AuthorityUtils.createAuthorityList(roleNames.toArray(new String[0]));
+            System.out.println(authorities); // Puedes imprimir la lista completa si es necesario.
+        } catch (Exception e) {
+            authorities = Collections.singletonList(new SimpleGrantedAuthority("Developer"));
+        }
+        return new UserPrincipal(
                 user.getId(),
                 user.getUsername(),
                 user.getFullname(),
