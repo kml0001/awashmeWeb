@@ -1,5 +1,6 @@
 package cu.edu.cujae.pweb.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -27,6 +28,12 @@ public class SuggestionBean{
     
     private List<UserDto> selectedMembers;
     
+    private List<String> urgencyList;
+    private String selectedUrgency;
+    
+    private List<String> importanceList;
+    private String selectedImportance;
+    
     @Autowired
     private SuggestionService suggestionService;
     
@@ -45,6 +52,18 @@ public class SuggestionBean{
 	@PostConstruct
     public void init() {
     	this.suggestions = suggestions == null? suggestionService.getSuggestions(): suggestions;
+    	
+    	this.importanceList = new ArrayList<>();
+    	this.importanceList.add("Informative");
+    	this.importanceList.add("Relevant");
+    	this.importanceList.add("Important");
+    	this.importanceList.add("Critical");
+    	
+    	this.urgencyList = new ArrayList<>();
+    	this.urgencyList.add("Low priority");
+    	this.urgencyList.add("Medium priority");
+    	this.urgencyList.add("High priority");
+    	this.urgencyList.add("Urgent");
     }
 
     public List<SuggestionDto> getSuggestions() {
@@ -126,5 +145,37 @@ public class SuggestionBean{
         PrimeFaces.current().ajax().update("form:messages", "form:dt-suggestions");
         PrimeFaces.current().executeScript("PF('dtSuggestionDtos').clearFilters()");
     }
+
+	public List<String> getUrgencyList() {
+		return urgencyList;
+	}
+
+	public void setUrgencyList(List<String> urgencyList) {
+		this.urgencyList = urgencyList;
+	}
+
+	public List<String> getImportanceList() {
+		return importanceList;
+	}
+
+	public void setImportanceList(List<String> importanceList) {
+		this.importanceList = importanceList;
+	}
+
+	public String getSelectedUrgency() {
+		return selectedUrgency;
+	}
+
+	public void setSelectedUrgency(String selectedUrgency) {
+		this.selectedUrgency = selectedUrgency;
+	}
+
+	public String getSelectedImportance() {
+		return selectedImportance;
+	}
+
+	public void setSelectedImportance(String selectedImportance) {
+		this.selectedImportance = selectedImportance;
+	}
 
 }

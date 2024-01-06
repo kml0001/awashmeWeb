@@ -7,51 +7,62 @@
 	<p:dialog header="Suggestion" showEffect="fade" modal="true"
 		widgetVar="manageSuggestionDialog" responsive="true">
 		<p:outputPanel id="manage-suggestion-content" class="ui-fluid">
-			<p:outputPanel rendered="#{not empty suggestionBean.selectedSuggestion}">
-				<p:panelGrid layout="grid" columns="2">
+			<p:outputPanel
+				rendered="#{not empty suggestionBean.selectedSuggestion}">
+				<p:panelGrid layout="grid" columns="1">
 					<h:panelGroup>
 						<div class="p-field">
-							<p:outputLabel for="@next">Tipo</p:outputLabel>
-							<p:inputText id="tipo" required="true"
-								value="#{suggestionBean.selectedSuggestion.tipo}" />
+							<p:outputLabel for="@next">Subject:</p:outputLabel>
+							<p:inputText id="subject" required="true"
+								value="#{suggestionBean.selectedSuggestion.subject}" />
 							<p:message for="@previous"></p:message>
 						</div>
 					</h:panelGroup>
 					<h:panelGroup>
 						<div class="p-field">
-							<p:outputLabel for="@next">Tiempo estimado</p:outputLabel>
-							<p:inputText id="tiempo" required="true"
-								value="#{suggestionBean.selectedSuggestion.fondo_de_tiempo}" />
+							<p:outputLabel for="@next">Text:</p:outputLabel>
+							<p:inputTextarea rows="6" cols="33"
+								value="#{suggestionBean.selectedSuggestion.text}" />
 							<p:message for="@previous"></p:message>
 						</div>
 					</h:panelGroup>
 					<h:panelGroup>
 						<div class="p-field">
-							<p:outputLabel for="@next">Cumplimiento</p:outputLabel>
-							<p:inputText id="cumplimiento" required="true"
-								value="#{suggestionBean.selectedSuggestion.cumplimiento}" />
-							<p:message for="@previous"></p:message>
+							<p:outputLabel for="@next">Urgency:</p:outputLabel>
+							<p:selectOneMenu id="urgency" required="true"
+								value="#{suggestionBean.selectedUrgency}" label="Select"
+								style="min-width: 15rem" multiple="true" filter="false"
+								filterMatchMode="startsWith" panelStyle="width: 30rem"
+								scrollHeight="250">
+								<f:selectItems value="#{suggestionBean.urgencyList}" var="urgency"
+									itemLabel="#{urgency}" itemValue="#{urgency}" />
+							</p:selectOneMenu>
+						</div>
+						<div class="p-field">
+							<p:outputLabel for="@next">Importance:</p:outputLabel>
+							<p:selectOneMenu id="importance" required="true"
+								value="#{suggestionBean.selectedImportance}" label="Select"
+								style="min-width: 15rem" multiple="true" filter="false"
+								filterMatchMode="startsWith" panelStyle="width: 30rem"
+								scrollHeight="250">
+								<f:selectItems value="#{suggestionBean.importanceList}" var="importance"
+									itemLabel="#{importance}" itemValue="#{importance}" />
+							</p:selectOneMenu>
 						</div>
 					</h:panelGroup>
-					<h:panelGroup>
-						<div class="p-field">
-							<p:outputLabel for="@next">Asignado</p:outputLabel>
-							<p:inputText id="asignado" required="true"
-								value="#{suggestionBean.selectedSuggestion.persona_asignada}" />
-							<p:message for="@previous"></p:message>
-						</div>						
-					</h:panelGroup>
-					
+
 				</p:panelGrid>
 			</p:outputPanel>
 		</p:outputPanel>
 
 		<f:facet name="footer">
-			<p:commandButton value="Salvar" icon="pi pi-check"
+			<p:commandButton value="Send" icon="pi pi-send"
 				actionListener="#{suggestionBean.saveSuggestion}"
-				update="manage-suggestion-content" process="manage-suggestion-content @this" />
-			<p:commandButton value="Cancelar" icon="pi pi-times"
-				onclick="PF('manageSuggestionDialog').hide()" class="ui-button-secondary" />
+				update="manage-suggestion-content"
+				process="manage-suggestion-content @this" />
+			<p:commandButton value="Cancel" icon="pi pi-times"
+				onclick="PF('manageSuggestionDialog').hide()"
+				class="ui-button-secondary" />
 		</f:facet>
 	</p:dialog>
 </ui:composition>

@@ -6,14 +6,17 @@ public class SuggestionDto {
 	private String created_on;
 	
 	private int author_id;
+	private String author_name;
 	private String subject;
 	private String text;
 	private String urgency;
 	private String importance;
-	public SuggestionDto(int id, int author_id, String description, String created_on, String urgency, String importance , String subject) {
+	public SuggestionDto(int id, int author_id, String description, String created_on, String urgency, String importance , String subject,
+			String author_name) {
 		super();
 		this.id = id;
 		this.author_id = author_id;
+		this.author_name = author_name;
 		this.text = description;
 		this.created_on = created_on;
 		this.urgency = urgency;
@@ -65,6 +68,12 @@ public class SuggestionDto {
 	
 	public void serSubject(String subject) {
 		this.subject = subject;
+	}
+	public String getAuthor_name() {
+		return author_name;
+	}
+	public void setAuthor_name(String author_name) {
+		this.author_name = author_name;
 	}
 }
 
