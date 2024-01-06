@@ -2,8 +2,6 @@ package cu.edu.cujae.pweb.security;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import cu.edu.cujae.pweb.security.UserPrincipal;
-
 
 
 public class CurrentUserUtils {
