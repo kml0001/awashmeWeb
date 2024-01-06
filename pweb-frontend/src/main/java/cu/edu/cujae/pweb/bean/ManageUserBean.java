@@ -2,7 +2,6 @@ package cu.edu.cujae.pweb.bean;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
@@ -44,16 +43,6 @@ public class ManageUserBean {
 	public ManageUserBean() {
 		
 	}
-	
-	@PostConstruct
-    public void init() {
-		this.selectedUser = null;
-		this.userDto = null;
-	    this.users = users == null ? userService.getUsers() : users;
-	    System.out.println("Inicializo users: " + users);
-		this.roles = roleService.getRoles();
-		System.out.println("Inicializo roles: " + roles);
-    }
 	
 	public void openNew() {
         this.selectedUser = new UserDto();
@@ -120,6 +109,7 @@ public class ManageUserBean {
 	}
 
 	public List<UserDto> getUsers() {
+		this.users = this.userService.getUsers();
 		return users;
 	}
 
@@ -152,6 +142,7 @@ public class ManageUserBean {
 	}
 
 	public List<RoleDto> getRoles() {
+		this.roles = this.roleService.getRoles();
 		return roles;
 	}
 

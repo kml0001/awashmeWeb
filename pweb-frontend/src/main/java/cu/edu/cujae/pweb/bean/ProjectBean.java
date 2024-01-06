@@ -3,7 +3,6 @@ package cu.edu.cujae.pweb.bean;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -44,12 +43,8 @@ public class ProjectBean{
 		this.projects = projects;
 	}
 
-	@PostConstruct
-    public void init() {
-    	projects = projects == null? projectService.getProjects(): projects;
-    }
-
     public List<ProjectDto> getProjects() {
+    	this.projects = this.projectService.getProjects();
         return projects;
     }
 

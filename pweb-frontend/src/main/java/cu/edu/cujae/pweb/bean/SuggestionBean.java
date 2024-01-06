@@ -2,20 +2,16 @@ package cu.edu.cujae.pweb.bean;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import cu.edu.cujae.pweb.dto.SuggestionDto;
 import cu.edu.cujae.pweb.dto.UserDto;
-import cu.edu.cujae.pweb.security.UserPrincipal;
 import cu.edu.cujae.pweb.service.SuggestionService;
 import cu.edu.cujae.pweb.utils.JsfUtils;
 
@@ -32,10 +28,10 @@ public class SuggestionBean{
     
     private List<UserDto> selectedMembers;
     
-    private List<String> urgencyList;
+    private List<String> urgencyList = new ArrayList<>();
     private String selectedUrgency;
     
-    private List<String> importanceList;
+    private List<String> importanceList = new ArrayList<>();
     private String selectedImportance;
     
     private int authorId;
@@ -56,25 +52,8 @@ public class SuggestionBean{
 		this.suggestions = suggestions;
 	}
 
-	@PostConstruct
-    public void init() {
-    	this.suggestions = suggestions == null? suggestionService.getSuggestions(): suggestions;
-    	
-    	
-    	this.importanceList = new ArrayList<>();
-    	this.importanceList.add("Informative");
-    	this.importanceList.add("Relevant");
-    	this.importanceList.add("Important");
-    	this.importanceList.add("Critical");
-    	
-    	this.urgencyList = new ArrayList<>();
-    	this.urgencyList.add("Low priority");
-    	this.urgencyList.add("Medium priority");
-    	this.urgencyList.add("High priority");
-    	this.urgencyList.add("Urgent");
-    }
-
     public List<SuggestionDto> getSuggestions() {
+    	this.suggestions = this.suggestionService.getSuggestions();
         return suggestions;
     }
 
@@ -105,6 +84,15 @@ public class SuggestionBean{
 
 	public void openNew() {
         this.selectedSuggestion = new SuggestionDto();
+    	this.importanceList.add("Informative");
+    	this.importanceList.add("Relevant");
+    	this.importanceList.add("Important");
+    	this.importanceList.add("Critical");
+    	
+    	this.urgencyList.add("Low priority");
+    	this.urgencyList.add("Medium priority");
+    	this.urgencyList.add("High priority");
+    	this.urgencyList.add("Urgent");
     }
 
 	public void openForEdit() {							

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -34,7 +33,7 @@ public class ProjectReportBean {
 	
 	private ProjectFilterDto filter;
 	
-	private List<Date> rangeStartDate;
+	private List<Date> rangeStartDate = new ArrayList<>();
 	private boolean startDateBoolean;
 	
 	private int minParticipants;
@@ -79,6 +78,7 @@ public class ProjectReportBean {
 	}
 
 	public List<ProjectReportDto> getProjectReports() {
+		this.projectReports = this.projectService.getProjectReports(new ProjectFilterDto());
 		return projectReports;
 	}
 
@@ -117,18 +117,6 @@ public class ProjectReportBean {
 	public void setSelectedProjects(List<ProjectReportDto> selectedProjects) {
 		this.selectedProjectReports = selectedProjects;
 	}
-
-	@PostConstruct
-    public void init() {
-    	projectReports = projectReports == null? projectService.getProjectReports(new ProjectFilterDto()): projectReports;
-    	this.rangeStartDate = new ArrayList<>();
-//    	this.filterNames.add("Start date");
-//    	this.filterNames.add("Number of members");
-//    	this.filterNames.add("Number of issues");
-//    	this.filterNames.add("Number of delayed tasks");
-//    	this.filterNames.add("Done ratio");
-    	System.out.println("ssssssssss" + projectReports);
-    }
 
 	public List<String> getFilterNames() {
 		return filterNames;

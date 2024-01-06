@@ -1,22 +1,18 @@
 package cu.edu.cujae.pweb.bean;
 
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import cu.edu.cujae.pweb.dto.IssueDto;
 import cu.edu.cujae.pweb.dto.ProjectDto;
 import cu.edu.cujae.pweb.dto.UserDto;
 import cu.edu.cujae.pweb.security.CurrentUserUtils;
-import cu.edu.cujae.pweb.security.UserPrincipal;
 import cu.edu.cujae.pweb.service.IssueService;
 import cu.edu.cujae.pweb.service.ProjectService;
 import cu.edu.cujae.pweb.service.UserService;
@@ -54,16 +50,10 @@ public class IssueBean{
     
     @Autowired
     private ProjectService projectService;
-    @PostConstruct
-    public void init() {
-    	issues = issues == null? issueService.getIssues(): issues;
-    	projects = projects == null? projectService.getProjects(): projects;
-    	users = users == null? userService.getUsers(): users;
-    	System.out.println("sssss" + users);
-    }
 
     public List<IssueDto> getIssues() {
-        return issues;
+    	this.issues = this.issueService.getIssues();
+    	return this.issues;
     }
 
     public IssueDto getSelectedIssue() {
@@ -158,7 +148,8 @@ public class IssueBean{
 	}
 
 	public List<ProjectDto> getProjects() {
-		return projects;
+		this.projects = this.projectService.getProjects();
+		return this.projects;
 	}
 
 	public void setProjects(List<ProjectDto> projects) {
@@ -186,7 +177,8 @@ public class IssueBean{
 	}
 
 	public List<UserDto> getUsers() {
-		return users;
+		this.users = this.userService.getUsers();
+		return this.users;
 	}
 
 	public void setUsers(List<UserDto> users) {

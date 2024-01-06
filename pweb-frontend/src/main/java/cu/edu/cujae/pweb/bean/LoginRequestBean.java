@@ -67,11 +67,27 @@ public class LoginRequestBean {
 		System.out.println("Usando el current util: " + CurrentUserUtils.getUsername());
 		return "login";
 	}
-	protected HttpServletRequest getRequest() {
-	    return (HttpServletRequest) getFacesContext().getExternalContext().getRequest();
+	
+	public String logout() {
+		return dispatchToUrl("/logout");
 	}
 	
-	protected FacesContext getFacesContext() {
-	    return FacesContext.getCurrentInstance();
+	public String getUserLogued() {
+		return CurrentUserUtils.getFullName();
 	}
+	
+	private String dispatchToUrl(String url) {
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
+		HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+		try {
+			dispatcher.forward(request, response);
+			facesContext.responseComplete();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}  
+		return null;
+	}
+
 }

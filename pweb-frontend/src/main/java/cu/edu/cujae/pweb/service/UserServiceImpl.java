@@ -11,6 +11,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriTemplate;
 
 import cu.edu.cujae.pweb.dto.UserDto;
+import cu.edu.cujae.pweb.security.CurrentUserUtils;
 import cu.edu.cujae.pweb.utils.ApiRestMapper;
 import cu.edu.cujae.pweb.utils.RestService;
 
@@ -27,7 +28,7 @@ public class UserServiceImpl implements UserService{
 	    try {
 	    	MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		    ApiRestMapper<UserDto> apiRestMapper = new ApiRestMapper<>();
-		    String response = (String)restService.GET("/api/v1/users/", params, String.class).getBody();
+		    String response = (String)restService.GET("/api/v1/users/", params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
 		    System.out.println("Llego a hacer la peticion: " + response);
 		    userList = apiRestMapper.mapList(response, UserDto.class);
 		} catch (IOException e) {
@@ -46,7 +47,7 @@ public class UserServiceImpl implements UserService{
 		    
 		    UriTemplate template = new UriTemplate("/api/v1/users/{userId}");
 		    String uri = template.expand(userId).toString();
-		    String response = (String)restService.GET(uri, params, String.class).getBody();
+		    String response = (String)restService.GET(uri, params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
 		    user = apiRestMapper.mapOne(response, UserDto.class);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -56,13 +57,13 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void createUser(UserDto user) {
-		restService.POST("/api/v1/users/", user, String.class).getBody();
+		restService.POST("/api/v1/users/", user, String.class, CurrentUserUtils.getTokenBearer()).getBody();
 	}
 
 	@Override
 	public void updateUser(UserDto user) {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		restService.PUT("/api/v1/users/", params, user, String.class).getBody();
+		restService.PUT("/api/v1/users/", params, user, String.class, CurrentUserUtils.getTokenBearer()).getBody();
 	}
 
 	@Override
@@ -70,7 +71,7 @@ public class UserServiceImpl implements UserService{
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		UriTemplate template = new UriTemplate("/api/v1/users/{userId}");
 	    String uri = template.expand(userId).toString();
-		restService.DELETE(uri, params, String.class, null).getBody();
+		restService.DELETE(uri, params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
 	}
 	
 }

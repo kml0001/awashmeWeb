@@ -85,31 +85,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .antMatchers("/", "/api/v1/auth/**").permitAll()
                         
                         
-//                        .antMatchers(HttpMethod.GET, "/api/v1/projects/**").hasRole("Project Manager")
-//              		  .antMatchers(HttpMethod.POST, "/api/v1/projects/**").hasRole("Project Manager")
-//                        .antMatchers(HttpMethod.DELETE, "/api/v1/projects/**").hasRole("Project Manager")
-//                        .antMatchers(HttpMethod.PUT, "/api/v1/projects/**").hasRole("Project Manager")
-//                     
-//                        
-//                        .antMatchers(HttpMethod.POST, "/api/v1/roles/**").hasRole("Admin")
-//                        .antMatchers(HttpMethod.DELETE, "/api/v1/roles/**").hasRole("Admin")
-//                        .antMatchers(HttpMethod.PUT, "/api/v1/roles/**").hasRole("Admin")
-//                        
-//                        
-//                        .antMatchers(HttpMethod.POST, "/api/v1/members/**").hasRole("Project Manager")
-//                        .antMatchers(HttpMethod.DELETE, "/api/v1/members/**").hasRole("Project Manager")
-//                        .antMatchers(HttpMethod.PUT, "/api/v1/members/**").hasRole("Project Manager")
-//                       
-//                        .antMatchers("/api/v1/issues/**").authenticated()
-//                        .antMatchers("/api/v1/suggestion/**").authenticated()
-//
-//                        .antMatchers(HttpMethod.POST, "/api/v1/users/**").hasRole("Admin")
-//                        .antMatchers(HttpMethod.DELETE, "/api/v1/users/**").hasRole("Admin")
-//                        .antMatchers(HttpMethod.PUT, "/api/v1/users/**").hasRole("Admin")
+                        .antMatchers(HttpMethod.GET, "/api/v1/projects/**").hasRole("Project Manager")
+              		  .antMatchers(HttpMethod.POST, "/api/v1/projects/**").hasRole("Project Manager")
+                        .antMatchers(HttpMethod.DELETE, "/api/v1/projects/**").hasRole("Project Manager")
+                        .antMatchers(HttpMethod.PUT, "/api/v1/projects/**").hasRole("Project Manager")
+                     
+                        
+                        .antMatchers(HttpMethod.POST, "/api/v1/roles/**").hasRole("Admin")
+                        .antMatchers(HttpMethod.DELETE, "/api/v1/roles/**").hasRole("Admin")
+                        .antMatchers(HttpMethod.PUT, "/api/v1/roles/**").hasRole("Admin")
+                        
+                        
+                        .antMatchers(HttpMethod.POST, "/api/v1/members/**").hasRole("Project Manager")
+                        .antMatchers(HttpMethod.DELETE, "/api/v1/members/**").hasRole("Project Manager")
+                        .antMatchers(HttpMethod.PUT, "/api/v1/members/**").hasRole("Project Manager")
+                       
+                        .antMatchers("/api/v1/issues/**").authenticated()
+                        .antMatchers("/api/v1/suggestion/**").authenticated()
+
+                        .antMatchers(HttpMethod.POST, "/api/v1/users/**").hasRole("Admin")
+                        .antMatchers(HttpMethod.DELETE, "/api/v1/users/**").hasRole("Admin")
+                        .antMatchers(HttpMethod.PUT, "/api/v1/users/**").hasRole("Admin")
                      
                     .anyRequest()
-                    	.permitAll();
-                        //.authenticated();
+//                    	.permitAll();
+                        .authenticated();
 
         // Add our custom Token based authentication filter
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)

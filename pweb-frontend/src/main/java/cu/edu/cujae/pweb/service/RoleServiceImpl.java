@@ -10,6 +10,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriTemplate;
 
 import cu.edu.cujae.pweb.dto.RoleDto;
+import cu.edu.cujae.pweb.security.CurrentUserUtils;
 import cu.edu.cujae.pweb.utils.ApiRestMapper;
 import cu.edu.cujae.pweb.utils.RestService;
 
@@ -25,7 +26,7 @@ public class RoleServiceImpl implements RoleService{
 	    try {
 	    	MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		    ApiRestMapper<RoleDto> apiRestMapper = new ApiRestMapper<>();
-		    String response = (String)restService.GET("/api/v1/roles/", params, String.class).getBody();
+		    String response = (String)restService.GET("/api/v1/roles/", params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
 		    roleList = apiRestMapper.mapList(response, RoleDto.class);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -43,7 +44,7 @@ public class RoleServiceImpl implements RoleService{
 		    UriTemplate template = new UriTemplate("/api/v1/roles/users/{userId}");
 		    String uri = template.expand(userId).toString();
 		    
-		    String response = (String)restService.GET(uri, params, String.class).getBody();
+		    String response = (String)restService.GET(uri, params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
 		    roleList = apiRestMapper.mapList(response, RoleDto.class);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -61,7 +62,7 @@ public class RoleServiceImpl implements RoleService{
 		    
 		    UriTemplate template = new UriTemplate("/api/v1/roles/{id}");
 		    String uri = template.expand(roleId).toString();
-		    String response = (String)restService.GET(uri, params, String.class).getBody();
+		    String response = (String)restService.GET(uri, params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
 		    role = apiRestMapper.mapOne(response, RoleDto.class);
 		} catch (Exception e) {
 			// TODO: handle exception
