@@ -18,12 +18,13 @@ public class AuthServiceImpl implements AuthService {
 	public UserAuthenticatedDto login(String username, String password) {
 		UserAuthenticatedDto authenticatedDto = null;
 		
+		
 		try {
 		    ApiRestMapper<UserAuthenticatedDto> apiRestMapper = new ApiRestMapper<>();
 		    String response = (String)restService.POST("/api/v1/auth/login", new LoginRequestDto(username, password), String.class).getBody();
-		  
+		    System.out.println(response);
 		    authenticatedDto = apiRestMapper.mapOne(response, UserAuthenticatedDto.class);
-		    
+		    System.out.println(authenticatedDto.getFullName() + "<------------------------------------------------------------");
 		} catch (Exception e) {
 			e.printStackTrace();
 			authenticatedDto = null;

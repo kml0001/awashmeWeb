@@ -55,11 +55,11 @@ public class LoginRequestBean {
 			UserAuthenticatedDto userAuthenticated = authService.login(username, password);
 			
 			UserDetails userDetails = UserPrincipal.create(userAuthenticated);
-			
+			System.out.println(userDetails.getUsername());
 			
 			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 	        SecurityContextHolder.getContext().setAuthentication(authentication);
-		
+			System.out.println("autentication set en login:" + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		} catch (Exception e) {
 	        JsfUtils.addMessageFromBundle("securityMessages", FacesMessage.SEVERITY_ERROR, "message_invalid_credentials");
 	        return null;

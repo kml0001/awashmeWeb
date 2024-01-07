@@ -42,7 +42,7 @@ public class UserPrincipal implements UserDetails {
 	    }
 
 	    public static UserPrincipal create(UserAuthenticatedDto user) {
-	    	
+	    	System.out.println("username en user principal: " + user.getUsername());
 	    	List<GrantedAuthority> authorities;
 	    	try {
 	    		Collection<String> roleNames = user.getRoles().stream().map(role -> role.getRoleName()).collect(Collectors.toList());
@@ -65,7 +65,8 @@ public class UserPrincipal implements UserDetails {
 	                user.getRoles(),
 	                user.getToken()
 	        );
-
+	        System.out.println("token en user principal" + result.getUsername());
+	        
 	        return result;
 	    }
 

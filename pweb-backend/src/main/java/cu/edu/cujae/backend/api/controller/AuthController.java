@@ -47,6 +47,12 @@ import io.swagger.annotations.Api;
 				UserAuthenticatedDto userAuth = new UserAuthenticatedDto(String.valueOf(user.getId()), user.getUsername(), user.getFullname(), null,user.getMail(), user.getRoleList(), token);
 				
 				
+				
+				
+				String userId = tokenProvider.getUserIdFromToken(token);
+				System.out.println("ID del usuario: " + userId);
+				
+				
 				return ResponseEntity.ok(userAuth);
 			} catch (BadCredentialsException e) {
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");

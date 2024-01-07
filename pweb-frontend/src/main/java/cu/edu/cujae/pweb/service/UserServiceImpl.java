@@ -23,13 +23,13 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public List<UserDto> getUsers(){
-		
+		System.out.println("papapapapapaapapapapaap");
 		List<UserDto> userList = new ArrayList<UserDto>();
 	    try {
 	    	MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		    ApiRestMapper<UserDto> apiRestMapper = new ApiRestMapper<>();
 		    String response = (String)restService.GET("/api/v1/users/", params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
-		  
+		    System.out.println("Llego a hacer la peticion: " + response);
 		    userList = apiRestMapper.mapList(response, UserDto.class);
 		} catch (IOException e) {
 			e.printStackTrace();

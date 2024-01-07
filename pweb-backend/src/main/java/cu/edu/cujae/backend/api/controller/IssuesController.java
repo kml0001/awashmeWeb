@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cu.edu.cujae.backend.core.dto.IssueDto;
+import cu.edu.cujae.backend.core.security.TokenProvider;
 import cu.edu.cujae.backend.core.service.IssuesServiceImp;
 
 
@@ -25,6 +27,10 @@ public class IssuesController {
 	@Autowired
     private IssuesServiceImp service;
 	
+	@Autowired
+	private TokenProvider token;
+		
+		
 	    @GetMapping("/")
 	    public ResponseEntity<Object> getIssues() {
 	    	
