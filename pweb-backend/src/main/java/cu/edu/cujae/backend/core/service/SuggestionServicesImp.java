@@ -18,7 +18,7 @@ public class SuggestionServicesImp implements SuggestionService{
 
 	@Override
 	public List<SuggestionDto> getSuggestion() {
-	    String selectSQL = "SELECT suggestion.*, users.username FROM suggestion JOIN users ON users.id = suggestion.author_id";
+	    String selectSQL = "SELECT suggestion.*, users.username FROM suggestion JOIN users ON users.id = suggestion.author_id ORDER BY suggestion.created_on DESC";
 	    List<SuggestionDto> suggestions = new ArrayList<>();
 
 	    try (Connection conn = ConnectionImp.getConnection();
