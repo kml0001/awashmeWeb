@@ -21,7 +21,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import cu.edu.cujae.backend.core.security.CustomUserDetailsService;
 import cu.edu.cujae.backend.core.security.RestAuthenticationEntryPoint;
 import cu.edu.cujae.backend.core.security.TokenAuthenticationFilter;
-import cu.edu.cujae.backend.core.security.TokenRoleAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -49,11 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
         return new TokenAuthenticationFilter();
-    }
-	
-	@Bean
-    public TokenRoleAuthenticationFilter tokenRoleAuthenticationFilter() {
-        return new TokenRoleAuthenticationFilter();
     }
 	
 	@Override
@@ -112,8 +106,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .authenticated();
 
         // Add our custom Token based authentication filter
-        http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-        .addFilterAfter(tokenRoleAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
 	@Override
