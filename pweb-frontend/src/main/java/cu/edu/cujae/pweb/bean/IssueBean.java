@@ -1,18 +1,22 @@
 package cu.edu.cujae.pweb.bean;
 
 import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import cu.edu.cujae.pweb.dto.IssueDto;
 import cu.edu.cujae.pweb.dto.ProjectDto;
 import cu.edu.cujae.pweb.dto.UserDto;
 import cu.edu.cujae.pweb.security.CurrentUserUtils;
+import cu.edu.cujae.pweb.security.UserPrincipal;
 import cu.edu.cujae.pweb.service.IssueService;
 import cu.edu.cujae.pweb.service.ProjectService;
 import cu.edu.cujae.pweb.service.UserService;
@@ -50,10 +54,10 @@ public class IssueBean{
     
     @Autowired
     private ProjectService projectService;
+   
 
     public List<IssueDto> getIssues() {
-    	this.issues = this.issueService.getIssues();
-    	return this.issues;
+        return issues;
     }
 
     public IssueDto getSelectedIssue() {
@@ -78,6 +82,14 @@ public class IssueBean{
         this.selectedProjectid = -1;
         this.selectedUser = null;
         this.selectedUserid = -1;
+        
+        issues = issueService.getIssues();
+        projects = projectService.getProjects();
+        users = userService.getUsers();
+        
+        
+        
+        
     }
     
 	public void openForEdit() {							
@@ -86,7 +98,7 @@ public class IssueBean{
 	}
 
     public void saveIssue() {  
-    	System.out.println("User id en issueBean: " + CurrentUserUtils.getUserId());
+    	
         this.selectedIssue.setProject_id(this.selectedProjectid);
         this.selectedIssue.setAssigned_to_id(this.selectedUserid);
         this.selectedIssue.setAuthor_id(CurrentUserUtils.getUserId());
@@ -96,13 +108,13 @@ public class IssueBean{
             issues = issueService.getIssues();
             
             JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_added");
-            System.out.println("entro al if");
+          
         }
         else {
         	issueService.updateIssue(selectedIssue);
         	issues = issueService.getIssues();
         	JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_updated");
-            System.out.println("entro al else");
+         
             
         }
 
@@ -111,7 +123,7 @@ public class IssueBean{
     }
 
     public void deleteIssue() {
-    	System.out.println(selectedIssue.getId());
+    
         this.issueService.deleteIssue(String.valueOf(selectedIssue.getId()));
         issues = issueService.getIssues();
         JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_deleted");
@@ -148,8 +160,7 @@ public class IssueBean{
 	}
 
 	public List<ProjectDto> getProjects() {
-		this.projects = this.projectService.getProjects();
-		return this.projects;
+		return projects;
 	}
 
 	public void setProjects(List<ProjectDto> projects) {
@@ -177,8 +188,7 @@ public class IssueBean{
 	}
 
 	public List<UserDto> getUsers() {
-		this.users = this.userService.getUsers();
-		return this.users;
+		return users;
 	}
 
 	public void setUsers(List<UserDto> users) {

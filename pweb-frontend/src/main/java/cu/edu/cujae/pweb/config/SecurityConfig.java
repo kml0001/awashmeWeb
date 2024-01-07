@@ -5,6 +5,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -12,11 +13,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+    	System.out.println("ESTO NO SIRVEEEEEEEEEEEEEEEEEEEE <--------------------------");
         // todas las solicitudes deben estar autenticadas excepto las que se definan en este code
         http.authorizeRequests().antMatchers("/javax.faces.resource/**", "/resources/**", "/pages/security/login.jsf", "/pages/errors/**")
         .permitAll()
         .antMatchers("/pages/security/**").hasAnyAuthority("Admin")
-        .anyRequest().authenticated();
+        .anyRequest().permitAll();
         
         // configurando el login
         http

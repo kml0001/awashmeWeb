@@ -22,14 +22,13 @@ public class SuggestionServiceImpl implements SuggestionService{
 
 	@Override
 	public List<SuggestionDto> getSuggestions(){
-		System.out.println("Entro en la peticion");
+	
 		List<SuggestionDto> SuggestionList = new ArrayList<SuggestionDto>();
 	    try {
 	    	MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		    ApiRestMapper<SuggestionDto> apiRestMapper = new ApiRestMapper<>();
 		    String response = (String)restService.GET("/api/v1/suggestions/", params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
-		    System.out.println(response);
-		    System.out.println("asd");
+
 		    SuggestionList = apiRestMapper.mapList(response, SuggestionDto.class);
 		} catch (IOException e) {
 			e.printStackTrace();

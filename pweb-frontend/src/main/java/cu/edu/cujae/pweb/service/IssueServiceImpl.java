@@ -26,9 +26,7 @@ public class IssueServiceImpl implements IssueService{
 	    try {
 	    	MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		    ApiRestMapper<IssueDto> apiRestMapper = new ApiRestMapper<>();
-		    String response = (String)restService.GET("/api/v1/issues/", params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
-		    System.out.println(response);
-		    System.out.println("asd");
+		    String response = (String)restService.GET("/api/v1/issues/", params, String.class).getBody();
 		    IssueList = apiRestMapper.mapList(response, IssueDto.class);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -46,7 +44,7 @@ public class IssueServiceImpl implements IssueService{
 		    
 		    UriTemplate template = new UriTemplate("/api/v1/issues/{issueId}");
 		    String uri = template.expand(IssueId).toString();
-		    String response = (String)restService.GET(uri, params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
+		    String response = (String)restService.GET(uri, params, String.class).getBody();
 		    Issue = apiRestMapper.mapOne(response, IssueDto.class);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -56,14 +54,14 @@ public class IssueServiceImpl implements IssueService{
 
 	@Override
 	public void createIssue(IssueDto Issue) {
-		Object asd = restService.POST("/api/v1/issues/", Issue, String.class, CurrentUserUtils.getTokenBearer()).getBody();
+		Object asd = restService.POST("/api/v1/issues/", Issue, String.class).getBody();
 		System.out.println("dasss" + asd);
 	}
 
 	@Override
 	public void updateIssue(IssueDto Issue) {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		restService.PUT("/api/v1/issues/", params, Issue, String.class, CurrentUserUtils.getTokenBearer()).getBody();
+		restService.PUT("/api/v1/issues/", params, Issue, String.class).getBody();
 	}
 
 	@Override
@@ -71,7 +69,7 @@ public class IssueServiceImpl implements IssueService{
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		UriTemplate template = new UriTemplate("/api/v1/issues/{issueId}");
 	    String uri = template.expand(IssueId).toString();
-		restService.DELETE(uri, params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
+		restService.DELETE(uri, params, String.class, null).getBody();
 	}
 	
 }

@@ -50,7 +50,7 @@ public class UserPrincipal implements UserDetails {
                     .map(role -> "ROLE_" + role.getRoleName())
                     .collect(Collectors.toList());
             authorities = AuthorityUtils.createAuthorityList(roleNames.toArray(new String[0]));
-            System.out.println(authorities); // Puedes imprimir la lista completa si es necesario.
+            // Puedes imprimir la lista completa si es necesario.
         } catch (Exception e) {
             authorities = Collections.singletonList(new SimpleGrantedAuthority("Developer"));
         }
