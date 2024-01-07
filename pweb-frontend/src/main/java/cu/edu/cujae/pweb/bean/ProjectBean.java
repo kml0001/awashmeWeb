@@ -1,14 +1,16 @@
 package cu.edu.cujae.pweb.bean;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+
+import cu.edu.cujae.pweb.service.UserService;
 import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import cu.edu.cujae.pweb.dto.ProjectDto;
@@ -27,16 +29,21 @@ public class ProjectBean{
     private List<ProjectDto> selectedProjects;
     
     private List<UserDto> selectedMembers;
+
+    private List<UserDto> members;
     
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private UserService userService;
     
-    public ProjectService getProjectService() {
-		return projectService;
+    public UserService getUserService() {
+		return userService;
 	}
 
-	public void setProjectService(ProjectService projectService) {
-		this.projectService = projectService;
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 
 	public void setProjects(List<ProjectDto> projects) {
@@ -64,7 +71,15 @@ public class ProjectBean{
         this.selectedProjects = selectedProjects;
     }
 
-    
+    public List<UserDto> getMembers() {
+        this.members = userService.getUsers();
+        return members;
+    }
+
+    public void setMembers(List<UserDto> member) {
+        this.members = member;
+    }
+
     public List<UserDto> getSelectedMembers() {
 		return selectedMembers;
 	}
@@ -79,7 +94,6 @@ public class ProjectBean{
 
     public void saveProject() {
         if (String.valueOf(this.selectedProject.getId()) == null) {
-        	this.selectedProject.setId(Integer.valueOf(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9)));
             this.projects.add(this.selectedProject);
             projectService.createProject(selectedProject);
             projects = projectService.getProjects();

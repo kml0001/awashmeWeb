@@ -98,20 +98,4 @@ public class ProjectServiceImpl implements ProjectService{
 		}
 		return projectReportList;
 	}
-
-//	@Override
-//	public List<ProjectReportDto> getProjectReports() {
-//		List<ProjectReportDto> ProjectList = new ArrayList<ProjectReportDto>();
-//	    try {
-//	    	MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-//		    ApiRestMapper<ProjectDto> apiRestMapper = new ApiRestMapper<>();
-//		    String response = (String)restService.GET("/api/v1/projects/reports", params, String.class).getBody();
-//		    
-//		    ProjectList = apiRestMapper.mapList(response, ProjectDto.class);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return ProjectList;
-//		return null;
-//	}
 }
