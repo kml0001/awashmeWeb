@@ -43,14 +43,9 @@
 									target="#{suggestionBean.selectedSuggestion}" />
 								<p:resetInput target=":form:manage-suggestion-content" />
 							</p:commandButton>
-							
-							<p:commandButton class="ui-button-warning rounded-button"
-								icon="pi pi-trash" process="@this" 
-								action="#{suggestionBean.deleteSuggestion}" >
-								<f:setPropertyActionListener value="#{suggestion}"
-									target="#{suggestionBean.selectedSuggestion}" />
-								<p:confirm header="Confirm" message="Está seguro de eliminar este tarea?" icon="pi pi-exclamation-triangle"/>
-							</p:commandButton>
+
+							<p:commandButton action="#{suggestionBean.deleteSuggestion}"
+								icon="pi pi-trash" styleClass="rounded-button ui-button-warning" />
 
 						</f:facet>
 						<p:panel id="basic" style="margin-bottom:20px">
