@@ -57,7 +57,7 @@ public class SuggestionController {
 
     @PutMapping("/")
     public ResponseEntity<Object> updateSuggestion(@RequestBody SuggestionDto updatedSuggestion) {
-        
+        System.out.println("entra a editar en el backedn: " + updatedSuggestion.getId());
 //    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //    	UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
 //    	

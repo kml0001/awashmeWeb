@@ -106,7 +106,7 @@ public class SuggestionServicesImp implements SuggestionService{
 	        stmt.setString(3, updatedSuggestion.getUrgency());
 	        stmt.setString(4, updatedSuggestion.getImportance());
 	        stmt.setString(5, updatedSuggestion.getSubject());
-	        stmt.setInt(6, updatedSuggestion.getAuthor_id());
+	        stmt.setInt(6, updatedSuggestion.getId());
 
 	        int rowsAffected = stmt.executeUpdate();
 	        

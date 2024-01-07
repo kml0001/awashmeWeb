@@ -45,8 +45,12 @@
 							</p:commandButton>
 
 							<p:commandButton action="#{suggestionBean.deleteSuggestion}"
-								icon="pi pi-trash" styleClass="rounded-button ui-button-warning" />
-
+								icon="pi pi-trash" styleClass="rounded-button ui-button-warning"
+								process="@this">
+								<f:setPropertyActionListener value="#{suggestion}"
+									target="#{suggestionBean.selectedSuggestion}" />
+								<p:resetInput target=":form:manage-suggestion-content" />
+							</p:commandButton>
 						</f:facet>
 						<p:panel id="basic" style="margin-bottom:20px">
 							<h:panelGrid columns="2" cellpadding="10">
