@@ -23,12 +23,12 @@ public class IssueServiceImpl implements IssueService{
 	@Override
 	public List<IssueDto> getIssues(){
 		List<IssueDto> IssueList = new ArrayList<IssueDto>();
+		
 	    try {
 	    	MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		    ApiRestMapper<IssueDto> apiRestMapper = new ApiRestMapper<>();
 		    String response = (String)restService.GET("/api/v1/issues/", params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
-		    //System.out.println(response);
-
+		    System.out.println("--------------------> Pidiendo los issues <-----------------------");
 		    IssueList = apiRestMapper.mapList(response, IssueDto.class);
 		} catch (IOException e) {
 			e.printStackTrace();

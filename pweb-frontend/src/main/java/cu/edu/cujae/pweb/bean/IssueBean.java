@@ -96,13 +96,13 @@ public class IssueBean{
             issues = issueService.getIssues();
             
             JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_added");
-            System.out.println("entro al if");
+            
         }
         else {
         	issueService.updateIssue(selectedIssue);
         	issues = issueService.getIssues();
         	JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_updated");
-            System.out.println("entro al else");
+            
             
         }
 

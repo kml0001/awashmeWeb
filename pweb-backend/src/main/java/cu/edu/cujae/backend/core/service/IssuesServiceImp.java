@@ -23,7 +23,7 @@ public class IssuesServiceImp implements IssuesService{
 	    String consultaSQL = "SELECT issue.*, project.name AS project_name, users.username AS assigned_to_name\r\n"
 	    		+ "FROM issue\r\n"
 	    		+ "JOIN project ON issue.project_id = project.id\r\n"
-	    		+ "JOIN users ON issue.assigned_to_id = users.id;";
+	    		+ "JOIN users ON issue.assigned_to_id = users.id ORDER BY created_on DESC;";
 	  
 	    	
 	    List<IssueDto> listaIssues = new ArrayList<>();

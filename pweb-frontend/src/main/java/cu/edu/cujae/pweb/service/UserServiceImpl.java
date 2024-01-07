@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public List<UserDto> getUsers(){
-		System.out.println("papapapapapaapapapapaap");
+		System.out.println("--------------------> Pidiendo los usuarios <-----------------------");
 		List<UserDto> userList = new ArrayList<UserDto>();
 	    try {
 	    	MultiValueMap<String, String> params = new LinkedMultiValueMap<>();

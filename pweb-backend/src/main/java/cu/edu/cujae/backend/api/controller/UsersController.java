@@ -73,10 +73,14 @@ public class UsersController {
     public ResponseEntity<Object> createUser(@RequestBody UserDto user) throws SQLException {
 //    	System.out.println("Usuario en el backend: " + user.getFullname());
     	int newUser_id = (int) service.createUser(user);
-    	//sendMailToUserWithCredentials(user.getFullname(), user.getMail());
+    	try {
+    	sendMailToUserWithCredentials(user.getFullname(), user.getMail());
     	if(newUser_id != -1) {
     		return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado");
     	}
+    	}catch (Exception e) {
+			e.printStackTrace();
+		}
     	return  ResponseEntity.status(HttpStatus.CONFLICT).body("el usuario ya existe");
     	
     }

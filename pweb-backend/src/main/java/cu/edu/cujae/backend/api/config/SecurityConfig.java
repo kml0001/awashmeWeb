@@ -79,8 +79,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .antMatchers("/", "/api/v1/auth/**").permitAll()
                         
                         
-                        .antMatchers(HttpMethod.GET, "/api/v1/projects/**").hasRole("Project Manager")
-              		  .antMatchers(HttpMethod.POST, "/api/v1/projects/**").hasRole("Project Manager")
+                        
+              		    .antMatchers(HttpMethod.POST, "/api/v1/projects/**").hasRole("Project Manager")
                         .antMatchers(HttpMethod.DELETE, "/api/v1/projects/**").hasRole("Project Manager")
                         .antMatchers(HttpMethod.PUT, "/api/v1/projects/**").hasRole("Project Manager")
                      

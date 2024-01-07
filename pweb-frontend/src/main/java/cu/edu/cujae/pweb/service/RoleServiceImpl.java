@@ -23,10 +23,12 @@ public class RoleServiceImpl implements RoleService{
 	@Override
 	public List<RoleDto> getRoles() {
 		List<RoleDto> roleList = new ArrayList<RoleDto>();
+		
 	    try {
 	    	MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		    ApiRestMapper<RoleDto> apiRestMapper = new ApiRestMapper<>();
 		    String response = (String)restService.GET("/api/v1/roles/", params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
+		    System.out.println("--------------------> Pidiendo los Roles <-----------------------");
 		    roleList = apiRestMapper.mapList(response, RoleDto.class);
 		} catch (IOException e) {
 			e.printStackTrace();
