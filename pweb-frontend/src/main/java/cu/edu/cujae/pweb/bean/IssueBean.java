@@ -19,7 +19,7 @@ import cu.edu.cujae.pweb.service.UserService;
 
 import cu.edu.cujae.pweb.utils.JsfUtils;
 
-@Component
+
 @ManagedBean
 @ViewScoped
 public class IssueBean{
@@ -86,28 +86,28 @@ public class IssueBean{
 	}
 
     public void saveIssue() {  
-    	System.out.println("User id en issueBean: " + CurrentUserUtils.getUserId());
-        this.selectedIssue.setProject_id(this.selectedProjectid);
-        this.selectedIssue.setAssigned_to_id(this.selectedUserid);
-        this.selectedIssue.setAuthor_id(CurrentUserUtils.getUserId());
-        
-        if (this.selectedIssue.getId() == -1) {
-            issueService.createIssue(selectedIssue);
-            issues = issueService.getIssues();
-            
-            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_added");
-            System.out.println("entro al if");
-        }
-        else {
-        	issueService.updateIssue(selectedIssue);
-        	issues = issueService.getIssues();
-        	JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_updated");
-            System.out.println("entro al else");
-            
-        }
-
-        PrimeFaces.current().executeScript("PF('manageIssueDialog').hide()");
-        PrimeFaces.current().ajax().update("form:dt-issues");
+//    	System.out.println("User id en issueBean: " + CurrentUserUtils.getUserId());
+//        this.selectedIssue.setProject_id(this.selectedProjectid);
+//        this.selectedIssue.setAssigned_to_id(this.selectedUserid);
+//        this.selectedIssue.setAuthor_id(CurrentUserUtils.getUserId());
+//        
+//        if (this.selectedIssue.getId() == -1) {
+//            issueService.createIssue(selectedIssue);
+//            issues = issueService.getIssues();
+//            
+//            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_added");
+//            System.out.println("entro al if");
+//        }
+//        else {
+//        	issueService.updateIssue(selectedIssue);
+//        	issues = issueService.getIssues();
+//        	JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_updated");
+//            System.out.println("entro al else");
+//            
+//        }
+//
+//        PrimeFaces.current().executeScript("PF('manageIssueDialog').hide()");
+//        PrimeFaces.current().ajax().update("form:dt-issues");
     }
 
     public void deleteIssue() {

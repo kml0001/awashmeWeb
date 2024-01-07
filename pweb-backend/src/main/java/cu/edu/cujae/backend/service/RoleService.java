@@ -17,6 +17,6 @@ public interface RoleService {
 	
 	void deleteRolesForUser(int userId) throws SQLException;
 	
-	void updateRolesForUser(int userId, RoleDto updatedRoleList)throws SQLException;
+	void updateRolesForUser(int userId, List<RoleDto> updatedRoleList)throws SQLException;
 	
 }

@@ -28,8 +28,7 @@ public class SuggestionServiceImpl implements SuggestionService{
 	    	MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		    ApiRestMapper<SuggestionDto> apiRestMapper = new ApiRestMapper<>();
 		    String response = (String)restService.GET("/api/v1/suggestions/", params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
-		    System.out.println(response);
-		    System.out.println("asd");
+		    System.out.println("<--------------->");
 		    SuggestionList = apiRestMapper.mapList(response, SuggestionDto.class);
 		} catch (IOException e) {
 			e.printStackTrace();

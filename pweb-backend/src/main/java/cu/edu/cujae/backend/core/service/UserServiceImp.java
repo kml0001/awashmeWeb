@@ -70,25 +70,24 @@ public class UserServiceImp implements UserService{
 
 	@Override
 	public int updateUser(UserDto updatedUser) {
+		
+		System.out.print(updatedUser.getPasswd() + "<-------------------------------PASSW-------------");
         String updateSQL = "UPDATE users SET username=?, lastname=?, mail=?, passwd=? WHERE id=?";
-
+        
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
 
             stmt.setString(1, updatedUser.getUsername());
             stmt.setString(2, updatedUser.getFullname());
             stmt.setString(3, updatedUser.getMail());
-            stmt.setString(4, encodePass(updatedUser.getPasswd()));
+            stmt.setString(4, updatedUser.getPasswd());
             stmt.setInt(5, updatedUser.getId());
 
             int rowsAffected = stmt.executeUpdate();
 
             if (rowsAffected > 0) {
                 // Ahora, actualizar roles asociados al usuario
-            	for(RoleDto role : updatedUser.getRoleList()) {
-            		roleservice.updateRolesForUser(updatedUser.getId(),role );
-            	}
-            	
+            	roleservice.updateRolesForUser(updatedUser.getId(),updatedUser.getRoleList() );
                 return rowsAffected;
             } else {
                 return -1; // No se actualizó ninguna fila

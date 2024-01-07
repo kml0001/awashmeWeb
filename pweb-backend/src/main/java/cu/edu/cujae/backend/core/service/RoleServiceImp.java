@@ -119,10 +119,10 @@ public class RoleServiceImp implements RoleService{
 	public int insertUserRoles(int userId, RoleDto role) throws SQLException {
 	        String insertRoleSQL = "INSERT INTO user_role (user_id, rol_id) VALUES (?, ?)";
 	        int r = -1;
-	        System.out.println(role.getId() + "<--------------------------");
+	        System.out.println("Se inserto al usuario el rol"+ userId +"El rol de "+role.getRoleName() + "<--------------------------");
 	        try (Connection conn = ConnectionImp.getConnection();
 	             PreparedStatement stmt = conn.prepareStatement(insertRoleSQL)) {
-	        	System.out.print(role.getId());
+	        	System.out.println(role.getId());
 	            if (role !=null) {
 	                stmt.setInt(1, userId);
 	                stmt.setInt(2, role.getId());
@@ -156,10 +156,13 @@ public class RoleServiceImp implements RoleService{
 	}
 
 	@Override
-	public void updateRolesForUser(int userId, RoleDto updatedRoleList) throws SQLException {
+	public void updateRolesForUser(int userId, List<RoleDto> updatedRoleList) throws SQLException {
 		this.deleteRolesForUser(userId);
-		this.insertUserRoles(userId, updatedRoleList);
 		
+		if(updatedRoleList != null)
+			for(RoleDto role : updatedRoleList)
+				this.insertUserRoles(userId, role);
+	
 	}
 	
 }
