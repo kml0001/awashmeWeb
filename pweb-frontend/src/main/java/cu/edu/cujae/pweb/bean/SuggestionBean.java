@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import cu.edu.cujae.pweb.dto.SuggestionDto;
 import cu.edu.cujae.pweb.dto.UserDto;
+import cu.edu.cujae.pweb.security.CurrentUserUtils;
 import cu.edu.cujae.pweb.service.SuggestionService;
 import cu.edu.cujae.pweb.utils.JsfUtils;
 
@@ -84,15 +85,6 @@ public class SuggestionBean{
 
 	public void openNew() {
         this.selectedSuggestion = new SuggestionDto();
-    	this.importanceList.add("Informative");
-    	this.importanceList.add("Relevant");
-    	this.importanceList.add("Important");
-    	this.importanceList.add("Critical");
-    	
-    	this.urgencyList.add("Low priority");
-    	this.urgencyList.add("Medium priority");
-    	this.urgencyList.add("High priority");
-    	this.urgencyList.add("Urgent");
     }
 
 	public void openForEdit() {							
@@ -100,8 +92,9 @@ public class SuggestionBean{
 	}
 	
     public void saveSuggestion() {
-    	this.selectedSuggestion.setAuthor_id(1);
-    	
+    	this.selectedSuggestion.setAuthor_id(CurrentUserUtils.getUserId());
+    	this.selectedSuggestion.setUrgency(selectedUrgency);
+    	this.selectedSuggestion.setImportance(selectedImportance);
         if (this.selectedSuggestion.getId() == -1) {
             this.suggestionService.createSuggestion(this.selectedSuggestion);
             JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "suggestionDto_added");
@@ -148,7 +141,8 @@ public class SuggestionBean{
     }
 
 	public List<String> getUrgencyList() {
-		return urgencyList;
+		this.urgencyList = this.suggestionService.getUrgencyList();
+		return this.urgencyList;
 	}
 
 	public void setUrgencyList(List<String> urgencyList) {
@@ -156,7 +150,8 @@ public class SuggestionBean{
 	}
 
 	public List<String> getImportanceList() {
-		return importanceList;
+		this.importanceList = this.suggestionService.getImportanceList();
+		return this.importanceList;
 	}
 
 	public void setImportanceList(List<String> importanceList) {

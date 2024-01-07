@@ -74,4 +74,25 @@ public class SuggestionServiceImpl implements SuggestionService{
 		restService.DELETE(uri, params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
 	}
 	
+	@Override
+	public ArrayList<String> getUrgencyList() {
+		ArrayList<String> result = new ArrayList<>();
+		result.add("Low priority");
+		result.add("Medium priority");
+		result.add("High priority");
+		result.add("Urgent");
+		return result;
+	}
+	
+	@Override
+	public ArrayList<String> getImportanceList() {
+		ArrayList<String> result = new ArrayList<>();
+    	result.add("Informative");
+    	result.add("Relevant");
+    	result.add("Important");
+    	result.add("Critical");
+		return result;
+	}
+
+	
 }

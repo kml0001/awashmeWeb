@@ -1,5 +1,6 @@
 package cu.edu.cujae.pweb.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cu.edu.cujae.pweb.dto.SuggestionDto;
@@ -10,4 +11,6 @@ public interface SuggestionService {
 	void createSuggestion(SuggestionDto Suggestion);
 	void updateSuggestion(SuggestionDto Suggestion);
 	void deleteSuggestion(String id);
+	ArrayList<String> getUrgencyList();
+	ArrayList<String> getImportanceList();
 }
