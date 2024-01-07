@@ -23,19 +23,34 @@
 					</p:toolbarGroup>
 				</p:toolbar>
 				<h5>Suggestions:</h5>
-				<p:accordionPanel id="ac-suggestions" multiple="true" widgetVar="options"
-					value="#{suggestionBean.suggestions}" var="suggestion">
-
+				<p:accordionPanel id="ac-suggestions" multiple="true"
+					widgetVar="options" value="#{suggestionBean.suggestions}"
+					var="suggestion">
+					<p:ajax event="tabChange"
+						listener="#{suggestionBean.changeListener(suggestion)}"></p:ajax>
 					<p:tab title="#{suggestion.subject}">
+
 						<f:facet name="actions">
-							<p:commandLink rendered="#{suggestionBean.authorId == suggestion.author_id}"
-								styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default">
-								<h:outputText styleClass="ui-icon pi pi-trash" />
-							</p:commandLink>
-							<p:commandLink rendered="#{suggestionBean.authorId == suggestion.author_id}"
-								styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default">
-								<h:outputText styleClass="ui-icon pi pi-pencil" />
-							</p:commandLink>
+
+							<p:commandButton
+								rendered="#{suggestionBean.authorId == suggestion.author_id}"
+								icon="pi pi-pencil" action="#{suggestionBean.openForEdit}"
+								update=":form:manage-suggestion-content"
+								oncomplete="PF('manageSuggestionDialog').show()"
+								styleClass="edit-button rounded-button ui-button-success"
+								process="@this">
+								<f:setPropertyActionListener value="#{suggestion}"
+									target="#{suggestionBean.selectedSuggestion}" />
+								<p:resetInput target=":form:manage-suggestion-content" />
+							</p:commandButton>
+							
+							<p:commandButton class="ui-button-warning rounded-button"
+								icon="pi pi-trash" process="@this" 
+								action="#{suggestionBean.deleteSuggestion}" >
+								<f:setPropertyActionListener value="#{suggestion}"
+									target="#{suggestionBean.selectedSuggestion}" />
+								<p:confirm header="Confirm" message="Está seguro de eliminar este tarea?" icon="pi pi-exclamation-triangle"/>
+							</p:commandButton>
 
 						</f:facet>
 						<p:panel id="basic" style="margin-bottom:20px">

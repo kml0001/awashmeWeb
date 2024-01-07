@@ -95,7 +95,7 @@ public class SuggestionServicesImp implements SuggestionService{
 	}
 	
 	@Override
-	public int updateSuggestion(int id, SuggestionDto updatedSuggestion) {
+	public int updateSuggestion(SuggestionDto updatedSuggestion) {
 	    String updateSQL = "UPDATE suggestion SET author_id=?, text=?,urgency=?, importance=?, subject =? WHERE id=?";
 	    
 	    try (Connection conn = ConnectionImp.getConnection();
@@ -106,11 +106,11 @@ public class SuggestionServicesImp implements SuggestionService{
 	        stmt.setString(3, updatedSuggestion.getUrgency());
 	        stmt.setString(4, updatedSuggestion.getImportance());
 	        stmt.setString(5, updatedSuggestion.getSubject());
-	        stmt.setInt(6, id);
+	        stmt.setInt(6, updatedSuggestion.getAuthor_id());
 
 	        int rowsAffected = stmt.executeUpdate();
 	        
-	        return rowsAffected > 0 ? id : -1;
+	        return rowsAffected > 0 ? updatedSuggestion.getAuthor_id() : -1;
 
 	    } catch (SQLException e) {
 	        e.printStackTrace();

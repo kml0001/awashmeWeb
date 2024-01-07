@@ -7,8 +7,7 @@
 	<p:dialog header="Suggestion" showEffect="fade" modal="true"
 		widgetVar="manageSuggestionDialog" responsive="true">
 		<p:outputPanel id="manage-suggestion-content" class="ui-fluid">
-			<p:outputPanel
-				rendered="#{not empty suggestionBean.selectedSuggestion}">
+			<p:outputPanel>
 				<p:panelGrid layout="grid" columns="1">
 					<h:panelGroup>
 						<div class="p-field">
@@ -28,25 +27,26 @@
 					</h:panelGroup>
 					<h:panelGroup>
 						<div class="p-field">
-							<p:outputLabel for="@next">Urgency:</p:outputLabel>
-							<p:selectOneMenu id="urgency" required="true"
-								value="#{suggestionBean.selectedUrgency}" label="Select"
-								style="min-width: 15rem" multiple="true" filter="false"
-								filterMatchMode="startsWith" panelStyle="width: 30rem"
-								scrollHeight="250">
-								<f:selectItems value="#{suggestionBean.urgencyList}" var="urgency"
-									itemLabel="#{urgency}" itemValue="#{urgency}" />
-							</p:selectOneMenu>
-						</div>
-						<div class="p-field">
 							<p:outputLabel for="@next">Importance:</p:outputLabel>
 							<p:selectOneMenu id="importance" required="true"
 								value="#{suggestionBean.selectedImportance}" label="Select"
 								style="min-width: 15rem" multiple="true" filter="false"
 								filterMatchMode="startsWith" panelStyle="width: 30rem"
 								scrollHeight="250">
-								<f:selectItems value="#{suggestionBean.importanceList}" var="importance"
-									itemLabel="#{importance}" itemValue="#{importance}" />
+								<f:selectItems value="#{suggestionBean.importanceList}"
+									var="importance" itemLabel="#{importance}"
+									itemValue="#{importance}" />
+							</p:selectOneMenu>
+						</div>
+						<div class="p-field">
+							<p:outputLabel for="@next">Urgency:</p:outputLabel>
+							<p:selectOneMenu id="urgency" required="true"
+								value="#{suggestionBean.selectedUrgency}" label="Select"
+								style="min-width: 15rem" multiple="true" filter="false"
+								filterMatchMode="startsWith" panelStyle="width: 30rem"
+								scrollHeight="250">
+								<f:selectItems value="#{suggestionBean.urgencyList}"
+									var="urgency" itemLabel="#{urgency}" itemValue="#{urgency}" />
 							</p:selectOneMenu>
 						</div>
 					</h:panelGroup>

@@ -12,7 +12,7 @@ public interface SuggestionService {
 
     int createSuggestion(SuggestionDto sugerencia);
 
-    int updateSuggestion(int id, SuggestionDto updatedSugerencia);
+    int updateSuggestion(SuggestionDto updatedSugerencia);
 
     int deleteSuggestion(int id);
 }

@@ -55,8 +55,8 @@ public class SuggestionController {
         	return null;
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> updateSuggestion(@PathVariable int id, @RequestBody SuggestionDto updatedSuggestion) {
+    @PutMapping("/")
+    public ResponseEntity<Object> updateSuggestion(@RequestBody SuggestionDto updatedSuggestion) {
         
 //    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //    	UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
@@ -68,7 +68,7 @@ public class SuggestionController {
 //    	}
     	
     	
-        int id_updated = service.updateSuggestion(id, updatedSuggestion);
+        int id_updated = service.updateSuggestion(updatedSuggestion);
         if (id_updated != -1) {
             return ResponseEntity.ok("Suggestion actualizada");
         } else {

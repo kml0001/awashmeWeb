@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.TabChangeEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -88,19 +89,21 @@ public class SuggestionBean{
     }
 
 	public void openForEdit() {							
-
+		this.selectedUrgency = this.selectedSuggestion.getUrgency();
+		this.selectedImportance = this.selectedSuggestion.getImportance();
 	}
 	
     public void saveSuggestion() {
     	this.selectedSuggestion.setAuthor_id(CurrentUserUtils.getUserId());
-    	this.selectedSuggestion.setUrgency(selectedUrgency);
-    	this.selectedSuggestion.setImportance(selectedImportance);
+    	this.selectedSuggestion.setUrgency(this.selectedUrgency);
+    	this.selectedSuggestion.setImportance(this.selectedImportance);
         if (this.selectedSuggestion.getId() == -1) {
             this.suggestionService.createSuggestion(this.selectedSuggestion);
             JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "suggestionDto_added");
             System.out.println("entro al if");
         }
         else {
+        	System.out.println("subject en el else: " + this.selectedSuggestion.getSubject());
         	this.suggestionService.updateSuggestion(this.selectedSuggestion);
         	JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "suggestionDto_updated");
             System.out.println("entro al else");
@@ -111,12 +114,12 @@ public class SuggestionBean{
         PrimeFaces.current().ajax().update("form:ac-suggestions");
     }
 
-    public void deleteSuggestionDto() {
+    public void deleteSuggestion() {
     	System.out.println(selectedSuggestion.getId());
         this.suggestionService.deleteSuggestion(String.valueOf(selectedSuggestion.getId()));
         this.suggestions = suggestionService.getSuggestions();
         JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "suggestionDto_deleted");
-        PrimeFaces.current().ajax().update("form:dt-suggestions");
+        PrimeFaces.current().ajax().update("form:ac-suggestions");
     }
 
     public String getDeleteButtonMessage() {
@@ -175,13 +178,18 @@ public class SuggestionBean{
 	}
 
 	public int getAuthorId() {
-		System.out.println("entro en el get del bean <--------------------------------");
 		this.authorId = CurrentUserUtils.getUserId();
 		return authorId;
 	}
 
 	public void setAuthorId(int authorId) {
 		this.authorId = authorId;
+	}
+    
+	public void changeListener(SuggestionDto sugg){
+		System.out.println("TabChangeEvent Has Fired By ::" + sugg.getSubject());
+		this.selectedSuggestion = sugg;
+
 	}
 
 }
