@@ -13,19 +13,18 @@ public class UrlRewriteConfigurationProvider extends HttpConfigurationProvider {
 
     @Override
     public Configuration getConfiguration(ServletContext context) {
-        return ConfigurationBuilder.begin()
-                
+        return ConfigurationBuilder.begin()          
         		.addRule(Join.path("/login").to("/pages/security/login.xhtml"))
         		.addRule(Join.path("/login").to("/pages/security/login.jsf"))
         		.addRule(Join.path("/home").to("/pages/home/home.jsf"))
         		.addRule(Join.path("/home").to("/pages/home/home.xhtml"))
-        		.addRule(Join.path("/crud-issues").to("/pages/crud/issue/crud_issue.jsf"))
-        		.addRule(Join.path("/crud-projects").to("/pages/crud/project/crud_project.jsf"))
-        		.addRule(Join.path("/crud-rol").to("/pages/crud/rol/crud_rol.jsf"))
-        		.addRule(Join.path("/crud-user").to("/pages/crud/user/crud_user.jsf"))
-        		.addRule(Join.path("/crud-suggestion").to("/pages/crud/suggestion/crud_suggestion.jsf"))
+        		.addRule(Join.path("/crud/issues").to("/pages/crud/issue/crud_issue.jsf"))
+        		.addRule(Join.path("/crud/project").to("/pages/crud/project/crud_project.jsf"))
+        		.addRule(Join.path("/crud/rol").to("/pages/crud/rol/crud_rol.jsf"))
+        		.addRule(Join.path("/crud/user").to("/pages/crud/user/crud_user.jsf"))
+        		.addRule(Join.path("/crud/suggestion").to("/pages/crud/suggestion/crud_suggestion.jsf"))
+        		.addRule(Join.path("/report/projects").to("/pages/welcome/welcome.jsf"))
         		.addRule(Join.path("/welcome").to("/pages/welcome/welcome.jsf"));
-
     
         //ej using params
         //.addRule(Join.path("/shop/{category}").to("/faces/viewCategory.jsf"));
