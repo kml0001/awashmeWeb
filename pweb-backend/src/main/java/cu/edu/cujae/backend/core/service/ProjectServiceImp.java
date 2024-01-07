@@ -9,7 +9,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import cu.edu.cujae.backend.core.dto.MembersDto;
 import cu.edu.cujae.backend.core.dto.ProjectDto;
+import cu.edu.cujae.backend.core.dto.UserDto;
 import cu.edu.cujae.backend.core.util.ConnectionImp;
 import cu.edu.cujae.backend.core.util.date_string_converter;
 import cu.edu.cujae.backend.service.ProjectsService;
@@ -87,9 +89,14 @@ public class ProjectServiceImp implements ProjectsService {
             	return 0;
 	        }
 
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        return -1; // Retorna un valor negativo para indicar un error
+	    }  catch (SQLException e) {
+	        // Manejar excepción específica de PostgreSQL para proyectos duplicados
+	        if (e.getMessage().contains("Ya existe un proyecto con el mismo nombre")) {
+	            return 0;
+	        } else {
+	            // Otra manipulación de excepciones de PostgreSQL según tus necesidades
+	            return -1;
+	        }
 	    }
 	}
 
@@ -145,6 +152,33 @@ public class ProjectServiceImp implements ProjectsService {
 	}
 
 	
+	
+	
+	private List<UserDto> getMembersByProjectId(int projectId){
+	List<UserDto> list = new ArrayList<>();
+		String selectByUserSQL = "SELECT * FROM users JOIN members ON users.id = members.user_id where project.id = ?";
+		try (Connection conn = ConnectionImp.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(selectByUserSQL)) {
+			
+			stmt.setInt(1, projectId);
+	
+			try (ResultSet resultSet = stmt.executeQuery()) {
+				while (resultSet.next()) {
+					UserDto user = new UserDto();
+					user.setId(resultSet.getInt("id"));
+					user.setFullname("lastname");
+					user.setUsername("username");
+					list.add(user);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	return list;
+	}
+	
+	
+	
 	private ProjectDto mapResultSetToProject(ResultSet resultSet) throws SQLException {
 	    int id = resultSet.getInt("id");
 	    String created_on = resultSet.getString("created_on");
@@ -156,7 +190,8 @@ public class ProjectServiceImp implements ProjectsService {
 	    int project_manager = resultSet.getInt("project_manager");
 	    String closed_on = resultSet.getString("closed_on");
 	    String project_manager_name = resultSet.getString("project_manager_name");
-	    ProjectDto projectDto = new ProjectDto(id, created_on, updated_on, name, description, status, is_public, project_manager ,closed_on ,project_manager_name);
+	    List<UserDto> members = this.getMembersByProjectId(id);
+	    ProjectDto projectDto = new ProjectDto(id, created_on, updated_on, name, description, status, is_public, project_manager ,closed_on ,project_manager_name,members);
 	    return projectDto;
 	}
 }

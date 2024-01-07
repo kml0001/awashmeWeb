@@ -1,5 +1,8 @@
 package cu.edu.cujae.backend.core.dto;
 
+import java.util.List;
+
+
 import io.swagger.annotations.ApiModelProperty;
 
 public class ProjectDto {
@@ -17,12 +20,13 @@ public class ProjectDto {
 	private Boolean is_public; 
 	private int project_manager;
 	private String closed_on;
-	
+
 	@ApiModelProperty(hidden = true)
 	private String  project_manager_name ;
+	private List<UserDto> members;
 	
 	public ProjectDto(int id, String created_on, String updated_on, String name, String description, String status,
-			Boolean is_public, int project_manager ,String closed_on , String project_manager_name) {
+			Boolean is_public, int project_manager ,String closed_on , String project_manager_name , List<UserDto> members) {
 		super();
 		this.id = id;
 		this.created_on = created_on;
@@ -34,6 +38,7 @@ public class ProjectDto {
 		this.project_manager = project_manager;
 		this.closed_on = closed_on;
 		this.project_manager_name = project_manager_name;
+		this.members =members;
 	}
 	
 	public ProjectDto() {
@@ -103,6 +108,14 @@ public class ProjectDto {
 
 	public void setClosed_on(String closed_on) {
 		this.closed_on = closed_on;
+	}
+
+	public List<UserDto> getMembers() {
+		return members;
+	}
+
+	public void setMembers(List<UserDto> members) {
+		this.members = members;
 	}
 
 	

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import cu.edu.cujae.backend.core.dto.MembersDto;
+import cu.edu.cujae.backend.core.dto.UserDto;
 
 public interface MembersService {
     List<MembersDto> getAllMembers()  throws SQLException;
@@ -16,4 +17,5 @@ public interface MembersService {
     
     boolean insertMembers(MembersDto member) throws SQLException;
     
+
 }
