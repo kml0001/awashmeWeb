@@ -175,6 +175,8 @@ public class SuggestionBean{
 	}
 
 	public int getAuthorId() {
+		System.out.println("entro en el get del bean <--------------------------------");
+		this.authorId = CurrentUserUtils.getUserId();
 		return authorId;
 	}
 
