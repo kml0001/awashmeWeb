@@ -1,9 +1,9 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:sec="http://www.springframework.org/security/tags"
-                xmlns:p="http://primefaces.org/ui">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:p="http://primefaces.org/ui">
 
 
 	<div class="card">
@@ -12,7 +12,8 @@
 			<p:growl id="messages" />
 
 			<p:menubar>
-				<p:menuitem value="Home" icon="pi pi-fw pi-home" outcome="/pages/home/home.xhtml"/>
+				<p:menuitem value="Home" icon="pi pi-fw pi-home"
+					outcome="/pages/home/home.xhtml" />
 				<p:submenu label="File" icon="pi pi-fw pi-file">
 					<p:submenu label="Crud" icon="pi pi-fw pi-plus">
 						<p:menuitem value="User" icon="pi pi-fw pi-user"
@@ -23,15 +24,16 @@
 							outcome="/pages/crud/issue/crud_issue" />
 						<p:menuitem value="Suggestion" icon="pi pi-fw pi-comment"
 							outcome="/pages/crud/suggestion/crud_suggestion" />
-							
+
 					</p:submenu>
 				</p:submenu>
 
 
 
 				<f:facet name="options">
-					<p:button value="Logout" icon="pi pi-fw pi-sign-out"
-						styleClass="ui-button-info" />
+					<p:outputLabel style="padding-right:30px;"> #{loginRequestBean.userLogued}</p:outputLabel>
+					<p:commandLink action="#{loginRequestBean.logout}" ajax="false">
+						<i class="pi pi-sign-out"></i>Log out</p:commandLink>
 				</f:facet>
 			</p:menubar>
 		</h:form>

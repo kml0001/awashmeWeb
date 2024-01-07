@@ -15,8 +15,10 @@ public class UrlRewriteConfigurationProvider extends HttpConfigurationProvider {
     public Configuration getConfiguration(ServletContext context) {
         return ConfigurationBuilder.begin()
                 
+        		.addRule(Join.path("/login").to("/pages/security/login.xhtml"))
         		.addRule(Join.path("/login").to("/pages/security/login.jsf"))
         		.addRule(Join.path("/home").to("/pages/home/home.jsf"))
+        		.addRule(Join.path("/home").to("/pages/home/home.xhtml"))
         		.addRule(Join.path("/crud-issues").to("/pages/crud/issue/crud_issue.jsf"))
         		.addRule(Join.path("/crud-projects").to("/pages/crud/project/crud_project.jsf"))
         		.addRule(Join.path("/crud-rol").to("/pages/crud/rol/crud_rol.jsf"))

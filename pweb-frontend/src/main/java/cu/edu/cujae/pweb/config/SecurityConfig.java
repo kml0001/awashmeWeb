@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .exceptionHandling().accessDeniedPage("/pages/errors/access-denied.jsf");
         
         // logout, cuando se ejecute el logout va para el login
-        http.logout().logoutUrl("/logout").invalidateHttpSession(true).logoutSuccessUrl("/pages/security/login.jsf");
+        http.logout().logoutUrl("/logout").invalidateHttpSession(true).logoutSuccessUrl("/");
         
         // not needed as JSF 2.2 is implicitly protected against CSRF
         http.csrf().disable();

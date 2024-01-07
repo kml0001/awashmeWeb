@@ -77,6 +77,7 @@ public class LoginRequestBean {
 	}
 	
 	private String dispatchToUrl(String url) {
+		System.out.println("entro en el dispaths");
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
 		HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
