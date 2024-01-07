@@ -77,12 +77,14 @@ public class ProjectServiceImp implements ProjectsService {
 	        stmt.setBoolean(4, project.getIs_public());
 	        stmt.setInt(5, project.getProject_manager());
 	        stmt.setDate(6, date_string_converter.dateToString(project.getClosed_on()));
-	        try (ResultSet generatedKeys = stmt.executeQuery()) {
-	            if (generatedKeys.next()) {
-	                return generatedKeys.getInt("id");
-	            } else {
-	                throw new SQLException("No se pudo obtener el ID generado.");
-	            }
+	        int rowsAffected = stmt.executeUpdate();
+	        
+	        
+            if (rowsAffected > 0) {
+            	return 1;
+            }
+            else {
+            	return 0;
 	        }
 
 	    } catch (SQLException e) {
@@ -104,13 +106,14 @@ public class ProjectServiceImp implements ProjectsService {
 	        stmt.setBoolean(4, project.getIs_public());
 	        stmt.setInt(5, project.getProject_manager());
 	        stmt.setInt(6, project.getId());
+	        
+	        int rowsAffected = stmt.executeUpdate();
 
-	        try (ResultSet generatedKeys = stmt.executeQuery()) {
-	            if (generatedKeys.next()) {
-	                return generatedKeys.getInt("id");
-	            } else {
-	                throw new SQLException("No se pudo obtener el ID generado.");
-	            }
+            if (rowsAffected > 0) {
+            	return rowsAffected;
+            }
+            else {
+            	return -1;
 	        }
 
 	    } catch (SQLException e) {

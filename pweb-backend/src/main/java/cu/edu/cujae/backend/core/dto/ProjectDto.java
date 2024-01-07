@@ -3,8 +3,8 @@ package cu.edu.cujae.backend.core.dto;
 import io.swagger.annotations.ApiModelProperty;
 
 public class ProjectDto {
-
-	@ApiModelProperty(hidden = true)
+		
+	
 	private int id;
 	@ApiModelProperty(hidden = true)
 	private String created_on;
@@ -18,6 +18,7 @@ public class ProjectDto {
 	private int project_manager;
 	private String closed_on;
 	
+	@ApiModelProperty(hidden = true)
 	private String  project_manager_name ;
 	
 	public ProjectDto(int id, String created_on, String updated_on, String name, String description, String status,

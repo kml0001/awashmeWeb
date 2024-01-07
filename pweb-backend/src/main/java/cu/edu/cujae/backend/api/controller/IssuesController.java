@@ -82,7 +82,7 @@ public class IssuesController {
 	    public ResponseEntity<Object> updateIssue(@RequestBody IssueDto updatedIssue) {
 	        try {
 	        	System.out.print(CurrentUserUtils.getUserRole());
-	            if (CurrentUserUtils.getUserRole().indexOf("Project Manager") == -1 && CurrentUserUtils.getUserId() == updatedIssue.getAuthor_id()) {
+	            if (CurrentUserUtils.getUserRole().indexOf("Project Manager") == -1 && CurrentUserUtils.getUserId() != updatedIssue.getAuthor_id() && CurrentUserUtils.getUserId() != updatedIssue.getAssigned_to_id()) {
 	                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reúne los privilegios para modificar esta tarea");
 	            }
 	            int updatedRows = service.updateIssue(updatedIssue);
@@ -104,28 +104,24 @@ public class IssuesController {
 	        }
 	    }
 
-
 	    @DeleteMapping("/{id}")
 	    public ResponseEntity<Object> deleteIssue(@PathVariable int id) {
 	    	
+	    	IssueDto issue = service.getIssueById(id);
 	    	
-//	    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//	    	UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
-//	    	
-//	    	IssueDto issue = service.getIssueById(id);
-//	    
-//	    	
-//	    	if(principal.getRoleList().indexOf("Project Manager") ==-1 && principal.getId().equals(String.valueOf(issue.getAuthor_id()))) {
-//	    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reune los privilegios para modificar esta tarea");
-//	    	}
+	    	if(issue == null) 
+	    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id de la tarea no existe");
 	    	
+	    	if (CurrentUserUtils.getUserRole().indexOf("Project Manager") == -1 && CurrentUserUtils.getUserId() != issue.getAuthor_id()) 
+	    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reúne los privilegios para eliminar esta tarea");
 	    	
-	        int delete_id = service.deleteIssue(id);
-	        if(delete_id != -1)
-	        	return ResponseEntity.ok("Tarea eliminada");
-	        else {
-	        	return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id de la tarea no existe");
-	        }
+	    	else {
+	    		service.deleteIssue(id);
+	 	        return ResponseEntity.ok("Tarea eliminada");
+	    	}
+	    	
+	       
+	        
 	    }
 	   
 	
