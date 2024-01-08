@@ -156,7 +156,7 @@ public class ProjectServiceImp implements ProjectsService {
 	
 	private List<UserDto> getMembersByProjectId(int projectId){
 	List<UserDto> list = new ArrayList<>();
-		String selectByUserSQL = "SELECT * FROM users JOIN members ON users.id = members.user_id where project.id = ?";
+		String selectByUserSQL = "SELECT users.* FROM project JOIN members on project.id = members.project_id JOIN users on users.id = members.user_id where project_id = ?";
 		try (Connection conn = ConnectionImp.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(selectByUserSQL)) {
 			
@@ -166,8 +166,8 @@ public class ProjectServiceImp implements ProjectsService {
 				while (resultSet.next()) {
 					UserDto user = new UserDto();
 					user.setId(resultSet.getInt("id"));
-					user.setFullname("lastname");
-					user.setUsername("username");
+					user.setFullname(resultSet.getString("lastname"));
+					user.setUsername(resultSet.getString("username"));
 					list.add(user);
 				}
 			}
