@@ -1,13 +1,16 @@
 package cu.edu.cujae.pweb.bean;
 
 import cu.edu.cujae.pweb.dto.ProjectDto;
+import cu.edu.cujae.pweb.dto.RoleDto;
 import cu.edu.cujae.pweb.dto.UserDto;
+import cu.edu.cujae.pweb.security.CurrentUserUtils;
 import cu.edu.cujae.pweb.service.ProjectService;
 import cu.edu.cujae.pweb.service.UserService;
 import cu.edu.cujae.pweb.utils.JsfUtils;
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import javax.faces.application.FacesMessage;
@@ -16,6 +19,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 @ManagedBean
@@ -28,9 +32,10 @@ public class ProjectBean{
 
     private List<ProjectDto> selectedProjects;
     
-    private List<UserDto> selectedMembers;
+    private List<String> selectedMembers;
+    private List<Integer> selectedMembersId;
 
-    private DualListModel<UserDto> members;
+    private DualListModel<String> members;
 
     private List<UserDto> users;
     
@@ -39,7 +44,8 @@ public class ProjectBean{
 
     @Autowired
     private UserService userService;
-    
+    private String[] selectedUsersId;
+
     public UserService getUserService() {
 		return userService;
 	}
@@ -48,7 +54,34 @@ public class ProjectBean{
 		this.userService = userService;
 	}
 
-	public void setProjects(List<ProjectDto> projects) {
+    public List<UserDto> getUsers() {
+        if(this.users == null){
+            this.users = this.userService.getUsers();
+        }
+        return users;
+    }
+
+    public void setUsers(List<UserDto> users) {
+        this.users = users;
+    }
+
+    public ProjectService getProjectService() {
+        return projectService;
+    }
+
+    public void setProjectService(ProjectService projectService) {
+        this.projectService = projectService;
+    }
+
+    public String[] getSelectedUsersId() {
+        return selectedUsersId;
+    }
+
+    public void setSelectedUsersId(String[] selectedUsersId) {
+        this.selectedUsersId = selectedUsersId;
+    }
+
+    public void setProjects(List<ProjectDto> projects) {
 		this.projects = projects;
 	}
 
@@ -64,6 +97,14 @@ public class ProjectBean{
         return selectedProject;
     }
 
+    public List<Integer> getSelectedMembersId() {
+        return selectedMembersId;
+    }
+
+    public void setSelectedMembersId(List<Integer> selectedMembersId) {
+        this.selectedMembersId = selectedMembersId;
+    }
+
     public void setSelectedProject(ProjectDto selectedProject) {
         this.selectedProject = selectedProject;
     }
@@ -76,26 +117,27 @@ public class ProjectBean{
         this.selectedProjects = selectedProjects;
     }
 
-    public DualListModel<UserDto> getMembers() {
-        if(this.users == null){
-            this.users = this.userService.getUsers();
+    public DualListModel<String> getMembers() {
+        List<String> membersSource = new ArrayList<>();
+        List<String> membersTarget = new ArrayList<>();
+        for (UserDto u :
+                this.getUsers()) {
+            membersSource.add(u.getUsername());
         }
-        List<UserDto> membersSource = this.users;
-        List<UserDto> membersTarget = new ArrayList<>();
 
         this.members = new DualListModel<>(membersSource, membersTarget);
         return members;
     }
 
-    public void setMembers(DualListModel<UserDto> member) {
+    public void setMembers(DualListModel<String> member) {
         this.members = member;
     }
 
-    public List<UserDto> getSelectedMembers() {
+    public List<String> getSelectedMembers() {
 		return selectedMembers;
 	}
 
-	public void setSelectedMembers(List<UserDto> selectedMembers) {
+	public void setSelectedMembers(List<String> selectedMembers) {
 		this.selectedMembers = selectedMembers;
 	}
 
@@ -107,7 +149,15 @@ public class ProjectBean{
     }
 
     public void saveProject() {
-        this.selectedProject.setMembers(this.members.getTarget());
+        this.selectedProject.setProject_manager(CurrentUserUtils.getUserId());
+        List<UserDto> usersToAdd = new ArrayList<>();
+        for (String username : this.members.getTarget()) {
+            UserDto newUser = this.byUserName(username, this.users);
+            usersToAdd.add(newUser);
+        }
+        System.out.println("Los roles: " + usersToAdd);
+        this.selectedProject.setMembers(usersToAdd);
+
 
         if (this.selectedProject.getId() == -1) {
             this.projectService.createProject(selectedProject);
@@ -157,4 +207,13 @@ public class ProjectBean{
         PrimeFaces.current().executeScript("PF('dtProjectDtos').clearFilters()");
     }
 
+    private UserDto byUserName(String username, List<UserDto> allUsers){
+        UserDto result = null;
+        for (UserDto user : allUsers) {
+            if(Objects.equals(user.getUsername(), username)){
+                result = user;
+            }
+        }
+        return result;
+    }
 }

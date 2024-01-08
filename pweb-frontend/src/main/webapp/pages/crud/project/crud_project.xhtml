@@ -58,7 +58,7 @@
                         <p:commandButton id="basic" value="Show" type="button"/>
                         <p:overlayPanel for="basic" style="width:230px">
                             <p:orderList value="#{project.members}" var="member"
-                                         controlsLocation="none" itemLabel="#{member.fullname}"
+                                         controlsLocation="none" itemLabel="#{member.username}"
                                          itemValue="#{member.id}"/>
                         </p:overlayPanel>
                     </p:column>

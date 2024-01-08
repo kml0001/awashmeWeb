@@ -57,7 +57,8 @@ public class ProjectServiceImpl implements ProjectService{
 
 	@Override
 	public void createProject(ProjectDto Project) {
-		restService.POST("/api/v1/projects/", Project, String.class, CurrentUserUtils.getTokenBearer()).getBody();
+		Object asd = restService.POST("/api/v1/projects/", Project, String.class, CurrentUserUtils.getTokenBearer()).getBody();
+		System.out.println(asd);
 	}
 
 	@Override

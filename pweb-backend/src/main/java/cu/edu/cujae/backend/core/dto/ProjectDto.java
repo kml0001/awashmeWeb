@@ -1,5 +1,6 @@
 package cu.edu.cujae.backend.core.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -42,7 +43,7 @@ public class ProjectDto {
 	}
 	
 	public ProjectDto() {
-		
+		this.members = new ArrayList<>();
 	}
 	
 	public String getProject_manager_name() {
