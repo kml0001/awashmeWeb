@@ -72,7 +72,7 @@ public class SuggestionServicesImp implements SuggestionService{
 	    String insertSQL = "INSERT INTO suggestion (author_id, text, urgency, importance ,subject) VALUES (?, ?,?, ?,?) RETURNING id";
 	    int status = 0;
 	    try (Connection conn = ConnectionImp.getConnection();
-	         PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
+	        PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 
 	        stmt.setInt(1, suggestion.getAuthor_id());
 	        stmt.setString(2, suggestion.getText());
@@ -95,7 +95,7 @@ public class SuggestionServicesImp implements SuggestionService{
 	@Override
 	public int updateSuggestion(SuggestionDto updatedSuggestion) {
 	    String updateSQL = "UPDATE suggestion SET author_id=?, text=?,urgency=?, importance=?, subject =? WHERE id=?";
-	    
+	    int status = 0;
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
 	    	
@@ -107,19 +107,22 @@ public class SuggestionServicesImp implements SuggestionService{
 	        stmt.setInt(6, updatedSuggestion.getId());
 
 	        int rowsAffected = stmt.executeUpdate();
-	        
-	        return rowsAffected > 0 ? updatedSuggestion.getAuthor_id() : -1;
+	        if(rowsAffected > 0) {
+	        	status = 1;
+	        }
+	       
 
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	        return -1; // Retorna un valor negativo para indicar un error
 	    }
+	    return status;
 	}
 
 	@Override
 	public int deleteSuggestion(int id) {
 	    String deleteSQL = "DELETE FROM suggestion WHERE id=?";
-
+	    int status = 0;
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(deleteSQL)) {
 
@@ -127,12 +130,14 @@ public class SuggestionServicesImp implements SuggestionService{
 
 	        int rowsAffected = stmt.executeUpdate();
 
-	        return rowsAffected > 0 ? id : -1;
-
+	        if(rowsAffected > 0) {
+	        	status = 1;
+	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	        return -1; // Retorna un valor negativo para indicar un error
 	    }
+	    return status;
 	}
 
 	

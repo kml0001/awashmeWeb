@@ -41,7 +41,6 @@ public class ProjectServiceImp implements ProjectsService {
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
-
 	        return projects;
 	}
 
@@ -79,7 +78,6 @@ public class ProjectServiceImp implements ProjectsService {
 	        
 	        if (rowsAffected.next()) {
 	        	int id = rowsAffected.getInt("id");
-
 	        	List<UserDto> users = project.getMembers();
 	        	if(users != null)
 	        	for(UserDto user : users) {
@@ -97,11 +95,12 @@ public class ProjectServiceImp implements ProjectsService {
 	        }
 	    }  catch (SQLException e) {
 	        // Manejar excepción específica de PostgreSQL para proyectos duplicados
-	        if (e.getMessage().contains("Ya existe un proyecto con el mismo nombre")) {
-	        	e.getMessage();
+	        if (e.getMessage().contains("ERROR 1")) {
+	        	//e.getMessage();
+	        	System.out.println("Ya existe un proyecto con ese nombre");
 	            return 0;
 	        } else {
-	        	e.printStackTrace();
+	        	//e.printStackTrace();
 	        	System.out.println("TUFE <-----------------------");
 	            return -1;
 	        }

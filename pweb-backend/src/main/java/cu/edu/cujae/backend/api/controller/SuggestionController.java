@@ -41,7 +41,7 @@ public class SuggestionController {
         if (suggestions != null) {
             return ResponseEntity.ok(suggestions);
         } else {
-        	 return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id de la suggestions no existe");
+        	 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id de la suggestions no existe");
         }
     }
 
@@ -72,7 +72,7 @@ public class SuggestionController {
         switch (id) {
     	case 1:
     		return ResponseEntity.status(HttpStatus.CREATED).body("Sugerencia actualizada");
-    	case 2:
+    	case 0:
     		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La sugerencia no existe");
     	default:
     		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado");
@@ -81,8 +81,6 @@ public class SuggestionController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteSuggestion(@PathVariable int id) {
-     
-    	
 //    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //    	UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
 //    	
@@ -91,12 +89,14 @@ public class SuggestionController {
 //    	if(!principal.getRoleList().contains("Admin") &&  principal.getId().equals(String.valueOf(suggestions.getAuthor_id())) ) {
 //    		
 //    	}
-    	
-    	int delete_id = service.deleteSuggestion(id);
-    	if(delete_id != -1)
-    		 return ResponseEntity.ok("Suggestion eliminada");
-    	else {
-    		 return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id de la tarea no existe");
+    	int id_delete = service.deleteSuggestion(id);
+    	switch (id_delete) {
+    	case 1:
+    		return ResponseEntity.status(HttpStatus.CREATED).body("Sugerencia actualizada");
+    	case 0:
+    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La sugerencia no existe");
+    	default:
+    		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado");
     	}
     }
 
