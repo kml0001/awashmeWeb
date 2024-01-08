@@ -1,111 +1,113 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition template="/pages/template/layout.xhtml">
-	<ui:define name="content">
-<h:form id="form">
-		<div class="card crud-demo">
-			
-				<p:growl id="messages" showDetail="true" />
+    <ui:define name="content">
+        <h:form id="form">
+            <div class="card crud-demo">
 
-				<p:toolbar>
-					<p:toolbarGroup>
-						<p:commandButton value="New" icon="pi pi-plus"
-							actionListener="#{manageUserBean.openNew}"
-							update=":form:manage-user-content"
-							oncomplete="PF('manageUserDialog').show()"
-							styleClass="ui-button-success" style="margin-right: .5rem"
-							process="@this">
-							<p:resetInput target=":form:manage-user-content" />
-						</p:commandButton>
+                <p:growl id="messages" showDetail="true"/>
 
-					</p:toolbarGroup>
-					<p:toolbarGroup align="right">
-<!-- 						<p:fileUpload mode="simple" skinSimple="true" label="Import" -->
-<!-- 							chooseIcon="pi pi-download" /> -->
-						<p:commandButton value="Export" icon="pi pi-upload"
-							styleClass="ui-button-help" ajax="false">
-							<p:dataExporter type="pdf" target="dt-users"
-								fileName="users" />
-						</p:commandButton>
-					</p:toolbarGroup>
-				</p:toolbar>
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton value="New" icon="pi pi-plus"
+                                         actionListener="#{manageUserBean.openNew}"
+                                         update=":form:manage-user-content"
+                                         oncomplete="PF('manageUserDialog').show()"
+                                         styleClass="ui-button-success" style="margin-right: .5rem"
+                                         process="@this">
+                            <p:resetInput target=":form:manage-user-content"/>
+                        </p:commandButton>
 
-				<p:dataTable id="dt-users" widgetVar="dtUsers" var="user"
-					value="#{manageUserBean.users}" reflow="true" styleClass="users-table"
-					selection="#{manageUserBean.selectedUser}" rowKey="#{user.id}"
-					paginator="true" rows="10" rowSelectMode="add"
-					paginatorPosition="bottom">
-					<f:facet name="header">
-						<div class="users-table-header">
-							<span style="font-weight: bold">USERS</span> <span
-								class="filter-container ui-input-icon-left"> <i
-								class="pi pi-search"></i> <p:inputText id="globalFilter"
-									onkeyup="PF('dtUsers').filter()" placeholder="Search" />
+                    </p:toolbarGroup>
+                    <p:toolbarGroup align="right">
+                        <!-- 						<p:fileUpload mode="simple" skinSimple="true" label="Import" -->
+                        <!-- 							chooseIcon="pi pi-download" /> -->
+                        <p:commandButton value="Export" icon="pi pi-upload"
+                                         styleClass="ui-button-help" ajax="false">
+                            <p:dataExporter type="pdf" target="dt-users"
+                                            fileName="users"/>
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <p:dataTable id="dt-users" widgetVar="dtUsers" var="user"
+                             value="#{manageUserBean.users}" reflow="true" styleClass="users-table"
+                             selection="#{manageUserBean.selectedUser}" rowKey="#{user.id}"
+                             paginator="true" rows="10" rowSelectMode="add"
+                             paginatorPosition="bottom">
+                    <f:facet name="header">
+                        <div class="users-table-header">
+                            <span style="font-weight: bold">USERS</span> <span
+                                class="filter-container ui-input-icon-left"> <i
+                                class="pi pi-search"></i> <p:inputText id="globalFilter"
+                                                                       onkeyup="PF('dtUsers').filter()"
+                                                                       placeholder="Search"/>
 							</span>
-						</div>
-					</f:facet>
+                        </div>
+                    </f:facet>
 
-					<p:column headerText="User name" sortBy="#{user.username}" filterBy="#{user.username}">
-						<h:outputText value="#{user.username}" />
-					</p:column>
-					
-					<p:column headerText="Full name" sortBy="#{user.fullname}" filterBy="#{user.fullname}">
-						<h:outputText value="#{user.fullname}" />
-					</p:column>
-										
-					<p:column headerText="Email" sortBy="#{user.mail}"
-						filterBy="#{user.mail}">
-						<h:outputText value="#{user.mail}" />
-					</p:column>
+                    <p:column headerText="User name" sortBy="#{user.username}" filterBy="#{user.username}">
+                        <h:outputText value="#{user.username}"/>
+                    </p:column>
 
-					<p:column headerText="Roles" sortBy="#{user.roleList}"
-						filterBy="#{user.roleList}">
-						<p:commandButton id="basic" value="Show" type="button" />
-						<p:overlayPanel for="basic" style="width:230px">
-							<p:orderList value="#{user.roleList}" var="role"
-								controlsLocation="none" itemLabel="#{role.roleName}"
-								itemValue="#{role.id}" />
-						</p:overlayPanel>
-					</p:column>
+                    <p:column headerText="Full name" sortBy="#{user.fullname}" filterBy="#{user.fullname}">
+                        <h:outputText value="#{user.fullname}"/>
+                    </p:column>
 
-					<p:column exportable="false">
-						<p:commandButton icon="pi pi-pencil" action="#{manageUserBean.openForEdit}"
-							update=":form:manage-user-content"
-							oncomplete="PF('manageUserDialog').show()"
-							styleClass="edit-button rounded-button ui-button-success"
-							process="@this">
-							<f:setPropertyActionListener value="#{user}"
-								target="#{manageUserBean.selectedUser}" />
-							<p:resetInput target=":form:manage-user-content" />
-						</p:commandButton>
-						<p:commandButton class="ui-button-warning rounded-button"
-							icon="pi pi-trash" process="@this" 
-							action="#{manageUserBean.deleteUser}" >
-							<f:setPropertyActionListener value="#{user}"
-								target="#{manageUserBean.selectedUser}" />
-							<p:confirm header="Confirm" message="Está seguro de eliminar este usuario?" icon="pi pi-exclamation-triangle"/>
-						</p:commandButton>
-					</p:column>
+                    <p:column headerText="Email" sortBy="#{user.mail}"
+                              filterBy="#{user.mail}">
+                        <h:outputText value="#{user.mail}"/>
+                    </p:column>
 
-				</p:dataTable>
-				<!-- ui:include es una etiqueta de facelet que permite incluir pages y de esta forma el code no se carga tanto -->
-				<ui:include src="new_user.xhtml"></ui:include>
+                    <p:column headerText="Roles" sortBy="#{user.roleList}"
+                              filterBy="#{user.roleList}">
+                        <p:commandButton id="basic" value="Show" type="button"/>
+                        <p:overlayPanel for="basic" style="width:230px">
+                            <p:orderList value="#{user.roleList}" var="role"
+                                         controlsLocation="none" itemLabel="#{role.roleName}"
+                                         itemValue="#{role.id}"/>
+                        </p:overlayPanel>
+                    </p:column>
 
-				<!-- Este comoponente se utiliza mucho para el caso de los eliminar, que es donde casi siempre se necesita confirmation,
-				su uso es bien sencillo, cada confirmDialog va atado a un p:confirm que es el que se definie dentro del button -->
-				<p:confirmDialog global="true" showEffect="fade" width="300">
-					<p:commandButton value="Si" type="button"
-						styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
-					<p:commandButton value="No" type="button"
-						styleClass="ui-confirmdialog-no ui-button-secondary"
-						icon="pi pi-times" />
-				</p:confirmDialog>
-		</div>
-		</h:form>
-	</ui:define>
+                    <p:column exportable="false">
+                        <p:commandButton icon="pi pi-pencil" action="#{manageUserBean.openForEdit}"
+                                         update=":form:manage-user-content"
+                                         oncomplete="PF('manageUserDialog').show()"
+                                         styleClass="edit-button rounded-button ui-button-success"
+                                         process="@this">
+                            <f:setPropertyActionListener value="#{user}"
+                                                         target="#{manageUserBean.selectedUser}"/>
+                            <p:resetInput target=":form:manage-user-content"/>
+                        </p:commandButton>
+                        <p:commandButton class="ui-button-warning rounded-button"
+                                         icon="pi pi-trash" process="@this"
+                                         action="#{manageUserBean.deleteUser}">
+                            <f:setPropertyActionListener value="#{user}"
+                                                         target="#{manageUserBean.selectedUser}"/>
+                            <p:confirm header="Confirm" message="Está seguro de eliminar este usuario?"
+                                       icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+                <!-- ui:include es una etiqueta de facelet que permite incluir pages y de esta forma el code no se carga tanto -->
+                <ui:include src="new_user.xhtml"></ui:include>
+
+                <!-- Este comoponente se utiliza mucho para el caso de los eliminar, que es donde casi siempre se necesita confirmation,
+                su uso es bien sencillo, cada confirmDialog va atado a un p:confirm que es el que se definie dentro del button -->
+                <p:confirmDialog global="true" showEffect="fade" width="300">
+                    <p:commandButton value="Si" type="button"
+                                     styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                    <p:commandButton value="No" type="button"
+                                     styleClass="ui-confirmdialog-no ui-button-secondary"
+                                     icon="pi pi-times"/>
+                </p:confirmDialog>
+            </div>
+        </h:form>
+    </ui:define>
 </ui:composition>
 </html>

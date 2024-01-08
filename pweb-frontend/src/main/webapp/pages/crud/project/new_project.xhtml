@@ -1,58 +1,51 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
 
-	<p:dialog header="Project" showEffect="fade" modal="true"
-		widgetVar="manageProjectDialog" responsive="true">
-		<p:outputPanel id="manage-project-content" class="ui-fluid">
-			<p:outputPanel rendered="#{not empty projectBean.selectedProject}">
-				<p:panelGrid layout="grid" columns="2">
-					<h:panelGroup>
-						<div class="p-field">
-							<p:outputLabel for="@next">Project Name</p:outputLabel>
-							<p:inputText id="tipo" required="true"
-								value="#{projectBean.selectedProject.name}" />
-							<p:message for="@previous"></p:message>
-						</div>
-					</h:panelGroup>
-					<h:panelGroup>
-						<div class="p-field">
-							<p:outputLabel for="@next">Description</p:outputLabel>
-<!-- 							<p:inputText id="tiempo" required="true" -->
-<!-- 								value="#{projectBean.selectedProject.description}" /> -->
-							<p:message for="@previous"></p:message>
-							<p:inputTextarea rows="5" cols="30" counter="display" maxlength="250"
-					                         counterTemplate="{0} characters remaining." autoResize="false"/>
-					        <h:outputText id="display" class="block" />
-							
-						</div>
-					</h:panelGroup>
-					<h:panelGroup>
-						<div class="p-field">
-							<p:outputLabel for="@next" rendered="#{empty projectBean.selectedProject.id}">Members</p:outputLabel>
-							<p:selectCheckboxMenu id="multiple" required="true"
-								value="#{projectBean.selectedMembers}" label="Seleccione"
-								style="min-width: 15rem" multiple="true" filter="true"
-								filterMatchMode="startsWith" panelStyle="width: 30rem"
-								scrollHeight="250" rendered="#{empty projectBean.selectedProject.id}">
-								<f:selectItems value="#{manageUserBean.users}" var="user"
-									itemLabel="#{user.name}" itemValue="#{user.id}" />
-							</p:selectCheckboxMenu>
-						</div>
-					</h:panelGroup>
-					
-				</p:panelGrid>
-			</p:outputPanel>
-		</p:outputPanel>
+    <p:dialog header="Project" showEffect="fade" modal="true"
+              widgetVar="manageProjectDialog" responsive="true">
+        <p:outputPanel id="manage-project-content" class="ui-fluid">
+            <p:outputPanel>
+                <p:panelGrid layout="grid" columns="1">
+                    <h:panelGroup>
+                        <div class="p-field">
+                            <p:outputLabel for="@next">Project name</p:outputLabel>
+                            <p:inputText id="name" required="true"
+                                         value="#{projectBean.selectedProject.name}" />
+                            <p:message for="@previous" ></p:message>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <div class="p-field">
+                            <p:outputLabel for="@next">Description</p:outputLabel>
+                            <p:inputTextarea rows="5" cols="30" counter="display" maxlength="250"
+                                             counterTemplate="{0} characters remaining." autoResize="true"/>
+                            <h:outputText id="display" class="block"/>
 
-		<f:facet name="footer">
-			<p:commandButton value="Salvar" icon="pi pi-check"
-				actionListener="#{projectBean.saveProject}"
-				update="manage-project-content" process="manage-project-content @this" />
-			<p:commandButton value="Cancelar" icon="pi pi-times"
-				onclick="PF('manageProjectDialog').hide()" class="ui-button-secondary" />
-		</f:facet>
-	</p:dialog>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <div class="p-field">
+                            <p:outputLabel for="@next">Members</p:outputLabel>
+                            <p:pickList id="instantPickList" value="#{projectBean.members}" var="member"
+                                        itemLabel="#{member.fullname}" itemValue="#{member.id}"
+                                        transferOnCheckboxClick="true"
+                                        showCheckbox="true" showSourceControls="false" showTargetControls="false"/>
+                        </div>
+                    </h:panelGroup>
+
+                </p:panelGrid>
+            </p:outputPanel>
+        </p:outputPanel>
+
+        <f:facet name="footer">
+            <p:commandButton value="Salvar" icon="pi pi-check"
+                             actionListener="#{projectBean.saveProject}"
+                             update="manage-project-content" process="manage-project-content @this"/>
+            <p:commandButton value="Cancelar" icon="pi pi-times"
+                             onclick="PF('manageProjectDialog').hide()" class="ui-button-secondary"/>
+        </f:facet>
+    </p:dialog>
 </ui:composition>

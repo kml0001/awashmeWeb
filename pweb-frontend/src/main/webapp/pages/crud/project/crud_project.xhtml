@@ -17,17 +17,9 @@
                                          actionListener="#{projectBean.openNew}"
                                          update=":form:manage-project-content"
                                          oncomplete="PF('manageProjectDialog').show()"
-                                         styleClass="ui-button-success" style="margin-right: .5rem">
+                                         styleClass="ui-button-success" style="margin-right: .5rem"
+                                         process="@this">
                             <p:resetInput target=":form:manage-project-content"/>
-                        </p:commandButton>
-                        <p:commandButton id="delete-projects-button"
-                                         value="#{projectBean.deleteButtonMessage}" icon="pi pi-trash"
-                                         actionListener="#{projectBean.deleteSelectedProjects}"
-                                         styleClass="ui-button-danger"
-                                         disabled="#{projectBean.hasSelectedProjects()}" update="@this">
-                            <p:confirm header="Confirmation"
-                                       message="Delete the selected project?"
-                                       icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:toolbarGroup>
                 </p:toolbar>
@@ -63,25 +55,25 @@
 
                     <p:column headerText="Members" sortBy="#{project.members}"
                               filterBy="#{project.members}">
-                        <p:commandButton id="basic" value="Show" type="button" />
+                        <p:commandButton id="basic" value="Show" type="button"/>
                         <p:overlayPanel for="basic" style="width:230px">
                             <p:orderList value="#{project.members}" var="member"
-                                         controlsLocation="none" itemLabel="#{member}"
-                                         itemValue="#{member}" />
+                                         controlsLocation="none" itemLabel="#{member.fullname}"
+                                         itemValue="#{member.id}"/>
                         </p:overlayPanel>
                     </p:column>
 
                     <p:column headerText="Start date" sortBy="#{project.created_on}"
                               filterBy="#{project.created_on}">
                         <h:outputText value="#{project.created_on}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </p:column>
 
                     <p:column headerText="Close date" sortBy="#{project.closed_on}"
                               filterBy="#{project.closed_on}">
                         <h:outputText value="#{project.closed_on}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </p:column>
 

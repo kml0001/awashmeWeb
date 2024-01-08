@@ -1,5 +1,6 @@
 package cu.edu.cujae.pweb.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -9,6 +10,7 @@ import javax.faces.context.FacesContext;
 
 import cu.edu.cujae.pweb.service.UserService;
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
@@ -30,7 +32,7 @@ public class ProjectBean{
     
     private List<UserDto> selectedMembers;
 
-    private List<UserDto> members;
+    private DualListModel<UserDto> members;
     
     @Autowired
     private ProjectService projectService;
@@ -71,12 +73,15 @@ public class ProjectBean{
         this.selectedProjects = selectedProjects;
     }
 
-    public List<UserDto> getMembers() {
-        this.members = userService.getUsers();
+    public DualListModel<UserDto> getMembers() {
+        List<UserDto> membersSource = this.userService.getUsers();
+        List<UserDto> membersTarget = new ArrayList<>();
+
+        this.members = new DualListModel<>(membersSource, membersTarget);
         return members;
     }
 
-    public void setMembers(List<UserDto> member) {
+    public void setMembers(DualListModel<UserDto> member) {
         this.members = member;
     }
 
@@ -88,7 +93,7 @@ public class ProjectBean{
 		this.selectedMembers = selectedMembers;
 	}
 
-	public void openNew() {
+    public void openNew() {
         this.selectedProject = new ProjectDto();
     }
 
