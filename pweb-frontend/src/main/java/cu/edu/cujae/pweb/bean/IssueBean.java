@@ -6,6 +6,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,7 @@ import cu.edu.cujae.pweb.utils.JsfUtils;
 @Component
 @ManagedBean
 @ViewScoped
-public class IssueBean{
+public class IssueBean {
 
     private List<IssueDto> issues;
 
@@ -51,8 +52,12 @@ public class IssueBean{
     @Autowired
     private ProjectService projectService;
 
+
     public List<IssueDto> getIssues() {
-    	this.issues = this.issueService.getIssues();
+        if(this.issues == null){
+            this.issues = this.issueService.getIssues();
+        }
+
     	return this.issues;
     }
 
@@ -148,7 +153,9 @@ public class IssueBean{
 	}
 
 	public List<ProjectDto> getProjects() {
-		this.projects = this.projectService.getProjects();
+        if(this.projects == null){
+            this.projects = this.projectService.getProjects();
+        }
 		return this.projects;
 	}
 
@@ -177,7 +184,9 @@ public class IssueBean{
 	}
 
 	public List<UserDto> getUsers() {
-		this.users = this.userService.getUsers();
+        if(this.users == null){
+            this.users = this.userService.getUsers();
+        }
 		return this.users;
 	}
 

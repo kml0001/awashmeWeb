@@ -109,7 +109,10 @@ public class ManageUserBean {
 	}
 
 	public List<UserDto> getUsers() {
-		this.users = this.userService.getUsers();
+		if(this.users == null){
+			this.users = this.userService.getUsers();
+		}
+
 		return users;
 	}
 
@@ -142,7 +145,10 @@ public class ManageUserBean {
 	}
 
 	public List<RoleDto> getRoles() {
-		this.roles = this.roleService.getRoles();
+		if(this.roles == null){
+			this.roles = this.roleService.getRoles();
+		}
+
 		return roles;
 	}
 

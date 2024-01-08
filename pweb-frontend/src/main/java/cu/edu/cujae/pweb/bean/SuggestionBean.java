@@ -55,7 +55,9 @@ public class SuggestionBean{
 	}
 
     public List<SuggestionDto> getSuggestions() {
-    	this.suggestions = this.suggestionService.getSuggestions();
+        if(this.suggestions == null){
+            this.suggestions = this.suggestionService.getSuggestions();
+        }
         return suggestions;
     }
 

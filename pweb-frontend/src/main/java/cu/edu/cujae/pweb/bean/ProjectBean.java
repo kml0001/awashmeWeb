@@ -33,6 +33,8 @@ public class ProjectBean{
     private List<UserDto> selectedMembers;
 
     private DualListModel<UserDto> members;
+
+    private List<UserDto> users;
     
     @Autowired
     private ProjectService projectService;
@@ -53,7 +55,10 @@ public class ProjectBean{
 	}
 
     public List<ProjectDto> getProjects() {
-    	this.projects = this.projectService.getProjects();
+        if(this.projects == null){
+            this.projects = this.projectService.getProjects();
+        }
+
         return projects;
     }
 
@@ -74,7 +79,10 @@ public class ProjectBean{
     }
 
     public DualListModel<UserDto> getMembers() {
-        List<UserDto> membersSource = this.userService.getUsers();
+        if(this.users == null){
+            this.users = this.userService.getUsers();
+        }
+        List<UserDto> membersSource = this.users;
         List<UserDto> membersTarget = new ArrayList<>();
 
         this.members = new DualListModel<>(membersSource, membersTarget);

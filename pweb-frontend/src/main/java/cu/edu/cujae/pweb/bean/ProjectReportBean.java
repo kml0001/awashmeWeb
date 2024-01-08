@@ -78,7 +78,10 @@ public class ProjectReportBean {
 	}
 
 	public List<ProjectReportDto> getProjectReports() {
-		this.projectReports = this.projectService.getProjectReports(new ProjectFilterDto());
+		if(this.projectReports == null){
+			this.projectReports = this.projectService.getProjectReports(new ProjectFilterDto());
+		}
+
 		return projectReports;
 	}
 
