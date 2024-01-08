@@ -91,7 +91,7 @@ public class UserServiceImp implements UserService{
 
 	@Override
 	public List<UserDto> listUsers() {
-        String selectAllSQL = "SELECT * FROM users";
+        String selectAllSQL = "SELECT * FROM users ORDER BY id DESC";
         List<UserDto> users = new ArrayList<>();
 
         try (Connection conn = ConnectionImp.getConnection();

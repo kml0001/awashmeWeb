@@ -7,9 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cu.edu.cujae.backend.core.dto.IssueDto;
 import cu.edu.cujae.backend.core.security.TokenProvider;
-import cu.edu.cujae.backend.core.security.UserPrincipal;
+
 import cu.edu.cujae.backend.core.service.IssuesServiceImp;
 import cu.edu.cujae.backend.core.util.CurrentUserUtils;
 
