@@ -11,21 +11,22 @@
 
 			<p:growl id="messages" />
 
-			<p:menubar>
+			<p:menubar orientation="horizontal">
 				<p:menuitem value="Home" icon="pi pi-fw pi-home"
 					outcome="/pages/home/home.xhtml" />
 				<p:submenu label="File" icon="pi pi-fw pi-file">
-					<p:submenu label="Crud" icon="pi pi-fw pi-plus">
+					<p:submenu label="New" icon="pi pi-fw pi-plus">
 						<p:menuitem value="User" icon="pi pi-fw pi-user"
 							outcome="/pages/crud/user/crud_user" />
 						<p:menuitem value="Project" icon="pi pi-fw pi-folder-open"
 							outcome="/pages/crud/project/crud_project" />
 						<p:menuitem value="Issue" icon="pi pi-fw pi-check-circle"
 							outcome="/pages/crud/issue/crud_issue" />
-						<p:menuitem value="Suggestion" icon="pi pi-fw pi-comment"
-							outcome="/pages/crud/suggestion/crud_suggestion" />
 
 					</p:submenu>
+				</p:submenu>
+
+				<p:submenu label="View" icon="pi pi-fw pi-file">
 					<p:submenu label="Report" icon="pi pi-fw pi-list">
 						<p:menuitem value="User" icon="pi pi-fw pi-user"
 									outcome="/pages/report/user_list" />
@@ -34,6 +35,9 @@
 
 					</p:submenu>
 				</p:submenu>
+
+				<p:menuitem value="Suggestion" icon="pi pi-fw pi-comment"
+							outcome="/pages/crud/suggestion/crud_suggestion" />
 
 
 
