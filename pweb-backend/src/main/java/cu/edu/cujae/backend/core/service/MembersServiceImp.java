@@ -156,7 +156,7 @@ public class MembersServiceImp implements MembersService {
 	            return rowsAffected > 0;
 
 	        } catch (SQLException e) {
-	            e.printStackTrace();
+	           
 	            return false;
 	        }
 	    }
