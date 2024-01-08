@@ -14,11 +14,8 @@ import cu.edu.cujae.backend.core.dto.MembersDto;
 import cu.edu.cujae.backend.core.dto.ProjectDto;
 import cu.edu.cujae.backend.core.dto.UserDto;
 import cu.edu.cujae.backend.core.util.ConnectionImp;
-import cu.edu.cujae.backend.core.util.date_string_converter;
 import cu.edu.cujae.backend.service.MembersService;
 import cu.edu.cujae.backend.service.ProjectsService;
-import cu.edu.cujae.backend.service.RoleService;
-
 
 
 @Service
@@ -84,6 +81,7 @@ public class ProjectServiceImp implements ProjectsService {
 	        	int id = rowsAffected.getInt("id");
 
 	        	List<UserDto> users = project.getMembers();
+	        	if(users != null)
 	        	for(UserDto user : users) {
 	        		try {
 	        			members.insertMembers(new MembersDto(id, user.getId()));
@@ -102,7 +100,8 @@ public class ProjectServiceImp implements ProjectsService {
 	        if (e.getMessage().contains("Ya existe un proyecto con el mismo nombre")) {
 	            return 0;
 	        } else {
-	         
+	        	e.printStackTrace();
+	        	System.out.println("TUFE <-----------------------");
 	            return -1;
 	        }
 	    }
@@ -110,7 +109,7 @@ public class ProjectServiceImp implements ProjectsService {
 
 	@Override
 	public int updateProject(ProjectDto project) {
-		String updateSQL = "UPDATE project SET name=?, description=?, status=?, is_public=?, project_manager=? WHERE id=?";
+		String updateSQL = "UPDATE project SET name=?, description=?, status=?, project_manager=? WHERE id=?";
 
 		try (Connection conn = ConnectionImp.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
@@ -118,9 +117,8 @@ public class ProjectServiceImp implements ProjectsService {
 			stmt.setString(1, project.getName());
 			stmt.setString(2, project.getDescription());
 			stmt.setString(3, project.getStatus());
-			stmt.setBoolean(4, project.getIs_public());
-			stmt.setInt(5, project.getProject_manager());
-			stmt.setInt(6, project.getId());
+			stmt.setInt(4, project.getProject_manager());
+			stmt.setInt(5, project.getId());
 
 			int rowsAffected = stmt.executeUpdate();
 			
