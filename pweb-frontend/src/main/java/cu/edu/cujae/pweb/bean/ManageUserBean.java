@@ -74,12 +74,12 @@ public class ManageUserBean {
     	
         if (this.selectedUser.getId() == -1) {
             this.userService.createUser(this.selectedUser);
-            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "userDto_added");
+        //    JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "userDto_added");
         }
         else {
         	System.out.println("entro en el else");
         	this.userService.updateUser(this.selectedUser);
-        	JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "userDto_updated");
+        //	JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "userDto_updated");
         }
         this.users = userService.getUsers();
         PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
@@ -91,7 +91,7 @@ public class ManageUserBean {
     	System.out.println(selectedUser.getId());
         this.userService.deleteUser(String.valueOf(selectedUser.getId()));
         this.users = this.userService.getUsers();
-        JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "userDto_deleted");
+    //    JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "userDto_deleted");
         PrimeFaces.current().ajax().update("form:dt-users");
         
     }
