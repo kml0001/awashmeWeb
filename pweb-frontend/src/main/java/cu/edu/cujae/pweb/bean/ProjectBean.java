@@ -118,14 +118,17 @@ public class ProjectBean{
     }
 
     public DualListModel<String> getMembers() {
-        List<String> membersSource = new ArrayList<>();
-        List<String> membersTarget = new ArrayList<>();
-        for (UserDto u :
-                this.getUsers()) {
-            membersSource.add(u.getUsername());
+        if(members == null){
+            List<String> membersSource = new ArrayList<>();
+            List<String> membersTarget = new ArrayList<>();
+            for (UserDto u :
+                    this.getUsers()) {
+                membersSource.add(u.getUsername());
+            }
+
+            this.members = new DualListModel<>(membersSource, membersTarget);
         }
 
-        this.members = new DualListModel<>(membersSource, membersTarget);
         return members;
     }
 
@@ -142,7 +145,29 @@ public class ProjectBean{
 	}
 
     public void openForEdit(){
+        List<String> sourceList = new ArrayList<>();
+        List<String> targetList = new ArrayList<>();
 
+        for (UserDto generalUser:
+             users) {
+            boolean isTarget = false;
+
+            for (UserDto u:
+                    selectedProject.getMembers()) {
+                if(Objects.equals(generalUser.getUsername(), u.getUsername())){
+                    isTarget = true;
+                }
+                if (isTarget){
+                    targetList.add(generalUser.getUsername());
+                    break;
+                }
+            }
+            if(!isTarget){
+                sourceList.add(generalUser.getUsername());
+            }
+        }
+        this.members.setSource(sourceList);
+        this.members.setTarget(targetList);
     }
     public void openNew() {
         this.selectedProject = new ProjectDto();
