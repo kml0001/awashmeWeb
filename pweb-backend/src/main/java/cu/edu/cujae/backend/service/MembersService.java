@@ -17,5 +17,5 @@ public interface MembersService {
     
     boolean insertMembers(MembersDto member) throws SQLException;
     
-
+    public int deleteMembersByProjectId(int projectId);
 }

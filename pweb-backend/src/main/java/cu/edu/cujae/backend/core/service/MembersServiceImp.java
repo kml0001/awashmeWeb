@@ -63,6 +63,30 @@ public class MembersServiceImp implements MembersService {
 		    }
 	
 	@Override
+	public int deleteMembersByProjectId(int projectId) {
+		        String deleteSQL = "DELETE FROM members WHERE project_Id = ?";
+
+		        try (Connection conn = ConnectionImp.getConnection();
+		             PreparedStatement stmt = conn.prepareStatement(deleteSQL)) {
+
+		            stmt.setInt(1, projectId);
+
+		            int rowsAffected = stmt.executeUpdate();
+
+		            if (rowsAffected > 0) {
+		            	return rowsAffected;
+		            }
+		            else {
+		            	return -1;
+		            }
+		        } catch (SQLException e) {
+		            e.printStackTrace();
+		            return -1;
+		        }
+		    }
+	
+	
+	@Override
 	public boolean deleteMemberByUserAndProjectId(int userId, int projectId) {
         String deleteSQL = "DELETE FROM members WHERE user_id = ? AND project_id = ?";
 
@@ -117,7 +141,10 @@ public class MembersServiceImp implements MembersService {
 	@Override
 	public boolean insertMembers(MembersDto members) throws SQLException {
 		  String insertSQL = "INSERT INTO members (project_id, user_id) VALUES (?, ?)";
-
+		  System.out.println("-----------------------------------");
+		  	System.out.println(members.getProject_id());
+		  	System.out.println(members.getUser_id());
+		  System.out.println("-----------------------------------");
 	        try (Connection conn = ConnectionImp.getConnection();
 	             PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 

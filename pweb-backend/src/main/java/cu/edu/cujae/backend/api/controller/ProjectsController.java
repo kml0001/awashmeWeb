@@ -3,7 +3,6 @@ package cu.edu.cujae.backend.api.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -62,9 +61,9 @@ public class ProjectsController {
 	@PostMapping("/")
 	public ResponseEntity<Object> createProject(@RequestBody ProjectDto project) {
 
-		int id_newProject = service.createProject(project);
+		int id = service.createProject(project);
 
-		switch (id_newProject) {
+		switch (id) {
 		case 1:
 			return ResponseEntity.status(HttpStatus.CREATED).body("Proyecto creado");
 		case 0:
@@ -82,12 +81,14 @@ public class ProjectsController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reúne los privilegios para modificar esta tarea");
 		}
 
-		int id_updated = service.updateProject(updatedProject);
-		switch (id_updated) {
+		int id = service.updateProject(updatedProject);
+		switch (id) {
 		case 1:
-			return ResponseEntity.status(HttpStatus.CREATED).body("Proyecto creado");
+			return ResponseEntity.status(HttpStatus.CREATED).body("Proyecto actualizado");
 		case 0:
 			return ResponseEntity.status(HttpStatus.CONFLICT).body("Ya existe un proyecto con ese nombre");
+		case 2:
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id de proyecto no existe");
 		default:
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado");
 		}
@@ -95,14 +96,22 @@ public class ProjectsController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deleteProject(@PathVariable int id) {
-
-		int delete_id = service.deleteProject(id);
-		if(delete_id != -1)
-			return ResponseEntity.ok("Proyecto eliminada");
-		else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id del proyecto no existe");
+		
+		ProjectDto project = service.getProjectById(id);
+		
+		if (CurrentUserUtils.getUserRole().indexOf("Project Manager") == -1 && CurrentUserUtils.getUserId() != project.getProject_manager()) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reúne los privilegios para modificar esta tarea");
 		}
+		int projectId = service.deleteProject(id);
+		
+		switch (projectId) {
+		case 1:
+			return ResponseEntity.status(HttpStatus.CREATED).body("Proyecto Eliminado");
+		case 2:
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id de proyecto no existe");
+		default:
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado");
+		}
+
 	}
-
-
 }

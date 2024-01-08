@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cu.edu.cujae.backend.core.dto.MembersDto;
@@ -14,13 +15,17 @@ import cu.edu.cujae.backend.core.dto.ProjectDto;
 import cu.edu.cujae.backend.core.dto.UserDto;
 import cu.edu.cujae.backend.core.util.ConnectionImp;
 import cu.edu.cujae.backend.core.util.date_string_converter;
+import cu.edu.cujae.backend.service.MembersService;
 import cu.edu.cujae.backend.service.ProjectsService;
+import cu.edu.cujae.backend.service.RoleService;
 
 
 
 @Service
 public class ProjectServiceImp implements ProjectsService {
 
+	@Autowired
+	private MembersService members;
 	
 	@Override
 	public List<ProjectDto> getProjects() {
@@ -48,7 +53,7 @@ public class ProjectServiceImp implements ProjectsService {
 	
 		ProjectDto projectDto = null;
 	        try (Connection conn = ConnectionImp.getConnection()) {
-	            String sql = "SELECT * FROM project WHERE id=?";
+	            String sql = "SELECT project.*, users.username AS project_manager_name FROM project join users on users.id = project_manager  WHERE project.id=?";
 	            try (PreparedStatement statement = conn.prepareStatement(sql)) {
 	                statement.setInt(1, id);
 
@@ -61,40 +66,43 @@ public class ProjectServiceImp implements ProjectsService {
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
-
 	        return projectDto;
 	}
 
 	@Override
 	public int createProject(ProjectDto project) {
-	    String insertSQL = "INSERT INTO project (name, description, status, is_public, project_manager , closed_on) VALUES (?, ?, ?, ?, ? ,?) RETURNING id";
-	    
+	    String insertSQL = "INSERT INTO project (name, description, project_manager) VALUES (?, ?, ?) RETURNING id";
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 
-	    	
 	        stmt.setString(1, project.getName());
 	        stmt.setString(2, project.getDescription());
-	        stmt.setString(3, project.getStatus());
-	        stmt.setBoolean(4, project.getIs_public());
-	        stmt.setInt(5, project.getProject_manager());
-	        stmt.setDate(6, date_string_converter.dateToString(project.getClosed_on()));
-	        int rowsAffected = stmt.executeUpdate();
+	        stmt.setInt(3, project.getProject_manager());
+	        ResultSet rowsAffected = stmt.executeQuery();
 	        
-	        
-            if (rowsAffected > 0) {
-            	return 1;
-            }
-            else {
-            	return 0;
-	        }
+	        if (rowsAffected.next()) {
+	        	int id = rowsAffected.getInt("id");
 
+	        	List<UserDto> users = project.getMembers();
+	        	for(UserDto user : users) {
+	        		try {
+	        			members.insertMembers(new MembersDto(id, user.getId()));
+	        		}
+	        		catch (Exception e) {
+	        			System.out.println("La relacion ya existe <-----------------------");
+	        		}
+	        	}
+	        	return 1;
+	        }
+	        else {
+	        	return 0;
+	        }
 	    }  catch (SQLException e) {
 	        // Manejar excepción específica de PostgreSQL para proyectos duplicados
 	        if (e.getMessage().contains("Ya existe un proyecto con el mismo nombre")) {
 	            return 0;
 	        } else {
-	            // Otra manipulación de excepciones de PostgreSQL según tus necesidades
+	         
 	            return -1;
 	        }
 	    }
@@ -105,7 +113,7 @@ public class ProjectServiceImp implements ProjectsService {
 		String updateSQL = "UPDATE project SET name=?, description=?, status=?, is_public=?, project_manager=? WHERE id=?";
 
 		try (Connection conn = ConnectionImp.getConnection();
-				PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
+			PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
 
 			stmt.setString(1, project.getName());
 			stmt.setString(2, project.getDescription());
@@ -115,41 +123,38 @@ public class ProjectServiceImp implements ProjectsService {
 			stmt.setInt(6, project.getId());
 
 			int rowsAffected = stmt.executeUpdate();
-
-
-
+			
+			
+			return (rowsAffected > 0) ? 1 : 2;
+			
 		}  catch (SQLException e) {
 			// Manejar excepción específica de PostgreSQL para proyectos duplicados
 			if (e.getMessage().contains("Ya existe un proyecto con el mismo nombre")) {
 				return 0;
 			} else {
-				// Otra manipulación de excepciones de PostgreSQL según tus necesidades
+				
 				return -1;
 			}
 		}
-		return 1;
 	}
 
 	@Override
 	public int deleteProject(int id) {
-		int id_return = -1;
+	
 		try (Connection conn = ConnectionImp.getConnection()) {
             String sql = "DELETE FROM project WHERE id=?";
             try (PreparedStatement statement = conn.prepareStatement(sql)) {
                 statement.setInt(1, id);
                 
                 int rowsAffected = statement.executeUpdate();
-                if (rowsAffected > 0) {
-                    System.out.println("Proyecto eliminado correctamente.");
-                    id_return = id;
-                } else {
-                    System.out.println("No se encontró ningún proyecto con el ID proporcionado para eliminar.");
-                }
+               
+                return (rowsAffected > 0) ? 1 : 2;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return -1;
         }
-		return id_return;
+		
 	}
 
 	private List<UserDto> getMembersByProjectId(int projectId){
