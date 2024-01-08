@@ -38,6 +38,8 @@ public class ProjectBean{
     private DualListModel<String> members;
 
     private List<UserDto> users;
+    private boolean open;
+    private boolean edit;
     
     @Autowired
     private ProjectService projectService;
@@ -59,6 +61,22 @@ public class ProjectBean{
             this.users = this.userService.getUsers();
         }
         return users;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
+
+    public boolean isEdit() {
+        return edit;
+    }
+
+    public void setEdit(boolean edit) {
+        this.edit = edit;
     }
 
     public void setUsers(List<UserDto> users) {
@@ -145,6 +163,8 @@ public class ProjectBean{
 	}
 
     public void openForEdit(){
+        this.edit = true;
+        this.open = this.selectedProject.getClosed_on() == null;
         List<String> sourceList = new ArrayList<>();
         List<String> targetList = new ArrayList<>();
 
@@ -170,11 +190,20 @@ public class ProjectBean{
         this.members.setTarget(targetList);
     }
     public void openNew() {
+        this.edit = false;
+        this.open = true;
         this.selectedProject = new ProjectDto();
     }
 
     public void saveProject() {
         this.selectedProject.setProject_manager(CurrentUserUtils.getUserId());
+        if(this.open){
+            this.selectedProject.setStatus("open");
+        }
+        else{
+            this.selectedProject.setStatus("closed");
+        }
+
         List<UserDto> usersToAdd = new ArrayList<>();
         for (String username : this.members.getTarget()) {
             UserDto newUser = this.byUserName(username, this.users);
