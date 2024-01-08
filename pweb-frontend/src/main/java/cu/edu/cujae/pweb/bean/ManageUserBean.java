@@ -46,6 +46,10 @@ public class ManageUserBean {
 	
 	public void openNew() {
         this.selectedUser = new UserDto();
+		if(this.selectedRolesId != null){
+			this.selectedRolesId.clear();
+		}
+
         this.editMode = false;
     }
 	
@@ -87,7 +91,7 @@ public class ManageUserBean {
     	System.out.println(selectedUser.getId());
         this.userService.deleteUser(String.valueOf(selectedUser.getId()));
         this.users = this.userService.getUsers();
-        JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_deleted");
+        JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "userDto_deleted");
         PrimeFaces.current().ajax().update("form:dt-users");
         
     }
