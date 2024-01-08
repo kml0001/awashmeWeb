@@ -39,7 +39,7 @@ public class UserServiceImp implements UserService{
 
 			if (rowsAffected > 0) {
 				status = 1;
-
+				roleservice.updateRolesForUser(user.getId(),user.getRoleList() );
 			}
 
 		} catch (SQLException e) {
