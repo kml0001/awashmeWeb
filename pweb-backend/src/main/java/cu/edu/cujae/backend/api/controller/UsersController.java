@@ -71,18 +71,28 @@ public class UsersController {
     @PostMapping("/")
     
     public ResponseEntity<Object> createUser(@RequestBody UserDto user) throws SQLException {
-//    	System.out.println("Usuario en el backend: " + user.getFullname());
-    	int newUser_id = (int) service.createUser(user);
-    	try {
-    	sendMailToUserWithCredentials(user.getFullname(), user.getMail());
-    	if(newUser_id != -1) {
-    		return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado");
-    	}
-    	}catch (Exception e) {
-			e.printStackTrace();
-		}
-    	return  ResponseEntity.status(HttpStatus.CONFLICT).body("el usuario ya existe");
     	
+
+//    	try {
+//    		sendMailToUserWithCredentials(user.getFullname(), user.getMail());
+//    	}
+//    	catch (Exception e) {
+//			// TODO: handle exception
+//		}
+    	
+    	int id = service.createUser(user);
+    	switch (id) {
+    	case 1:
+    		return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado");
+    	case 0:
+    		return ResponseEntity.status(HttpStatus.CONFLICT).body("El nombre de usuario ya está en uso");
+    	case 2:
+    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id del usuario no existe");
+    	default:
+    		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado");
+
+
+    	}
     }
 
     @PutMapping("/")

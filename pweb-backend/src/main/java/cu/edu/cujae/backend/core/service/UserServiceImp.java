@@ -28,7 +28,7 @@ public class UserServiceImp implements UserService{
         String insertSQL = "INSERT INTO users (username, lastname, mail, passwd) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = ConnectionImp.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(insertSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getFullname());
@@ -38,66 +38,50 @@ public class UserServiceImp implements UserService{
             int rowsAffected = stmt.executeUpdate();
             
             if (rowsAffected > 0) {
-                // Obtener el ID generado
-                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        int userId = generatedKeys.getInt(1);
-                        
-                        // Ahora, insertar roles asociados al usuario
-                        
-                        if(user.getRoleList() != null && !user.getRoleList().isEmpty() ) {
-                        	
-                        	List<RoleDto> ListRoles = user.getRoleList();
-                        	for(RoleDto role : ListRoles) {
-                        		roleservice.insertUserRoles(userId, role);
-                        	}
-                			
-                        }
-                        return userId;
-                    } else {
-                        throw new SQLException("No se pudo obtener el ID generado.");
-                    }
-                }
-            } else {
-                throw new SQLException("La inserción no tuvo éxito, no se creó ninguna fila.");
+               return 1;
+            	
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
             return -1; // Retorna un valor negativo para indicar un error
         }
+		return 0;
     }
 
 	@Override
 	public int updateUser(UserDto updatedUser) {
-		
+		int staus = -1;
 		System.out.print(updatedUser.getPasswd() + "<-------------------------------PASSW-------------");
-        String updateSQL = "UPDATE users SET username=?, lastname=?, mail=?, passwd=? WHERE id=?";
-        
-        try (Connection conn = ConnectionImp.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
+		String updateSQL = "UPDATE users SET username=?, lastname=?, mail=?, passwd=? WHERE id=?";
 
-            stmt.setString(1, updatedUser.getUsername());
-            stmt.setString(2, updatedUser.getFullname());
-            stmt.setString(3, updatedUser.getMail());
-            stmt.setString(4, updatedUser.getPasswd());
-            stmt.setInt(5, updatedUser.getId());
+		try (Connection conn = ConnectionImp.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
 
-            int rowsAffected = stmt.executeUpdate();
+			stmt.setString(1, updatedUser.getUsername());
+			stmt.setString(2, updatedUser.getFullname());
+			stmt.setString(3, updatedUser.getMail());
+			stmt.setString(4, updatedUser.getPasswd());
+			stmt.setInt(5, updatedUser.getId());
 
-            if (rowsAffected > 0) {
-                // Ahora, actualizar roles asociados al usuario
-            	roleservice.updateRolesForUser(updatedUser.getId(),updatedUser.getRoleList() );
-                return rowsAffected;
-            } else {
-                return -1; // No se actualizó ninguna fila
-            }
+			int rowsAffected = stmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return -1;
-        }
-    }
+			if (rowsAffected > 0) {
+				// Ahora, actualizar roles asociados al usuario
+				roleservice.updateRolesForUser(updatedUser.getId(),updatedUser.getRoleList() );
+				staus = 1;
+			} 
+			staus = 2;
+		} catch (SQLException e) {
+			if (e.getMessage().contains("La relacion ya existe")) {
+				System.out.println("La relación ya existe");
+				staus = 0;
+			} else {
+				e.printStackTrace();
+				staus = -1;
+			}
+		}
+		return staus;
+	}
 
 	@Override
 	public List<UserDto> listUsers() {

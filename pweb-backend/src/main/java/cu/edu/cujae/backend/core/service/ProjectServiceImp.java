@@ -98,6 +98,7 @@ public class ProjectServiceImp implements ProjectsService {
 	    }  catch (SQLException e) {
 	        // Manejar excepción específica de PostgreSQL para proyectos duplicados
 	        if (e.getMessage().contains("Ya existe un proyecto con el mismo nombre")) {
+	        	e.getMessage();
 	            return 0;
 	        } else {
 	        	e.printStackTrace();
@@ -109,7 +110,7 @@ public class ProjectServiceImp implements ProjectsService {
 
 	@Override
 	public int updateProject(ProjectDto project) {
-		String updateSQL = "UPDATE project SET name=?, description=?, status=?, project_manager=? WHERE id=?";
+		String updateSQL = "UPDATE project SET name=?, description=?, status=?, project_manager=? WHERE id=? ";
 
 		try (Connection conn = ConnectionImp.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
@@ -121,19 +122,31 @@ public class ProjectServiceImp implements ProjectsService {
 			stmt.setInt(5, project.getId());
 
 			int rowsAffected = stmt.executeUpdate();
-			
-			
-			return (rowsAffected > 0) ? 1 : 2;
-			
-		}  catch (SQLException e) {
-			// Manejar excepción específica de PostgreSQL para proyectos duplicados
-			if (e.getMessage().contains("Ya existe un proyecto con el mismo nombre")) {
-				return 0;
-			} else {
-				
-				return -1;
-			}
+	        
+	        if (rowsAffected > 0) {
+	        	int id = project.getId();
+
+	        	List<UserDto> users = project.getMembers();
+	        	members.deleteMembersByProjectId(id);
+	        	if(users != null)
+	        	for(UserDto user : users) {
+	        		try {
+	        			members.insertMembers(new MembersDto(id, user.getId()));
+	        		}
+	        		catch (Exception e) {
+	        			System.out.println("La relacion ya existe <-----------------------");
+	        		}
+	        	}
+	        	return 1;
+	        }
+	        else {
+	        	return 2;
+	        }
+		}catch (Exception e) {
+			e.printStackTrace();
+			return -1;
 		}
+		
 	}
 
 	@Override
