@@ -3,6 +3,8 @@ package cu.edu.cujae.pweb.service;
 import java.util.List;
 
 import cu.edu.cujae.pweb.dto.UserDto;
+import cu.edu.cujae.pweb.dto.UserFilterDto;
+import cu.edu.cujae.pweb.dto.UserReportDto;
 
 public interface UserService {
 	List<UserDto> getUsers();
@@ -10,4 +12,6 @@ public interface UserService {
 	void createUser(UserDto user);
 	void updateUser(UserDto user);
 	void deleteUser(String id);
+
+    List<UserReportDto> getUserReports(UserFilterDto pfdto);
 }

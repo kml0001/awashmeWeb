@@ -4,20 +4,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cu.edu.cujae.pweb.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriTemplate;
 
-import cu.edu.cujae.pweb.dto.UserDto;
 import cu.edu.cujae.pweb.security.CurrentUserUtils;
 import cu.edu.cujae.pweb.utils.ApiRestMapper;
 import cu.edu.cujae.pweb.utils.RestService;
 
 @Service
 public class UserServiceImpl implements UserService{
-	
+
 	@Autowired
 	private RestService restService;
 
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService{
 		try {
 			MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		    ApiRestMapper<UserDto> apiRestMapper = new ApiRestMapper<>();
-		    
+
 		    UriTemplate template = new UriTemplate("/api/v1/users/{userId}");
 		    String uri = template.expand(userId).toString();
 		    String response = (String)restService.GET(uri, params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
@@ -72,6 +72,23 @@ public class UserServiceImpl implements UserService{
 		UriTemplate template = new UriTemplate("/api/v1/users/{userId}");
 	    String uri = template.expand(userId).toString();
 		restService.DELETE(uri, params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
+	}
+
+	@Override
+	public List<UserReportDto> getUserReports(UserFilterDto filter){
+		List<UserReportDto> userReportList = new ArrayList<UserReportDto>();
+		ApiRestMapper<UserReportDto> apiRestMapper = new ApiRestMapper<>();
+
+		Object response = restService.POST("/api/v1/projects/report", filter, String.class, CurrentUserUtils.getTokenBearer()).getBody();
+
+		System.out.println(response);
+		try {
+			userReportList = apiRestMapper.mapList(response, UserReportDto.class);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return userReportList;
 	}
 	
 }

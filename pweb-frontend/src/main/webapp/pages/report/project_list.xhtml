@@ -141,6 +141,9 @@
 		<div class="card">
 			<p:dataTable id="projectReport-accordion" var="projectReport2"
 				value="#{projectReportBean.projectReports}">
+				<p:column headerText="Project name">
+					<h:outputText value="#{projectReport2.name}" />
+				</p:column>
 				<p:column headerText="Number of members">
 					<h:outputText value="#{projectReport2.members}" />
 				</p:column>
