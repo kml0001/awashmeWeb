@@ -60,7 +60,6 @@ public class SuggestionServicesImp implements SuggestionService{
 	                suggestion = mapResultSetToSuggestion(resultSet);
 	            }
 	        }
-
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
@@ -71,7 +70,7 @@ public class SuggestionServicesImp implements SuggestionService{
 	@Override
 	public int createSuggestion(SuggestionDto suggestion) {
 	    String insertSQL = "INSERT INTO suggestion (author_id, text, urgency, importance ,subject) VALUES (?, ?,?, ?,?) RETURNING id";
-
+	    int status = 0;
 	    try (Connection conn = ConnectionImp.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 
@@ -80,18 +79,17 @@ public class SuggestionServicesImp implements SuggestionService{
 	        stmt.setString(3, suggestion.getUrgency());
 	        stmt.setString(4, suggestion.getImportance());
 	        stmt.setString(5, suggestion.getSubject());
-	        try (ResultSet generatedKeys = stmt.executeQuery()) {
-	            if (generatedKeys.next()) {
-	                return generatedKeys.getInt("id");
-	            } else {
-	                throw new SQLException("No se pudo obtener el ID generado.");
-	            }
-	        }
+	        int rowsAffected = stmt.executeUpdate();
+
+			if (rowsAffected > 0) {
+				status = 1;
+			}
 
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	        return -1; // Retorna un valor negativo para indicar un error
 	    }
+	    return status;
 	}
 	
 	@Override

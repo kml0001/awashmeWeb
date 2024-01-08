@@ -48,11 +48,13 @@ public class SuggestionController {
     @PostMapping("/")
     public ResponseEntity<Object> createSuggestion(@RequestBody SuggestionDto suggestions) {
         
-        int suggestions_id = service.createSuggestion(suggestions);
-        if(suggestions_id != -1)
-        	return ResponseEntity.status(HttpStatus.CREATED).body("Suggestion creada");
-        else
-        	return null;
+        int id = service.createSuggestion(suggestions);
+        switch (id) {
+    	case 1:
+    		return ResponseEntity.status(HttpStatus.CREATED).body("Sugerencia creada");
+    	default:
+    		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado");
+    	}
     }
 
     @PutMapping("/")
@@ -66,14 +68,15 @@ public class SuggestionController {
 //    	if(!principal.getRoleList().contains("Admin") &&  principal.getId().equals(String.valueOf(suggestions.getAuthor_id())) ) {
 //    		 return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reune los privilegios para realizar la operacion .Solo puede editar sus sugerencias");
 //    	}
-    	
-    	
-        int id_updated = service.updateSuggestion(updatedSuggestion);
-        if (id_updated != -1) {
-            return ResponseEntity.ok("Suggestion actualizada");
-        } else {
-        	 return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id de la tarea no existe");
-        }
+        int id = service.updateSuggestion(updatedSuggestion);
+        switch (id) {
+    	case 1:
+    		return ResponseEntity.status(HttpStatus.CREATED).body("Sugerencia actualizada");
+    	case 2:
+    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La sugerencia no existe");
+    	default:
+    		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado");
+    	}
     }
 
     @DeleteMapping("/{id}")

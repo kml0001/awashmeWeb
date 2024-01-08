@@ -25,32 +25,39 @@ public class UserServiceImp implements UserService{
 	
 	@Override
 	public int createUser(UserDto user) {
-        String insertSQL = "INSERT INTO users (username, lastname, mail, passwd) VALUES (?, ?, ?, ?)";
+		String insertSQL = "INSERT INTO users (username, lastname, mail, passwd) VALUES (?, ?, ?, ?)";
+		int status = 2;
+		try (Connection conn = ConnectionImp.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 
-        try (Connection conn = ConnectionImp.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
+			stmt.setString(1, user.getUsername());
+			stmt.setString(2, user.getFullname());
+			stmt.setString(3, user.getMail());
+			stmt.setString(4,encodePass(user.getPasswd()));
 
-            stmt.setString(1, user.getUsername());
-            stmt.setString(2, user.getFullname());
-            stmt.setString(3, user.getMail());
-            stmt.setString(4,encodePass(user.getPasswd()));
+			int rowsAffected = stmt.executeUpdate();
 
-            int rowsAffected = stmt.executeUpdate();
-            
-            if (rowsAffected > 0) {
-               return 1;
-            	
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return -1; // Retorna un valor negativo para indicar un error
-        }
-		return 0;
-    }
+			if (rowsAffected > 0) {
+				status = 1;
+
+			}
+
+		} catch (SQLException e) {
+			// Captura específicamente la excepción de violación de llave foránea
+			if (e.getMessage().contains("ERROR 1")) {
+				System.out.println("Nombre de usuario en uso");
+				status = 0;
+			} else {
+				e.printStackTrace();
+				status = -1;
+			}
+		}
+		return status;
+	}
 
 	@Override
 	public int updateUser(UserDto updatedUser) {
-		int staus = -1;
+		int staus = 2;
 		System.out.print(updatedUser.getPasswd() + "<-------------------------------PASSW-------------");
 		String updateSQL = "UPDATE users SET username=?, lastname=?, mail=?, passwd=? WHERE id=?";
 
@@ -70,14 +77,13 @@ public class UserServiceImp implements UserService{
 				roleservice.updateRolesForUser(updatedUser.getId(),updatedUser.getRoleList() );
 				staus = 1;
 			} 
-			staus = 2;
 		} catch (SQLException e) {
-			if (e.getMessage().contains("La relacion ya existe")) {
-				System.out.println("La relación ya existe");
+			if (e.getMessage().contains("ERROR 1")) {
+				System.out.println("Ya existe un usuario con ese nombre");
 				staus = 0;
-			} else {
-				e.printStackTrace();
-				staus = -1;
+			} else if (e.getMessage().contains("ERROR 5")) {
+				System.out.println("Ya existe un usuario con esa direccion de correo");
+				staus = 3;
 			}
 		}
 		return staus;
@@ -119,11 +125,9 @@ public class UserServiceImp implements UserService{
                     user = mapResultSetToUser(resultSet);
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return user;
     }
 
@@ -154,7 +158,7 @@ public class UserServiceImp implements UserService{
 	@Override
 	public int deleteUser(int userId) throws SQLException {
 		 String deleteSQL = "DELETE FROM users WHERE id = ?";
-
+		 int status = 0;
 	        try (Connection conn = ConnectionImp.getConnection();
 	             PreparedStatement stmt = conn.prepareStatement(deleteSQL)) {
 
@@ -165,25 +169,21 @@ public class UserServiceImp implements UserService{
 	            if (rowsAffected > 0) {
 	                // También elimina los roles asociados al usuario
 	            	roleservice.deleteRolesForUser(userId);
-	                return rowsAffected;
-	            } else {
-	                return -1; // No se eliminó ninguna fila
-	            }
-
+	                status = 1;
+	            } 
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	            return -1;
+	            status = -1;
 	        }
+	        return status;
 	}
 
-	
 	private String encodePass(String password) {
 		
 		return new BCryptPasswordEncoder().encode(password);
 		
 	}
-	
-	
+
     // Método auxiliar para mapear un conjunto de resultados (ResultSet) a un objeto UserDto
     private UserDto mapResultSetToUser(ResultSet resultSet) throws SQLException {
         UserDto user = new UserDto();

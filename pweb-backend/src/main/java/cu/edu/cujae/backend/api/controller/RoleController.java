@@ -40,6 +40,7 @@ public class RoleController {
 		List<RoleDto> roleList = roleService.getRolesByUserId(userId);
         return ResponseEntity.ok(roleList);
     }
+	
 	@PostMapping("/users/add/{userId}")
     public ResponseEntity<Integer> addRoleByUser(@PathVariable int userId ,@RequestBody RoleDto roles ) throws SQLException {
 		int roleList = roleService.insertUserRoles(userId,roles);

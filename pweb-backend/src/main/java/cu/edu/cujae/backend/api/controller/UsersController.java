@@ -41,45 +41,33 @@ public class UsersController {
 	
     @GetMapping("/")
     public ResponseEntity<List<UserDto>> getUsers() throws SQLException {
-        
         List<UserDto> users = service.listUsers();
         return ResponseEntity.ok(users);
     }
     
     @GetMapping("/report")
     public ResponseEntity<List<UserReportDto>> getUsersReport(@RequestBody UserFilterDto filter) throws SQLException {
-        
         List<UserReportDto> list = QueryImplement.getUsersReports(filter);
         return ResponseEntity.ok(list);
     }
     
-    
-    
-    
-    
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUserById(@PathVariable int id) throws SQLException {
-        
     	UserDto user = service.getUserById(id);
-
-        if (user != null) {
-            return ResponseEntity.ok(user);
-        } else {
-        	 return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id del usuario no existe");
-        }
+    	if(user != null) {
+    		return ResponseEntity.ok(user);
+    	}
+    	return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id del usuario no existe");
     }
-    @PostMapping("/")
     
+    @PostMapping("/")
     public ResponseEntity<Object> createUser(@RequestBody UserDto user) throws SQLException {
-    	
-
 //    	try {
 //    		sendMailToUserWithCredentials(user.getFullname(), user.getMail());
 //    	}
 //    	catch (Exception e) {
 //			// TODO: handle exception
 //		}
-    	
     	int id = service.createUser(user);
     	switch (id) {
     	case 1:
@@ -90,30 +78,38 @@ public class UsersController {
     		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id del usuario no existe");
     	default:
     		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado");
-
-
     	}
     }
 
     @PutMapping("/")
     public ResponseEntity<Object> updateUser(@RequestBody UserDto user) throws SQLException {
       
-    	int updated_id = service.updateUser(user);
-        if (updated_id != -1) {
-            return ResponseEntity.ok("Usuario actualizado");
-        } else {
-        	return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id del usuario no existe");
-        }
+    	int id = service.updateUser(user);
+    	switch (id) {
+    	case 1:
+    		return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado");
+    	case 0:
+    		return ResponseEntity.status(HttpStatus.CONFLICT).body("El nombre de usuario ya está en uso");
+    	case 2:
+    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id del usuario no existe");
+    	case 3:
+    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La direccion de correo ya está en uso");
+    	default:
+    		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado");
+    	}
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable int id) throws SQLException {
        
     	int delete_id = service.deleteUser(id);
-    	if(delete_id != -1)
-    		return ResponseEntity.ok("Usuario eliminado");
-    	else {
-    		return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id del usuario no existe");
+    	switch (delete_id) {
+    	case 1:
+    		return ResponseEntity.status(HttpStatus.CREATED).body("Usuario eliminado");
+    	case 0:
+    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id del usuario no existe");
+    	default:
+    		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado");
     	}
     }
 

@@ -36,16 +36,11 @@ public class ProjectsController {
 		return ResponseEntity.ok(temp);
 	}
 
-
-
 	@PostMapping("/report")
 	public ResponseEntity<List<ProjectReportDto>> getProjectsReport(@RequestBody ProjectFilterDto filter) {
 		List <ProjectReportDto> temp = QueryImplement.getProjectReports(filter);
 		return ResponseEntity.ok(temp);
 	}
-
-
-
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Object> getProjectById(@PathVariable int id) {
