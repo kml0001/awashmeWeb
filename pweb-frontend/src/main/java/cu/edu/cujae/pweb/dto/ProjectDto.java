@@ -119,7 +119,7 @@ public class ProjectDto {
     }
 
     public void setClosed_on(String closed_on) {
-        closed_on = closed_on;
+        this.closed_on = closed_on;
     }
 
 
