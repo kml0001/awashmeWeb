@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import cu.edu.cujae.backend.core.dto.MembersDto;
+import cu.edu.cujae.backend.core.dto.UserDto;
 import cu.edu.cujae.backend.core.util.ConnectionImp;
 import cu.edu.cujae.backend.service.MembersService;
 
@@ -132,5 +133,7 @@ public class MembersServiceImp implements MembersService {
 	            return false;
 	        }
 	    }
+	
+	
 	
 }

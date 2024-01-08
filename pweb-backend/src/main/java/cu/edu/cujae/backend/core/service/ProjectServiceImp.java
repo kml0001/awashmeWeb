@@ -102,31 +102,32 @@ public class ProjectServiceImp implements ProjectsService {
 
 	@Override
 	public int updateProject(ProjectDto project) {
-	    String updateSQL = "UPDATE project SET name=?, description=?, status=?, is_public=?, project_manager=? WHERE id=?";
-	    
-	    try (Connection conn = ConnectionImp.getConnection();
-	         PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
+		String updateSQL = "UPDATE project SET name=?, description=?, status=?, is_public=?, project_manager=? WHERE id=?";
 
-	        stmt.setString(1, project.getName());
-	        stmt.setString(2, project.getDescription());
-	        stmt.setString(3, project.getStatus());
-	        stmt.setBoolean(4, project.getIs_public());
-	        stmt.setInt(5, project.getProject_manager());
-	        stmt.setInt(6, project.getId());
-	        
-	        int rowsAffected = stmt.executeUpdate();
+		try (Connection conn = ConnectionImp.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
 
-            if (rowsAffected > 0) {
-            	return rowsAffected;
-            }
-            else {
-            	return -1;
-	        }
+			stmt.setString(1, project.getName());
+			stmt.setString(2, project.getDescription());
+			stmt.setString(3, project.getStatus());
+			stmt.setBoolean(4, project.getIs_public());
+			stmt.setInt(5, project.getProject_manager());
+			stmt.setInt(6, project.getId());
 
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        return -1; // Retorna un valor negativo para indicar un error
-	    }
+			int rowsAffected = stmt.executeUpdate();
+
+
+
+		}  catch (SQLException e) {
+			// Manejar excepción específica de PostgreSQL para proyectos duplicados
+			if (e.getMessage().contains("Ya existe un proyecto con el mismo nombre")) {
+				return 0;
+			} else {
+				// Otra manipulación de excepciones de PostgreSQL según tus necesidades
+				return -1;
+			}
+		}
+		return 1;
 	}
 
 	@Override
@@ -151,9 +152,6 @@ public class ProjectServiceImp implements ProjectsService {
 		return id_return;
 	}
 
-	
-	
-	
 	private List<UserDto> getMembersByProjectId(int projectId){
 	List<UserDto> list = new ArrayList<>();
 		String selectByUserSQL = "SELECT users.* FROM project JOIN members on project.id = members.project_id JOIN users on users.id = members.user_id where project_id = ?";
@@ -176,8 +174,6 @@ public class ProjectServiceImp implements ProjectsService {
 		}
 	return list;
 	}
-	
-	
 	
 	private ProjectDto mapResultSetToProject(ResultSet resultSet) throws SQLException {
 	    int id = resultSet.getInt("id");
