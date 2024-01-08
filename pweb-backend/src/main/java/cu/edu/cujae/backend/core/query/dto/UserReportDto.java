@@ -19,6 +19,10 @@ public class UserReportDto {
 		this.hoursReported = hoursReported;
 		this.delayedIssues = delayedIssues;
 	}
+
+	public UserReportDto() {
+
+	}
 	public String getUsername() {
 		return username;
 	}

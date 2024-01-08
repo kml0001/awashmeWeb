@@ -45,7 +45,7 @@ public class UsersController {
         return ResponseEntity.ok(users);
     }
     
-    @GetMapping("/report")
+    @PostMapping("/report")
     public ResponseEntity<List<UserReportDto>> getUsersReport(@RequestBody UserFilterDto filter) throws SQLException {
         List<UserReportDto> list = QueryImplement.getUsersReports(filter);
         return ResponseEntity.ok(list);

@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService{
 		List<UserReportDto> userReportList = new ArrayList<UserReportDto>();
 		ApiRestMapper<UserReportDto> apiRestMapper = new ApiRestMapper<>();
 
-		Object response = restService.POST("/api/v1/projects/report", filter, String.class, CurrentUserUtils.getTokenBearer()).getBody();
+		Object response = restService.POST("/api/v1/users/report", filter, String.class, CurrentUserUtils.getTokenBearer()).getBody();
 
 		System.out.println(response);
 		try {
