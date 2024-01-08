@@ -232,12 +232,11 @@ public class ProjectBean{
         PrimeFaces.current().ajax().update("form:dt-projects");
     }
 
-    public void deleteProjectDto() {
-        this.projects.remove(this.selectedProject);
-        this.selectedProjects.remove(this.selectedProject);
-        this.selectedProject = null;
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ProjectDto Removed"));
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-projects");
+    public void deleteProject() {
+        this.projectService.deleteProject(String.valueOf(selectedProject.getId()));
+        this.projects = this.projectService.getProjects();
+        JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "projectDto_deleted");
+        PrimeFaces.current().ajax().update("form:dt-projects");
     }
 
     public String getDeleteButtonMessage() {
