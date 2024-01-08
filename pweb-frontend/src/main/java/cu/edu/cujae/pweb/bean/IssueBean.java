@@ -1,15 +1,5 @@
 package cu.edu.cujae.pweb.bean;
 
-import java.util.List;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import org.primefaces.PrimeFaces;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import cu.edu.cujae.pweb.dto.IssueDto;
 import cu.edu.cujae.pweb.dto.ProjectDto;
 import cu.edu.cujae.pweb.dto.UserDto;
@@ -17,8 +7,16 @@ import cu.edu.cujae.pweb.security.CurrentUserUtils;
 import cu.edu.cujae.pweb.service.IssueService;
 import cu.edu.cujae.pweb.service.ProjectService;
 import cu.edu.cujae.pweb.service.UserService;
-
 import cu.edu.cujae.pweb.utils.JsfUtils;
+import org.primefaces.PrimeFaces;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import java.util.List;
 
 @Component
 @ManagedBean

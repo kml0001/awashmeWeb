@@ -1,23 +1,21 @@
 package cu.edu.cujae.pweb.bean;
 
-import java.util.ArrayList;
-import java.util.List;
+import cu.edu.cujae.pweb.dto.ProjectDto;
+import cu.edu.cujae.pweb.dto.UserDto;
+import cu.edu.cujae.pweb.service.ProjectService;
+import cu.edu.cujae.pweb.service.UserService;
+import cu.edu.cujae.pweb.utils.JsfUtils;
+import org.primefaces.PrimeFaces;
+import org.primefaces.model.DualListModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
-import cu.edu.cujae.pweb.service.UserService;
-import org.primefaces.PrimeFaces;
-import org.primefaces.model.DualListModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Component;
-
-import cu.edu.cujae.pweb.dto.ProjectDto;
-import cu.edu.cujae.pweb.dto.UserDto;
-import cu.edu.cujae.pweb.service.ProjectService;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @ManagedBean
@@ -101,25 +99,33 @@ public class ProjectBean{
 		this.selectedMembers = selectedMembers;
 	}
 
+    public void openForEdit(){
+
+    }
     public void openNew() {
         this.selectedProject = new ProjectDto();
     }
 
     public void saveProject() {
-        if (String.valueOf(this.selectedProject.getId()) == null) {
-            this.projects.add(this.selectedProject);
-            projectService.createProject(selectedProject);
-            projects = projectService.getProjects();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ProjectDto Added"));
+        this.selectedProject.setMembers(this.members.getTarget());
+
+        if (this.selectedProject.getId() == -1) {
+            this.projectService.createProject(selectedProject);
+            this.projects = projectService.getProjects();
+
+            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "projectDto_added");
+
         }
         else {
-        	projectService.updateProject(selectedProject);
-        	projects = projectService.getProjects();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ProjectDto Updated"));
+            projectService.updateProject(selectedProject);
+            this.projects = projectService.getProjects();
+            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "projectDto_updated");
+
+
         }
 
-        PrimeFaces.current().executeScript("PF('manageProjectDtoDialog').hide()");
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-projects");
+        PrimeFaces.current().executeScript("PF('manageProjectDialog').hide()");
+        PrimeFaces.current().ajax().update("form:dt-projects");
     }
 
     public void deleteProjectDto() {

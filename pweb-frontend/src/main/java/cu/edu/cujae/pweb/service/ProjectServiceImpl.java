@@ -57,13 +57,13 @@ public class ProjectServiceImpl implements ProjectService{
 
 	@Override
 	public void createProject(ProjectDto Project) {
-		restService.POST("/api/v1/projects", Project, String.class, CurrentUserUtils.getTokenBearer()).getBody();
+		restService.POST("/api/v1/projects/", Project, String.class, CurrentUserUtils.getTokenBearer()).getBody();
 	}
 
 	@Override
 	public void updateProject(ProjectDto Project) {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		restService.PUT("/api/v1/projects", params, Project, String.class, CurrentUserUtils.getTokenBearer()).getBody();
+		restService.PUT("/api/v1/projects/", params, Project, String.class, CurrentUserUtils.getTokenBearer()).getBody();
 	}
 
 	@Override
