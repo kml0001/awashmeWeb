@@ -87,13 +87,13 @@ public class UsersController {
     	int id = service.updateUser(user);
     	switch (id) {
     	case 1:
-    		return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado");
+    		return ResponseEntity.status(HttpStatus.CREATED).body("Los datos del usuario han sido actualizados");
     	case 0:
     		return ResponseEntity.status(HttpStatus.CONFLICT).body("El nombre de usuario ya está en uso");
     	case 2:
     		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id del usuario no existe");
     	case 3:
-    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La direccion de correo ya está en uso");
+    		return ResponseEntity.status(410).body("La direccion de correo ya está en uso");
     	default:
     		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado");
     	}
