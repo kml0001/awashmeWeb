@@ -3,8 +3,6 @@ package cu.edu.cujae.backend.api.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cu.edu.cujae.backend.core.dto.IssueDto;
-import cu.edu.cujae.backend.core.security.TokenProvider;
 
 import cu.edu.cujae.backend.core.service.IssuesServiceImp;
 import cu.edu.cujae.backend.core.util.CurrentUserUtils;
@@ -31,9 +28,6 @@ public class IssuesController {
 	@Autowired
     private IssuesServiceImp service;
 	
-	@Autowired
-	private TokenProvider token;
-
 
 	@GetMapping("/")
 	public ResponseEntity<Object> getIssues() {

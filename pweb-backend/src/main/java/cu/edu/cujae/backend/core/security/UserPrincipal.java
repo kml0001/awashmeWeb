@@ -52,7 +52,7 @@ public class UserPrincipal implements UserDetails {
             authorities = AuthorityUtils.createAuthorityList(roleNames.toArray(new String[0]));
  
         } catch (Exception e) {
-            authorities = Collections.singletonList(new SimpleGrantedAuthority("Developer"));
+            authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_Developer"));
         }
         return new UserPrincipal(
                 user.getId(),

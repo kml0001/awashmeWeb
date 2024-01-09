@@ -62,12 +62,12 @@ public class UsersController {
     
     @PostMapping("/")
     public ResponseEntity<Object> createUser(@RequestBody UserDto user) throws SQLException {
-//    	try {
-//    		sendMailToUserWithCredentials(user.getFullname(), user.getMail());
-//    	}
-//    	catch (Exception e) {
-//			// TODO: handle exception
-//		}
+    	try {
+    		sendMailToUserWithCredentials(user.getFullname(), user.getMail());
+    	}
+    	catch (Exception e) {
+			// TODO: handle exception
+		}
     	int id = service.createUser(user);
     	switch (id) {
     	case 1:

@@ -43,16 +43,16 @@ public class UserPrincipal implements UserDetails {
 
 	    public static UserPrincipal create(UserAuthenticatedDto user) {
 	    	System.out.println("username en user principal: " + user.getUsername());
-	    	List<GrantedAuthority> authorities;
-	    	try {
-	    		Collection<String> roleNames = user.getRoles().stream().map(role -> role.getRoleName()).collect(Collectors.toList());
-	    		authorities = AuthorityUtils.createAuthorityList(roleNames.toArray(new String[0]));
-			} catch (Exception e) {
-				e.printStackTrace();
-				authorities = Collections.
-		                singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-				
-			}
+	    	 List<GrantedAuthority> authorities;
+	         try {
+	         	Collection<String> roleNames = user.getRoles().stream()
+	                     .map(role -> "ROLE_" + role.getRoleName())
+	                     .collect(Collectors.toList());
+	             authorities = AuthorityUtils.createAuthorityList(roleNames.toArray(new String[0]));
+	             System.out.println(authorities);
+	         } catch (Exception e) {
+	             authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_user"));
+	         }
 	    	
 	    	
 	        UserPrincipal result = new UserPrincipal(
