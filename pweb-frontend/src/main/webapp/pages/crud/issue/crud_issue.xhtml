@@ -1,138 +1,121 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition template="/pages/template/layout.xhtml">
 	<ui:define name="content">
-<h:form id="form">
-		<div class="card crud-demo">
-			
+		<h:form id="form">
+			<div class="card crud-demo">
+
 				<p:growl id="messages" showDetail="true" />
 
 				<p:toolbar>
 					<p:toolbarGroup>
-						<p:commandButton value="New" icon="pi pi-plus"
-							actionListener="#{issueBean.openNew}"
-							update=":form:manage-issue-content"
-							oncomplete="PF('manageIssueDialog').show()"
-							styleClass="ui-button-success" style="margin-right: .5rem"
-							process="@this">
+						<p:commandButton value="#{msgs.btn_new}" icon="pi pi-plus"
+										 actionListener="#{issueBean.openNew}"
+										 update=":form:manage-issue-content"
+										 oncomplete="PF('manageIssueDialog').show()"
+										 styleClass="ui-button-success" style="margin-right: .5rem"
+										 process="@this">
 							<p:resetInput target=":form:manage-issue-content" />
 						</p:commandButton>
 
 					</p:toolbarGroup>
 					<p:toolbarGroup align="right">
-<!-- 						<p:fileUpload mode="simple" skinSimple="true" label="Import" -->
-<!-- 							chooseIcon="pi pi-download" /> -->
-						<p:commandButton value="Export" icon="pi pi-upload"
-							styleClass="ui-button-help" ajax="false">
+						<p:commandButton value="#{msgs.btn_export}" icon="pi pi-upload"
+										 styleClass="ui-button-help" ajax="false">
 							<p:dataExporter type="pdf" target="dt-issues"
-								fileName="issues" />
+											fileName="issues" />
 						</p:commandButton>
 					</p:toolbarGroup>
 				</p:toolbar>
 
 				<p:dataTable id="dt-issues" widgetVar="dtIssues" var="issue"
-					value="#{issueBean.issues}" reflow="true" styleClass="issues-table"
-					selection="#{issueBean.selectedIssue}" rowKey="#{issue.id}"
-					paginator="true" rows="10" rowSelectMode="add"
-					paginatorPosition="bottom">
+							 value="#{issueBean.issues}" reflow="true" styleClass="issues-table"
+							 selection="#{issueBean.selectedIssue}" rowKey="#{issue.id}"
+							 paginator="true" rows="10" rowSelectMode="add"
+							 paginatorPosition="bottom">
 					<f:facet name="header">
 						<div class="issues-table-header">
-							<span style="font-weight: bold">ISSUES</span> <span
+							<span style="font-weight: bold">#{msgs.label_issues}</span> <span
 								class="filter-container ui-input-icon-left"> <i
 								class="pi pi-search"></i> <p:inputText id="globalFilter"
-									onkeyup="PF('dtIssues').filter()" placeholder="Search" />
+																	   onkeyup="PF('dtIssues').filter()" placeholder="#{msgs.label_search}" />
 							</span>
 						</div>
 					</f:facet>
 
-					<p:column headerText="Project" sortBy="#{issue.project_name}"
-						filterBy="#{issue.project_name}">
+					<p:column headerText="#{msgs.label_project}" sortBy="#{issue.project_name}"
+							  filterBy="#{issue.project_name}">
 						<h:outputText value="#{issue.project_name}" />
 					</p:column>
-					
-					<p:column headerText="Assigned to" sortBy="#{issue.assigned_to_name}"
-						filterBy="#{issue.assigned_to_name}">
+
+					<p:column headerText="#{msgs.label_assigned_to}" sortBy="#{issue.assigned_to_name}"
+							  filterBy="#{issue.assigned_to_name}">
 						<h:outputText value="#{issue.assigned_to_name}" />
 					</p:column>
-										
-					<p:column headerText="Subject" sortBy="#{issue.subject}">
+
+					<p:column headerText="#{msgs.label_subject}" sortBy="#{issue.subject}">
 						<h:outputText value="#{issue.subject}" style="font-weight: 700">
 						</h:outputText>
 					</p:column>
-					
-					<p:column headerText="Done ratio" sortBy="#{issue.done_ratio}"
-						filterBy="#{issue.done_ratio}">
+
+					<p:column headerText="#{msgs.label_done_ratio}" sortBy="#{issue.done_ratio}"
+							  filterBy="#{issue.done_ratio}">
 						<h:outputText value="#{issue.done_ratio}" />
 					</p:column>
-					
-					<p:column headerText="Reported hours" sortBy="#{issue.hours_reported}"
-						filterBy="#{issue.hours_reported}">
+
+					<p:column headerText="#{msgs.label_reported_hours}" sortBy="#{issue.hours_reported}"
+							  filterBy="#{issue.hours_reported}">
 						<h:outputText value="#{issue.hours_reported}" />
 					</p:column>
-					
-					<p:column headerText="Due date" sortBy="#{issue.due_date}"
-						filterBy="#{issue.due_date}">
+
+					<p:column headerText="#{msgs.label_due_date}" sortBy="#{issue.due_date}"
+							  filterBy="#{issue.due_date}">
 						<h:outputText value="#{issue.due_date}">
 							<f:convertDateTime pattern="dd/MM/yyyy" />
-						</h:outputText>	
+						</h:outputText>
 					</p:column>
-					
-					<p:column headerText="Close date" sortBy="#{issue.closed_on}"
-						filterBy="#{issue.closed_on}">
+
+					<p:column headerText="#{msgs.label_close_date}" sortBy="#{issue.closed_on}"
+							  filterBy="#{issue.closed_on}">
 						<h:outputText value="#{issue.closed_on}">
 							<f:convertDateTime pattern="dd/MM/yyyy" />
-						</h:outputText>	
+						</h:outputText>
 					</p:column>
-<!-- 					<p:column headerText="Priority" sortBy="#{issue.priority}" -->
-<!-- 						filterBy="#{issue.priority}"> -->
-<!-- 						<h:outputText value="#{issue.priority}" /> -->
-<!-- 					</p:column> -->
-
-<!-- 					<p:column headerText="Due date" sortBy="#{issue.due_date}" -->
-<!-- 						filterBy="#{issue.due_date}"> -->
-<!-- 						<h:outputText value="#{issue.due_date}" readonly="true" /> -->
-<!-- 					</p:column> -->
-<!-- 					<p:column headerText="Tiempo estimado" -->
-<!-- 						sortBy="#{issue.fondo_de_tiempo}" filterBy="#{issue.fondo_de_tiempo}"> -->
-<!-- 						<h:outputText value="#{issue.fondo_de_tiempo}" readonly="true" /> -->
-<!-- 					</p:column> -->
 					<p:column exportable="false">
 						<p:commandButton rendered="#{issueBean.authorId == issue.author_id}" icon="pi pi-pencil" action="#{issueBean.openForEdit}"
-							update=":form:manage-issue-content"
-							oncomplete="PF('manageIssueDialog').show()"
-							styleClass="edit-button rounded-button ui-button-success"
-							process="@this">
+										 update=":form:manage-issue-content"
+										 oncomplete="PF('manageIssueDialog').show()"
+										 styleClass="edit-button rounded-button ui-button-success"
+										 process="@this">
 							<f:setPropertyActionListener value="#{issue}"
-								target="#{issueBean.selectedIssue}" />
+														 target="#{issueBean.selectedIssue}" />
 							<p:resetInput target=":form:manage-issue-content" />
 						</p:commandButton>
 						<p:commandButton rendered="#{issueBean.authorId == issue.author_id}" class="ui-button-warning rounded-button"
-							icon="pi pi-trash" process="@this" 
-							action="#{issueBean.deleteIssue}" >
+										 icon="pi pi-trash" process="@this"
+										 action="#{issueBean.deleteIssue}" >
 							<f:setPropertyActionListener value="#{issue}"
-								target="#{issueBean.selectedIssue}" />
-							<p:confirm header="Confirm" message="Está seguro de eliminar este tarea?" icon="pi pi-exclamation-triangle"/>
+														 target="#{issueBean.selectedIssue}" />
+							<p:confirm header="#{msgs.label_confirm}" message="#{msgs.label_delete_confirmation}" icon="pi pi-exclamation-triangle"/>
 						</p:commandButton>
 					</p:column>
 
 				</p:dataTable>
-				<!-- ui:include es una etiqueta de facelet que permite incluir pages y de esta forma el code no se carga tanto -->
+
 				<ui:include src="new_issue.xhtml"></ui:include>
 
-				<!-- Este comoponente se utiliza mucho para el caso de los eliminar, que es donde casi siempre se necesita confirmation,
-				su uso es bien sencillo, cada confirmDialog va atado a un p:confirm que es el que se definie dentro del button -->
 				<p:confirmDialog global="true" showEffect="fade" width="300">
-					<p:commandButton value="Yes" type="button"
-						styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
-					<p:commandButton value="No" type="button"
-						styleClass="ui-confirmdialog-no ui-button-secondary"
-						icon="pi pi-times" />
+					<p:commandButton value="#{msgs.label_yes}" type="button"
+									 styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+					<p:commandButton value="#{msgs.label_no}" type="button"
+									 styleClass="ui-confirmdialog-no ui-button-secondary"
+									 icon="pi pi-times" />
 				</p:confirmDialog>
-		</div>
+			</div>
 		</h:form>
 	</ui:define>
 </ui:composition>
