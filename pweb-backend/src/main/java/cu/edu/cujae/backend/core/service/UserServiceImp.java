@@ -39,7 +39,6 @@ public class UserServiceImp implements UserService{
 
 			if (rowsAffected > 0) {
 				status = 1;
-				
 				List<RoleDto> roles = user.getRoleList();
 				if(roles != null)
 					for(RoleDto role : roles)
@@ -52,7 +51,7 @@ public class UserServiceImp implements UserService{
 				status = 0;
 			}else if (e.getMessage().contains("ERROR 5")) {
 				System.out.println("Ya existe un usuario con esa direccion de correo");
-				status = 2;
+				status = 3;
 			}
 			else {
 				status = -1;
@@ -63,7 +62,7 @@ public class UserServiceImp implements UserService{
 
 	@Override
 	public int updateUser(UserDto updatedUser) {
-		int staus = 2;
+		int status = 2;
 		System.out.print(updatedUser.getPasswd() + "<-------------------------------PASSW-------------");
 		String updateSQL = "UPDATE users SET username=?, lastname=?, mail=?, passwd=? WHERE id=?";
 
@@ -81,18 +80,18 @@ public class UserServiceImp implements UserService{
 			if (rowsAffected > 0) {
 				// Ahora, actualizar roles asociados al usuario
 				roleservice.updateRolesForUser(updatedUser.getId(),updatedUser.getRoleList() );
-				staus = 1;
+				status = 1;
 			} 
 		} catch (SQLException e) {
 			if (e.getMessage().contains("ERROR 1")) {
 				System.out.println("Ya existe un usuario con ese nombre");
-				staus = 0;
+				status = 0;
 			} else if (e.getMessage().contains("ERROR 5")) {
 				System.out.println("Ya existe un usuario con esa direccion de correo");
-				staus = 3;
+				status = 3;
 			}
 		}
-		return staus;
+		return status;
 	}
 
 	@Override
