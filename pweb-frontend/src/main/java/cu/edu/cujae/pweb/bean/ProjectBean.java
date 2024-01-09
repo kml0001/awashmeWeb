@@ -190,6 +190,9 @@ public class ProjectBean{
         this.members.setTarget(targetList);
     }
     public void openNew() {
+        this.members.getSource().addAll(this.members.getTarget());
+        this.members.getTarget().clear();
+
         this.edit = false;
         this.open = true;
         this.selectedProject = new ProjectDto();
@@ -215,18 +218,17 @@ public class ProjectBean{
 
         if (this.selectedProject.getId() == -1) {
             this.projectService.createProject(selectedProject);
-            this.projects = projectService.getProjects();
 
-            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "projectDto_added");
+//            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "projectDto_added");
 
         }
         else {
             projectService.updateProject(selectedProject);
-            this.projects = projectService.getProjects();
-            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "projectDto_updated");
+            //            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "projectDto_updated");
 
 
         }
+        this.projects = projectService.getProjects();
 
         PrimeFaces.current().executeScript("PF('manageProjectDialog').hide()");
         PrimeFaces.current().ajax().update("form:dt-projects");
@@ -235,7 +237,7 @@ public class ProjectBean{
     public void deleteProject() {
         this.projectService.deleteProject(String.valueOf(selectedProject.getId()));
         this.projects = this.projectService.getProjects();
-        JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "projectDto_deleted");
+//        JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "projectDto_deleted");
         PrimeFaces.current().ajax().update("form:dt-projects");
     }
 

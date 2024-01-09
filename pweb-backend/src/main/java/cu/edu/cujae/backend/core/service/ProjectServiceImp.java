@@ -96,11 +96,11 @@ public class ProjectServiceImp implements ProjectsService {
 	    }  catch (SQLException e) {
 	        // Manejar excepción específica de PostgreSQL para proyectos duplicados
 	        if (e.getMessage().contains("ERROR 1")) {
-	        	//e.getMessage();
+	        	e.printStackTrace();
 	        	System.out.println("Ya existe un proyecto con ese nombre");
 	            return 0;
 	        } else {
-	        	//e.printStackTrace();
+	        	e.printStackTrace();
 	        	System.out.println("TUFE <-----------------------");
 	            return -1;
 	        }

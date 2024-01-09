@@ -74,6 +74,9 @@ public class UserServiceImpl implements UserService{
 			case 409:
 				JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_FATAL,  "userDto_exist");
 				break;
+			case 410:
+				JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_FATAL,  "userMail_exist");
+				break;
 			case 404:
 				// Código para el status NOT_FOUND (ID de usuario no existe)
 				break;

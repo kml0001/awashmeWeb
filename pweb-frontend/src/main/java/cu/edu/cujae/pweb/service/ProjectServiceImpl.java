@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cu.edu.cujae.pweb.utils.JsfUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -16,6 +19,8 @@ import cu.edu.cujae.pweb.dto.ProjectReportDto;
 import cu.edu.cujae.pweb.security.CurrentUserUtils;
 import cu.edu.cujae.pweb.utils.ApiRestMapper;
 import cu.edu.cujae.pweb.utils.RestService;
+
+import javax.faces.application.FacesMessage;
 
 @Service
 public class ProjectServiceImpl implements ProjectService{
@@ -57,14 +62,49 @@ public class ProjectServiceImpl implements ProjectService{
 
 	@Override
 	public void createProject(ProjectDto Project) {
-		Object asd = restService.POST("/api/v1/projects/", Project, String.class, CurrentUserUtils.getTokenBearer()).getBody();
-		System.out.println(asd);
+		ResponseEntity response = restService.POST("/api/v1/projects/", Project, String.class, CurrentUserUtils.getTokenBearer());
+		HttpStatus status = response.getStatusCode();
+		int statusCode = status.value();
+
+		switch (statusCode) {
+			case 201:
+				JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "projectDto_added");
+				break;
+			case 409:
+				JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_FATAL,  "projectDto_exist");
+				break;
+			case 500:
+				JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_FATAL,  "message_error");
+				break;
+			// Puedes agregar más casos según sea necesario
+			default:
+				// Código para otros códigos de status
+				break;
+		}
 	}
 
 	@Override
 	public void updateProject(ProjectDto Project) {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		restService.PUT("/api/v1/projects/", params, Project, String.class, CurrentUserUtils.getTokenBearer()).getBody();
+		ResponseEntity response = restService.PUT("/api/v1/projects/", params, Project, String.class, CurrentUserUtils.getTokenBearer());
+		HttpStatus status = response.getStatusCode();
+		int statusCode = status.value();
+
+		switch (statusCode) {
+			case 201:
+				JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "projectDto_updated");
+				break;
+			case 409:
+				JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_FATAL,  "projectDto_exist");
+				break;
+			case 500:
+				JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_FATAL,  "message_error");
+				break;
+			// Puedes agregar más casos según sea necesario
+			default:
+				// Código para otros códigos de status
+				break;
+		}
 	}
 
 	@Override
@@ -72,7 +112,22 @@ public class ProjectServiceImpl implements ProjectService{
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		UriTemplate template = new UriTemplate("/api/v1/projects/{projectId}");
 	    String uri = template.expand(ProjectId).toString();
-		restService.DELETE(uri, params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
+		ResponseEntity response = restService.DELETE(uri, params, String.class, CurrentUserUtils.getTokenBearer());
+		HttpStatus status = response.getStatusCode();
+		int statusCode = status.value();
+
+		switch (statusCode) {
+			case 201:
+				JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "projectDto_deleted");
+				break;
+			case 500:
+				JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_FATAL,  "message_error");
+				break;
+			// Puedes agregar más casos según sea necesario
+			default:
+				// Código para otros códigos de status
+				break;
+		}
 	}
 	
 //	@Override
