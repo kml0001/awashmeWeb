@@ -56,66 +56,49 @@ public class IssuesController {
 
 	@PostMapping("/")
 	public ResponseEntity<Object> createIssue(@RequestBody IssueDto issue) {
-		try {
-			int createdId = service.createIssue(issue);
 
-			if (createdId != -1) {
-				return ResponseEntity.status(HttpStatus.CREATED).body("Tarea creada");
-			} else {
-				return ResponseEntity.status(HttpStatus.CONFLICT).body("La tarea ya existe");
+			int id = service.createIssue(issue);
+			switch (id) {
+			case 1:
+				return  ResponseEntity.status(HttpStatus.CREATED).body("El id de la tarea no existe");
+			default:
+				return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("El id de la tarea no existe");
 			}
-		} catch (DataIntegrityViolationException e) {
-			// Excepción lanzada por problemas de integridad de datos (como violación de clave única)
-			return ResponseEntity.status(HttpStatus.CONFLICT).body("Error de integridad de datos: " + e.getMessage());
-		} catch (DataAccessException e) {
-			// Otra excepción de acceso a datos, puedes manejarla según tus necesidades
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error de acceso a datos: " + e.getMessage());
-		} catch (Exception e) {
-			// Captura de excepciones generales
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error desconocido: " + e.getMessage());
-		}
+			
 	}
 
 	@PutMapping("/")
 	public ResponseEntity<Object> updateIssue(@RequestBody IssueDto updatedIssue) {
-		try {
-			System.out.print(CurrentUserUtils.getUserRole());
+		
+			try {
 			if (CurrentUserUtils.getUserRole().indexOf("Project Manager") == -1 && CurrentUserUtils.getUserId() != updatedIssue.getAuthor_id() && CurrentUserUtils.getUserId() != updatedIssue.getAssigned_to_id()) {
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reúne los privilegios para modificar esta tarea");
+			}}
+			catch (Exception e) {
+				// TODO: handle exception
 			}
-			int updatedRows = service.updateIssue(updatedIssue);
+			int id = service.updateIssue(updatedIssue);
 
-			if (updatedRows > 0) {
-				return ResponseEntity.ok("Tarea actualizada");
-			} else {
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El ID de la tarea no existe");
+			switch (id) {
+			case 1:
+				return  ResponseEntity.status(HttpStatus.CREATED).body("Tarea creada");
+			default:
+				return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado");
 			}
-		} catch (DataIntegrityViolationException e) {
-			// Excepción lanzada por problemas de integridad de datos (puede ocurrir, por ejemplo, al violar una restricción única)
-			return ResponseEntity.status(HttpStatus.CONFLICT).body("Error de integridad de datos: " + e.getMessage());
-		} catch (DataAccessException e) {
-			// Otra excepción de acceso a datos (puede abordar problemas más generales de acceso a la base de datos)
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error de acceso a datos: " + e.getMessage());
-		} catch (Exception e) {
-			// Captura de excepciones generales
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error desconocido: " + e.getMessage());
-		}
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deleteIssue(@PathVariable int id) {
 
 		IssueDto issue = service.getIssueById(id);
-
+		
 		if(issue == null) 
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id de la tarea no existe");
-
 		if (CurrentUserUtils.getUserRole().indexOf("Project Manager") == -1 && CurrentUserUtils.getUserId() != issue.getAuthor_id()) 
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reúne los privilegios para eliminar esta tarea");
-
 		else {
 			service.deleteIssue(id);
-			return ResponseEntity.ok("Tarea eliminada");
+			return  ResponseEntity.status(HttpStatus.CREATED).body("Tarea eliminada");
 		}
 
 

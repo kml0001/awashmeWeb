@@ -149,7 +149,7 @@ public class IssuesServiceImp implements IssuesService{
 	@Override
 	public int updateIssue(IssueDto issue) {
         String updateSQL = "UPDATE issue SET subject=?, done_ratio=?, due_date=? ,project_id=?,assigned_to_id=? , hours_reported=?    , closed_on=? WHERE id=?";
-
+        int status = 0;
         try (Connection conn = ConnectionImp.getConnection();
              PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
 
@@ -173,15 +173,13 @@ public class IssuesServiceImp implements IssuesService{
             int rowsAffected = stmt.executeUpdate();
        
             if (rowsAffected > 0) {
-            		return rowsAffected;
+            		status = 1;
             }
-            
-
         } catch (SQLException e) {
-            e.printStackTrace();
-            return -1; // Retorna un valor negativo para indicar un error
+           System.out.println("---------<ERROR>----------");
+           status = -1; // Retorna un valor negativo para indicar un error
         }
-        return 1;
+        return status;
 }
 
 	@Override

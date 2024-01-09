@@ -157,7 +157,7 @@ public class ProjectServiceImp implements ProjectsService {
 
 	@Override
 	public int deleteProject(int id) {
-	
+		
 		try (Connection conn = ConnectionImp.getConnection()) {
             String sql = "DELETE FROM project WHERE id=?";
             try (PreparedStatement statement = conn.prepareStatement(sql)) {
