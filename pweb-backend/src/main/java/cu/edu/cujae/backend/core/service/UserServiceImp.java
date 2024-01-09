@@ -43,12 +43,14 @@ public class UserServiceImp implements UserService{
 			}
 
 		} catch (SQLException e) {
-			// Captura específicamente la excepción de violación de llave foránea
 			if (e.getMessage().contains("ERROR 1")) {
 				System.out.println("Nombre de usuario en uso");
 				status = 0;
-			} else {
-				e.printStackTrace();
+			}else if (e.getMessage().contains("ERROR 5")) {
+				System.out.println("Ya existe un usuario con esa direccion de correo");
+				status = 3;
+			}
+			else {
 				status = -1;
 			}
 		}
