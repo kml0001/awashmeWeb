@@ -69,7 +69,7 @@ public class SuggestionServicesImp implements SuggestionService{
 
 	@Override
 	public int createSuggestion(SuggestionDto suggestion) {
-	    String insertSQL = "INSERT INTO suggestion (author_id, text, urgency, importance ,subject) VALUES (?, ?,?, ?,?) RETURNING id";
+	    String insertSQL = "INSERT INTO suggestion (author_id, text, urgency, importance ,subject) VALUES (?, ?,?, ?,?)";
 	    int status = 0;
 	    try (Connection conn = ConnectionImp.getConnection();
 	        PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
@@ -140,9 +140,7 @@ public class SuggestionServicesImp implements SuggestionService{
 	    return status;
 	}
 
-	
-	
-	 private static SuggestionDto mapResultSetToSuggestion(ResultSet resultSet) throws SQLException {
+	private static SuggestionDto mapResultSetToSuggestion(ResultSet resultSet) throws SQLException {
 	        SuggestionDto suggestion = new SuggestionDto();
 	        suggestion.setId(resultSet.getInt("id"));
 	        suggestion.setAuthor_id(resultSet.getInt("author_id"));

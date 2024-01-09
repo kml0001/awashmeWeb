@@ -30,6 +30,7 @@ public class ProjectsController {
 
 	@Autowired
 	private ProjectServiceImp service;
+	
 	@GetMapping("/")
 	public ResponseEntity<List<ProjectDto>> getProjects() {
 		List <ProjectDto> temp = service.getProjects();
@@ -56,6 +57,11 @@ public class ProjectsController {
 	@PostMapping("/")
 	public ResponseEntity<Object> createProject(@RequestBody ProjectDto project) {
 
+		
+		if (CurrentUserUtils.getUserRole().indexOf("Project Manager") == -1) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reúne los privilegios crear un proyecto");
+		}
+		
 		int id = service.createProject(project);
 
 		switch (id) {
@@ -73,7 +79,7 @@ public class ProjectsController {
 
 		// Verificar si el usuario tiene permisos para actualizar el proyecto
 		if (CurrentUserUtils.getUserRole().indexOf("Project Manager") == -1 && CurrentUserUtils.getUserId() != updatedProject.getProject_manager()) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reúne los privilegios para modificar esta tarea");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No reúne los privilegios para modificar este proyecto");
 		}
 
 		int id = service.updateProject(updatedProject);
