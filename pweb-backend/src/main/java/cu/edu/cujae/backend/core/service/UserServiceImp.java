@@ -25,7 +25,7 @@ public class UserServiceImp implements UserService{
 	
 	@Override
 	public int createUser(UserDto user) {
-		String insertSQL = "INSERT INTO users (username, lastname, mail, passwd) VALUES (?, ?, ?, ?)";
+		String insertSQL = "INSERT INTO users (username, lastname, mail, passwd) VALUES (?, ?, ?, ?) RETURNING id";
 		int status = 2;
 		try (Connection conn = ConnectionImp.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
@@ -35,14 +35,14 @@ public class UserServiceImp implements UserService{
 			stmt.setString(3, user.getMail());
 			stmt.setString(4,encodePass(user.getPasswd()));
 
-			int rowsAffected = stmt.executeUpdate();
-
-			if (rowsAffected > 0) {
+			ResultSet result = stmt.executeQuery();
+			
+			if (result.next()) {
 				status = 1;
 				List<RoleDto> roles = user.getRoleList();
 				if(roles != null)
 					for(RoleDto role : roles)
-						roleservice.insertUserRoles(user.getId(), role);
+						roleservice.insertUserRoles(result.getInt("id"), role);
 			}
 
 		} catch (SQLException e) {

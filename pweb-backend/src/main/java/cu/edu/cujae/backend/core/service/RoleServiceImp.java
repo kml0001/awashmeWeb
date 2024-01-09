@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import ch.qos.logback.core.util.SystemInfo;
 import cu.edu.cujae.backend.core.dto.RoleDto;
 import cu.edu.cujae.backend.core.util.ConnectionImp;
 import cu.edu.cujae.backend.service.RoleService;
@@ -122,17 +123,18 @@ public class RoleServiceImp implements RoleService{
 	        System.out.println("Se inserto al usuario el rol"+ userId +"El rol de "+role.getRoleName() + "<--------------------------");
 	        try (Connection conn = ConnectionImp.getConnection();
 	             PreparedStatement stmt = conn.prepareStatement(insertRoleSQL)) {
-	        	System.out.println(role.getId());
+	        	
 	            if (role !=null) {
 	                stmt.setInt(1, userId);
 	                stmt.setInt(2, role.getId());
 	                int rowsAffected = stmt.executeUpdate();
 	                if(rowsAffected > 0)
 	                    r  = 1;
+	                System.out.println(">>-------<<");
 	                }
 	        	}
 	            catch (Exception e) {
-//					e.printStackTrace();
+					e.printStackTrace();
 				}
 	
 			return r;

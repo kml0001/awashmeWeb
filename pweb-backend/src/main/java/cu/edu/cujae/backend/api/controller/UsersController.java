@@ -76,6 +76,8 @@ public class UsersController {
     		return ResponseEntity.status(HttpStatus.CONFLICT).body("El nombre de usuario ya está en uso");
     	case 2:
     		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El id del usuario no existe");
+    	case 3:
+    		return ResponseEntity.status(410).body("La direccion de correo ya está en uso");
     	default:
     		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado");
     	}
