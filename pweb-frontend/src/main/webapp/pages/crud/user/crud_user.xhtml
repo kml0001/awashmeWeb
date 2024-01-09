@@ -13,7 +13,7 @@
 
                 <p:toolbar>
                     <p:toolbarGroup>
-                        <p:commandButton value="New" icon="pi pi-plus"
+                        <p:commandButton value="#{msg.btn_new}" icon="pi pi-plus"
                                          actionListener="#{manageUserBean.openNew}"
                                          update=":form:manage-user-content"
                                          oncomplete="PF('manageUserDialog').show()"
@@ -26,7 +26,7 @@
                     <p:toolbarGroup align="right">
                         <!-- 						<p:fileUpload mode="simple" skinSimple="true" label="Import" -->
                         <!-- 							chooseIcon="pi pi-download" /> -->
-                        <p:commandButton value="Export" icon="pi pi-upload"
+                        <p:commandButton value="#{msg.btn_export}" icon="pi pi-upload"
                                          styleClass="ui-button-help" ajax="false">
                             <p:dataExporter type="pdf" target="dt-users"
                                             fileName="users"/>
@@ -41,7 +41,7 @@
                              paginatorPosition="bottom">
                     <f:facet name="header">
                         <div class="users-table-header">
-                            <span style="font-weight: bold">USERS</span> <span
+                            <span style="font-weight: bold">#{msg.label_users}</span> <span
                                 class="filter-container ui-input-icon-left"> <i
                                 class="pi pi-search"></i> <p:inputText id="globalFilter"
                                                                        onkeyup="PF('dtUsers').filter()"
@@ -50,22 +50,22 @@
                         </div>
                     </f:facet>
 
-                    <p:column headerText="User name" sortBy="#{user.username}" filterBy="#{user.username}">
+                    <p:column headerText="#{msg.label_username}" sortBy="#{user.username}" filterBy="#{user.username}">
                         <h:outputText value="#{user.username}"/>
                     </p:column>
 
-                    <p:column headerText="Full name" sortBy="#{user.fullname}" filterBy="#{user.fullname}">
+                    <p:column headerText="#{msg.label_fullName}" sortBy="#{user.fullname}" filterBy="#{user.fullname}">
                         <h:outputText value="#{user.fullname}"/>
                     </p:column>
 
-                    <p:column headerText="Email" sortBy="#{user.mail}"
+                    <p:column headerText="#{msg.label_email}" sortBy="#{user.mail}"
                               filterBy="#{user.mail}">
                         <h:outputText value="#{user.mail}"/>
                     </p:column>
 
-                    <p:column headerText="Roles" sortBy="#{user.roleList}"
+                    <p:column headerText="#{msg.label_roles}" sortBy="#{user.roleList}"
                               filterBy="#{user.roleList}">
-                        <p:commandButton id="basic" value="Show" type="button"/>
+                        <p:commandButton id="basic" value="#{msg.btn_show}" type="button"/>
                         <p:overlayPanel for="basic" style="width:230px">
                             <p:orderList value="#{user.roleList}" var="role"
                                          controlsLocation="none" itemLabel="#{role.roleName}"
@@ -100,9 +100,9 @@
                 <!-- Este comoponente se utiliza mucho para el caso de los eliminar, que es donde casi siempre se necesita confirmation,
                 su uso es bien sencillo, cada confirmDialog va atado a un p:confirm que es el que se definie dentro del button -->
                 <p:confirmDialog global="true" showEffect="fade" width="300">
-                    <p:commandButton value="Si" type="button"
+                    <p:commandButton value="#{msg.btn_yes}" type="button"
                                      styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
-                    <p:commandButton value="No" type="button"
+                    <p:commandButton value="#{msg.btn_no}" type="button"
                                      styleClass="ui-confirmdialog-no ui-button-secondary"
                                      icon="pi pi-times"/>
                 </p:confirmDialog>

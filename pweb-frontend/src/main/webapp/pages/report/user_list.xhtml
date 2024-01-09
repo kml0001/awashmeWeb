@@ -8,23 +8,23 @@
     <ui:define name="content">
         <h:form>
             <div class="card">
-                <h5>Filters:</h5>
+                <h5>#{msg.label_filters}</h5>
                 <div class="grid ui-fluid">
                     <div class="col-12 md:col-4">
                         <div class="ui-inputgroup">
-                            <p:outputLabel for="name" value="Name:" style="width: 132px;"/>
+                            <p:outputLabel for="name" value="#{msg.label_name}" style="width: 132px;"/>
                             <div class="ui-inputgroup-addon">
                                 <p:selectBooleanCheckbox value="#{userReportBean.nameBoolean}"/>
                             </div>
                             <span class="ui-input-icon-left">
 								<i class="pi pi-search"/>
-								<p:inputText id="name" value="#{userReportBean.name}" placeholder="Filter by name"/>
+								<p:inputText id="name" value="#{userReportBean.name}" placeholder="#{msg.label_filterN}"/>
 							</span>
                         </div>
                     </div>
                     <div class="col-12 md:col-4">
                         <div class="ui-inputgroup">
-                            <p:outputLabel for="minParticipants" value="Min projects:" style="width: 150px;"/>
+                            <p:outputLabel for="minParticipants" value="#{msg.label_min_projects}" style="width: 150px;"/>
                             <div class="ui-inputgroup-addon">
                                 <p:selectBooleanCheckbox value="#{userReportBean.minParticipantsBoolean}"/>
                             </div>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="col-12 md:col-4">
                         <div class="ui-inputgroup">
-                            <p:outputLabel for="maxParticipants" value="Max projects:" style="width: 150px;"/>
+                            <p:outputLabel for="maxParticipants" value="#{msg.label_max_projects}" style="width: 150px;"/>
                             <div class="ui-inputgroup-addon">
                                 <p:selectBooleanCheckbox value="#{userReportBean.maxParticipantsBoolean}"/>
                             </div>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="col-12 md:col-4">
                         <div class="ui-inputgroup">
-                            <p:outputLabel for="minDelayedTasks" value="Min delayed tasks:"
+                            <p:outputLabel for="minDelayedTasks" value="#{msg.label_min_dt}"
                                            style="width: 150px;"/>
                             <div class="ui-inputgroup-addon">
                                 <p:selectBooleanCheckbox
@@ -59,7 +59,7 @@
                     </div>
                     <div class="col-12 md:col-4">
                         <div class="ui-inputgroup">
-                            <p:outputLabel for="maxDelayedTasks" value="Max delayed tasks:" style="width: 150px;"/>
+                            <p:outputLabel for="maxDelayedTasks" value="#{msg.label_max_dt}" style="width: 150px;"/>
                             <div class="ui-inputgroup-addon">
                                 <p:selectBooleanCheckbox value="#{userReportBean.maxDelayedTasksBoolean}"/>
                             </div>
@@ -70,7 +70,7 @@
                     </div>
 					<div class="col-12 md:col-4">
 						<div class="ui-inputgroup">
-							<p:outputLabel for="minTasks" value="Min reported hours:"
+							<p:outputLabel for="minTasks" value="#{msg.label_min_rH}"
 										   style="width: 150px;" />
 							<div class="ui-inputgroup-addon">
 								<p:selectBooleanCheckbox
@@ -83,7 +83,7 @@
 					</div>
 					<div class="col-12 md:col-4">
 						<div class="ui-inputgroup">
-							<p:outputLabel for="maxTasks" value="Max reported hours:"
+							<p:outputLabel for="maxTasks" value="#{msg.label_max_rH}"
 										   style="width: 150px;" />
 							<div class="ui-inputgroup-addon">
 								<p:selectBooleanCheckbox
@@ -95,7 +95,7 @@
 						</div>
 					</div>
 
-                    <p:commandButton value="Apply"
+                    <p:commandButton value="#{msg.btn_apply}"
                                      actionListener="#{userReportBean.applyFilters}"
                                      update="userReport-accordion"/>
                 </div>
@@ -117,24 +117,24 @@
         <div class="card">
             <p:dataTable id="userReport-accordion" var="userReport2"
                          value="#{userReportBean.userReports}">
-                <p:column headerText="Username">
+                <p:column headerText="#{msg.label_username}">
                     <h:outputText value="#{userReport2.username}"/>
                 </p:column>
 
-                <p:column headerText="Full name">
+                <p:column headerText="#{msg.label_fullName}">
                     <h:outputText value="#{userReport2.lastname}"/>
                 </p:column>
 
-                <p:column headerText="Email">
+                <p:column headerText="#{msg.label_email}">
                     <h:outputText value="#{userReport2.mail}"/>
                 </p:column>
-                <p:column headerText="Number of projects">
+                <p:column headerText="#{msg.label_number_projects}">
                     <h:outputText value="#{userReport2.totalProject}"/>
                 </p:column>
-                <p:column headerText="Total reported hours">
+                <p:column headerText="#{msg.label_totalRH}">
                     <h:outputText value="#{userReport2.hoursReported}"/>
                 </p:column>
-                <p:column headerText="Number delayed tasks">
+                <p:column headerText="#{msg.label_delayedT}">
                     <h:outputText value="#{userReport2.delayedIssues}"/>
                 </p:column>
             </p:dataTable>

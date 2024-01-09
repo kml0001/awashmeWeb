@@ -4,7 +4,7 @@
     xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        <title>Acceso Denegado</title>
+        <title>#{msg.label_access_denied}</title>
     	<h:outputStylesheet name="primeflex.min.css" library="css"></h:outputStylesheet>
     </h:head>
 
@@ -19,10 +19,10 @@
 			    <div class="p-col">
 			       <p:card style="width: auto">
 					    <f:facet name="title">
-					        Acceso denegado 
+							#{msg.label_access_denied}
 					    </f:facet>
 					    
-					    <p:staticMessage severity="error" summary="ERROR" detail="Usted no tiene permisos para acceder a este recurso" style="width: 100%"/>
+					    <p:staticMessage severity="error" summary="ERROR" detail="#{msg.message_permission}" style="width: 100%"/>
 						
 					</p:card>
 			    </div>

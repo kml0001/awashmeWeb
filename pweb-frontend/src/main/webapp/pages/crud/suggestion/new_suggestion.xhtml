@@ -4,14 +4,14 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-	<p:dialog header="Suggestion" showEffect="fade" modal="true"
+	<p:dialog header="#{msg.label_suggestion}" showEffect="fade" modal="true"
 		widgetVar="manageSuggestionDialog" responsive="true">
 		<p:outputPanel id="manage-suggestion-content" class="ui-fluid">
 			<p:outputPanel>
 				<p:panelGrid layout="grid" columns="1">
 					<h:panelGroup>
 						<div class="p-field">
-							<p:outputLabel for="@next">Subject:</p:outputLabel>
+							<p:outputLabel for="@next">#{msg.label_subject}</p:outputLabel>
 							<p:inputText id="subject" required="true"
 								value="#{suggestionBean.selectedSuggestion.subject}" />
 							<p:message for="@previous"></p:message>
@@ -19,7 +19,7 @@
 					</h:panelGroup>
 					<h:panelGroup>
 						<div class="p-field">
-							<p:outputLabel for="@next">Text:</p:outputLabel>
+							<p:outputLabel for="@next">#{msg.label_text}</p:outputLabel>
 							<p:inputTextarea rows="6" cols="33"
 								value="#{suggestionBean.selectedSuggestion.text}" />
 							<p:message for="@previous"></p:message>
@@ -27,7 +27,7 @@
 					</h:panelGroup>
 					<h:panelGroup>
 						<div class="p-field">
-							<p:outputLabel for="@next">Importance:</p:outputLabel>
+							<p:outputLabel for="@next">#{msg.label_importance}</p:outputLabel>
 							<p:selectOneMenu id="importance" required="true"
 								value="#{suggestionBean.selectedImportance}" label="Select"
 								style="min-width: 15rem" multiple="true" filter="false"
@@ -39,7 +39,7 @@
 							</p:selectOneMenu>
 						</div>
 						<div class="p-field">
-							<p:outputLabel for="@next">Urgency:</p:outputLabel>
+							<p:outputLabel for="@next">#{msg.label_urgency}</p:outputLabel>
 							<p:selectOneMenu id="urgency" required="true"
 								value="#{suggestionBean.selectedUrgency}" label="Select"
 								style="min-width: 15rem" multiple="true" filter="false"
@@ -56,11 +56,11 @@
 		</p:outputPanel>
 
 		<f:facet name="footer">
-			<p:commandButton value="Send" icon="pi pi-send"
+			<p:commandButton value="#{msg.btn_send}" icon="pi pi-send"
 				actionListener="#{suggestionBean.saveSuggestion}"
 				update="manage-suggestion-content"
 				process="manage-suggestion-content @this" />
-			<p:commandButton value="Cancel" icon="pi pi-times"
+			<p:commandButton value="#{msg.btn_cancel}" icon="pi pi-times"
 				onclick="PF('manageSuggestionDialog').hide()"
 				class="ui-button-secondary" />
 		</f:facet>

@@ -11,7 +11,7 @@
 			<div class="card">
 				<p:toolbar>
 					<p:toolbarGroup>
-						<p:commandButton value="New" icon="pi pi-plus"
+						<p:commandButton value="#{msg.btn_new}" icon="pi pi-plus"
 							actionListener="#{suggestionBean.openNew}"
 							update=":form:manage-suggestion-content"
 							oncomplete="PF('manageSuggestionDialog').show()"
@@ -22,7 +22,7 @@
 
 					</p:toolbarGroup>
 				</p:toolbar>
-				<h5>Suggestions:</h5>
+				<h5>#{msg.label_sugg}</h5>
 				<p:accordionPanel id="ac-suggestions" multiple="true" activeIndex="#{[]}"
 					widgetVar="options" value="#{suggestionBean.suggestions}"
 					var="suggestion">
@@ -64,19 +64,19 @@
 							</h:panelGrid>
 							<f:facet name="footer">
 								<h:form id="commentForm">
-									<p:panelGrid columns="2" header="Suggestion details:">
-										<p:outputLabel value="Autor:" />
+									<p:panelGrid columns="2" header="#{msg.label_suggD}">
+										<p:outputLabel value="#{msg.label_author}" />
 										<h:outputText value="#{suggestion.author_name}" />
 
-										<p:outputLabel value="Created on:" />
+										<p:outputLabel value="#{msg.label_createdOn}" />
 										<h:outputText value="#{suggestion.created_on}">
 											<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
 										</h:outputText>
 
-										<p:outputLabel value="Importance:" />
+										<p:outputLabel value="#{msg.label_importance}" />
 										<h:outputText value="#{suggestion.importance}" />
 
-										<p:outputLabel value="Urgency:" />
+										<p:outputLabel value="#{msg.label_urgency}" />
 										<h:outputText value="#{suggestion.urgency}" />
 									</p:panelGrid>
 								</h:form>
@@ -89,9 +89,9 @@
 
 				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
 					responsive="true" width="350">
-					<p:commandButton value="No" type="button"
+					<p:commandButton value="#{msg.btn_no}" type="button"
 						styleClass="ui-confirmdialog-no ui-button-flat" />
-					<p:commandButton value="Yes" type="button"
+					<p:commandButton value="#{msg.btn_yes}" type="button"
 						styleClass="ui-confirmdialog-yes" />
 				</p:confirmDialog>
 			</div>

@@ -4,14 +4,14 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
 
-    <p:dialog header="Project" showEffect="fade" modal="true"
+    <p:dialog header="#{msg.label_project}" showEffect="fade" modal="true"
               widgetVar="manageProjectDialog" responsive="true">
         <p:outputPanel id="manage-project-content" class="ui-fluid">
             <p:outputPanel>
                 <p:panelGrid layout="grid" columns="1">
                     <h:panelGroup>
                         <div class="p-field">
-                            <p:outputLabel for="@next">Project name</p:outputLabel>
+                            <p:outputLabel for="@next">#{msg.label_projectName}</p:outputLabel>
                             <p:inputText id="name" required="true"
                                          value="#{projectBean.selectedProject.name}"/>
                             <p:message for="@previous"></p:message>
@@ -19,7 +19,7 @@
                     </h:panelGroup>
                     <h:panelGroup>
                         <div class="p-field">
-                            <p:outputLabel for="@next">Description</p:outputLabel>
+                            <p:outputLabel for="@next">#{msg.label_description}</p:outputLabel>
                             <p:inputTextarea value="#{projectBean.selectedProject.description}" rows="5" cols="30"
                                              counter="display" maxlength="250"
                                              counterTemplate="{0} characters remaining." autoResize="true"/>
@@ -29,7 +29,7 @@
                     </h:panelGroup>
                     <h:panelGroup>
                         <div class="p-field">
-                            <p:outputLabel for="@next">Members</p:outputLabel>
+                            <p:outputLabel for="@next">#{msg.label_members}</p:outputLabel>
                             <p:pickList id="instantPickList" value="#{projectBean.members}" var="member"
                                         itemLabel="#{member}" itemValue="#{member}"
                                         transferOnCheckboxClick="true"
@@ -39,9 +39,9 @@
 
                     <h:panelGroup>
                         <div class="p-field">
-                            <p:outputLabel for="@next" rendered="#{projectBean.edit}" style="padding-right:20px;">Status</p:outputLabel>
+                            <p:outputLabel for="@next" rendered="#{projectBean.edit}" style="padding-right:20px;">#{msg.label_status}</p:outputLabel>
                             <p:selectBooleanButton rendered="#{projectBean.edit}" value="#{projectBean.open}"
-                                                   onLabel="Open" offLabel="Closed"
+                                                   onLabel="#{msg.btn_open}" offLabel="#{msg.btn_closed}"
                                                    onIcon="pi pi-check" offIcon="pi pi-times" style="width:6rem"/>
                             <p:message for="@previous"></p:message>
                         </div>
@@ -52,10 +52,10 @@
         </p:outputPanel>
 
         <f:facet name="footer">
-            <p:commandButton value="Salvar" icon="pi pi-check"
+            <p:commandButton value="#{msg.btn_save}" icon="pi pi-check"
                              actionListener="#{projectBean.saveProject}"
                              update="manage-project-content" process="manage-project-content @this"/>
-            <p:commandButton value="Cancelar" icon="pi pi-times"
+            <p:commandButton value="#{msg.btn_cancel}" icon="pi pi-times"
                              onclick="PF('manageProjectDialog').hide()" class="ui-button-secondary"/>
         </f:facet>
     </p:dialog>

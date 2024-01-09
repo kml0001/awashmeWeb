@@ -40,6 +40,7 @@ public class ProjectBean{
     private List<UserDto> users;
     private boolean open;
     private boolean edit;
+    private int authorId;
     
     @Autowired
     private ProjectService projectService;
@@ -270,5 +271,14 @@ public class ProjectBean{
             }
         }
         return result;
+    }
+
+    public int getAuthorId() {
+        this.authorId = CurrentUserUtils.getUserId();
+        return authorId;
+    }
+
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
     }
 }

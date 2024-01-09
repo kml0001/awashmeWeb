@@ -13,7 +13,7 @@
 
                 <p:toolbar>
                     <p:toolbarGroup>
-                        <p:commandButton value="New" icon="pi pi-plus"
+                        <p:commandButton value="#{msg.btn_new}" icon="pi pi-plus"
                                          actionListener="#{projectBean.openNew}"
                                          update=":form:manage-project-content"
                                          oncomplete="PF('manageProjectDialog').show()"
@@ -31,31 +31,31 @@
                              paginatorPosition="bottom">
                     <f:facet name="header">
                         <div class="projects-table-header">
-                            <span style="font-weight: bold">PROJECTS</span> <span
+                            <span style="font-weight: bold">#{msg.label_projects}</span> <span
                                 class="filter-container ui-input-icon-left"> <i
                                 class="pi pi-search"/> <p:inputText id="globalFilter"
                                                                     onkeyup="PF('dtProjects').filter()"
-                                                                    placeholder="Search"/>
+                                                                    placeholder="#{msg.label_search}"/>
 							</span>
                         </div>
                     </f:facet>
 
-                    <p:column headerText="Project name" sortBy="#{project.name}"
+                    <p:column headerText="#{msg.label_projectName}" sortBy="#{project.name}"
                               filterBy="#{project.name}">
                         <h:outputText value="#{project.name}"/>
                     </p:column>
-                    <p:column headerText="Description" sortBy="#{project.description}"
-                              filterBy="#{project.description}">
+                    <p:column headerText="#{msg.label_description}" sortBy="#{project.description}"
+                              filterBy="#{project.description}"  style="width: 400px;">
                         <h:outputText value="#{project.description}"/>
                     </p:column>
-                    <p:column headerText="Project manager" sortBy="#{project.project_manager_name}"
+                    <p:column headerText="#{msg.label_projectManager}" sortBy="#{project.project_manager_name}"
                               filterBy="#{project.project_manager_name}">
                         <h:outputText value="#{project.project_manager_name}" readonly="true"/>
                     </p:column>
 
-                    <p:column headerText="Members" sortBy="#{project.members}"
+                    <p:column headerText="#{msg.label_members}" sortBy="#{project.members}"
                               filterBy="#{project.members}">
-                        <p:commandButton id="basic" value="Show" type="button"/>
+                        <p:commandButton id="basic" value="#{msg.btn_show}" type="button"/>
                         <p:overlayPanel for="basic" style="width:230px">
                             <p:orderList value="#{project.members}" var="member"
                                          controlsLocation="none" itemLabel="#{member.username}"
@@ -63,27 +63,27 @@
                         </p:overlayPanel>
                     </p:column>
 
-                    <p:column headerText="Start date" sortBy="#{project.created_on}"
+                    <p:column headerText="#{msg.label_startDate}" sortBy="#{project.created_on}"
                               filterBy="#{project.created_on}">
                         <h:outputText value="#{project.created_on}">
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="Close date" sortBy="#{project.closed_on}"
+                    <p:column headerText="#{msg.label_closeDate}" sortBy="#{project.closed_on}"
                               filterBy="#{project.closed_on}">
                         <h:outputText value="#{project.closed_on}">
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="Status" sortBy="#{project.status}"
+                    <p:column headerText="#{msg.label_status}" sortBy="#{project.status}"
                               filterBy="#{project.status}">
                         <h:outputText value="#{project.status}"/>
                     </p:column>
 
                     <p:column exportable="false">
-                        <p:commandButton icon="pi pi-pencil" action="#{projectBean.openForEdit}"
+                        <p:commandButton icon="pi pi-pencil" rendered="#{projectBean.authorId == project.project_manager}" action="#{projectBean.openForEdit}"
                                          update=":form:manage-project-content"
                                          oncomplete="PF('manageProjectDialog').show()"
                                          styleClass="edit-button rounded-button ui-button-success"
@@ -92,12 +92,12 @@
                                                          target="#{projectBean.selectedProject}"/>
                             <p:resetInput target=":form:manage-project-content"/>
                         </p:commandButton>
-                        <p:commandButton class="ui-button-warning rounded-button"
+                        <p:commandButton rendered="#{projectBean.authorId == project.project_manager}" class="ui-button-warning rounded-button"
                                          icon="pi pi-trash" process="@this"
                                          action="#{projectBean.deleteProject}">
                             <f:setPropertyActionListener value="#{project}"
                                                          target="#{projectBean.selectedProject}"/>
-                            <p:confirm header="Confirmar" message="Está seguro de eliminar este proyecto?"
+                            <p:confirm header="#{msg.label_confirm}" message="#{msg.message_deleted_project}"
                                        icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:column>
@@ -109,9 +109,9 @@
                 <!-- Este comoponente se utiliza mucho para el caso de los eliminar, que es donde casi siempre se necesita confirmation,
                 su uso es bien sencillo, cada confirmDialog va atado a un p:confirm que es el que se definie dentro del button -->
                 <p:confirmDialog global="true" showEffect="fade" width="300">
-                    <p:commandButton value="Si" type="button"
+                    <p:commandButton value="#{msg.btn_yes}" type="button"
                                      styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
-                    <p:commandButton value="No" type="button"
+                    <p:commandButton value="#{msg.btn_no}" type="button"
                                      styleClass="ui-confirmdialog-no ui-button-secondary"
                                      icon="pi pi-times"/>
                 </p:confirmDialog>

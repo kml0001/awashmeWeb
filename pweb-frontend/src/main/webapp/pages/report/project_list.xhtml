@@ -8,11 +8,11 @@
 	<ui:define name="content">
 		<h:form>
 			<div class="card">
-				<h5>Filters:</h5>
+				<h5>#{msg.label_filters}</h5>
 				<div class="grid ui-fluid">
 					<div class="col-12 md:col-4">
 						<div class="ui-inputgroup">
-							<p:outputLabel for="rangeStartDate" value="Range start date:" style="width: 150px;"/>
+							<p:outputLabel for="rangeStartDate" value="#{msg.label_range}" style="width: 150px;"/>
 							<div class="ui-inputgroup-addon">
 								<p:selectBooleanCheckbox value="#{projectReportBean.startDateBoolean}"/>
 							</div>
@@ -22,7 +22,7 @@
 					</div>
 					<div class="col-12 md:col-4">
 						<div class="ui-inputgroup">
-							<p:outputLabel for="minParticipants" value="Min participants:" style="width: 150px;"/>
+							<p:outputLabel for="minParticipants" value="#{msg.label_min_participants}" style="width: 150px;"/>
 							<div class="ui-inputgroup-addon">
 								<p:selectBooleanCheckbox value="#{projectReportBean.minParticipantsBoolean}"/>
 							</div>
@@ -33,7 +33,7 @@
 					</div>
 					<div class="col-12 md:col-4">
 						<div class="ui-inputgroup">
-							<p:outputLabel for="maxParticipants" value="Max participants:" style="width: 150px;"/>
+							<p:outputLabel for="maxParticipants" value="#{msg.label_max_participants}" style="width: 150px;"/>
 							<div class="ui-inputgroup-addon">
 								<p:selectBooleanCheckbox value="#{projectReportBean.maxParticipantsBoolean}"/>
 							</div>
@@ -44,7 +44,7 @@
 					</div>
 					<div class="col-12 md:col-4">
 						<div class="ui-inputgroup">
-							<p:outputLabel for="minDelayedTasks" value="Min delayed tasks:"
+							<p:outputLabel for="minDelayedTasks" value="#{msg.label_min_dt}"
 								style="width: 150px;" />
 							<div class="ui-inputgroup-addon">
 								<p:selectBooleanCheckbox
@@ -57,7 +57,7 @@
 					</div>
 					<div class="col-12 md:col-4">
 						<div class="ui-inputgroup">
-							<p:outputLabel for="maxDelayedTasks" value="Max delayed tasks:" style="width: 150px;"/>
+							<p:outputLabel for="maxDelayedTasks" value="#{msg.label_max_dt}" style="width: 150px;"/>
 							<div class="ui-inputgroup-addon">
 								<p:selectBooleanCheckbox value="#{projectReportBean.maxDelayedTasksBoolean}"/>
 							</div>
@@ -68,7 +68,7 @@
 					</div>
 					<div class="col-12 md:col-4">
 						<div class="ui-inputgroup">
-							<p:outputLabel for="minTasks" value="Min tasks:"
+							<p:outputLabel for="minTasks" value="#{msg.label_min_t}"
 								style="width: 150px;" />
 							<div class="ui-inputgroup-addon">
 								<p:selectBooleanCheckbox
@@ -81,7 +81,7 @@
 					</div>
 					<div class="col-12 md:col-4">
 						<div class="ui-inputgroup">
-							<p:outputLabel for="maxTasks" value="Max tasks:"
+							<p:outputLabel for="maxTasks" value="#{msg.label_max_t}"
 								style="width: 150px;" />
 							<div class="ui-inputgroup-addon">
 								<p:selectBooleanCheckbox
@@ -94,7 +94,7 @@
 					</div>
 					<div class="col-12 md:col-4">
 						<div class="ui-inputgroup">
-							<p:outputLabel for="minCompletionRate" value="Min done ratio:"
+							<p:outputLabel for="minCompletionRate" value="#{msg.label_min_dr}"
 								style="width: 150px;" />
 							<div class="ui-inputgroup-addon">
 								<p:selectBooleanCheckbox
@@ -107,7 +107,7 @@
 					</div>
 					<div class="col-12 md:col-4">
 						<div class="ui-inputgroup">
-							<p:outputLabel for="maxCompletionRate" value="Max done ratio:"
+							<p:outputLabel for="maxCompletionRate" value="#{msg.label_max_dr}"
 								style="width: 150px;" />
 							<div class="ui-inputgroup-addon">
 								<p:selectBooleanCheckbox
@@ -119,7 +119,7 @@
 						</div>
 					</div>
 
-					<p:commandButton value="Apply"
+					<p:commandButton value="#{msg.btn_apply}"
 						actionListener="#{projectReportBean.applyFilters}"
 						update="projectReport-accordion" />
 				</div>
@@ -141,38 +141,38 @@
 		<div class="card">
 			<p:dataTable id="projectReport-accordion" var="projectReport2"
 				value="#{projectReportBean.projectReports}">
-				<p:column headerText="Project name">
+				<p:column headerText="#{msg.label_projectName}">
 					<h:outputText value="#{projectReport2.name}" />
 				</p:column>
-				<p:column headerText="Number of members">
+				<p:column headerText="#{msg.label_members}">
 					<h:outputText value="#{projectReport2.members}" />
 				</p:column>
 
-				<p:column headerText="Project manager">
+				<p:column headerText="#{msg.label_projectManager}">
 					<h:outputText value="#{projectReport2.username}" />
 				</p:column>
 
-				<p:column headerText="Start date">
+				<p:column headerText="#{msg.label_startDate}">
 					<h:outputText value="#{projectReport2.createdOn}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="End date">
+				<p:column headerText="#{msg.label_closeDate}">
 					<h:outputText value="#{projectReport2.closedOn}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="Time pool">
+				<p:column headerText="#{msg.label_time_pool}">
 					<h:outputText value="#{projectReport2.totalHoursReported}" />
 				</p:column>
-				<p:column headerText="Done ratio">
+				<p:column headerText="#{msg.label_doneR}">
 					<h:outputText value="#{projectReport2.averageDoneRatio}" />
 				</p:column>
-				<p:column headerText="Number of Tasks">
+				<p:column headerText="#{msg.label_tasks}">
 					<h:outputText value="#{projectReport2.totalIssues}" />
 				</p:column>
-				<p:column headerText="Number delayed tasks">
+				<p:column headerText="#{msg.label_delayedT}">
 					<h:outputText value="#{projectReport2.delayedIssues}" />
 				</p:column>
 			</p:dataTable>
