@@ -39,7 +39,11 @@ public class UserServiceImp implements UserService{
 
 			if (rowsAffected > 0) {
 				status = 1;
-				roleservice.updateRolesForUser(user.getId(),user.getRoleList() );
+				
+				List<RoleDto> roles = user.getRoleList();
+				if(roles != null)
+					for(RoleDto role : roles)
+						roleservice.insertUserRoles(user.getId(), role);
 			}
 
 		} catch (SQLException e) {
@@ -48,7 +52,7 @@ public class UserServiceImp implements UserService{
 				status = 0;
 			}else if (e.getMessage().contains("ERROR 5")) {
 				System.out.println("Ya existe un usuario con esa direccion de correo");
-				status = 3;
+				status = 2;
 			}
 			else {
 				status = -1;
