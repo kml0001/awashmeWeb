@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cu.edu.cujae.pweb.utils.JsfUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -14,6 +17,8 @@ import cu.edu.cujae.pweb.dto.SuggestionDto;
 import cu.edu.cujae.pweb.security.CurrentUserUtils;
 import cu.edu.cujae.pweb.utils.ApiRestMapper;
 import cu.edu.cujae.pweb.utils.RestService;
+
+import javax.faces.application.FacesMessage;
 
 @Service
 public class SuggestionServiceImpl implements SuggestionService{
@@ -56,13 +61,43 @@ public class SuggestionServiceImpl implements SuggestionService{
 
 	@Override
 	public void createSuggestion(SuggestionDto Suggestion) {
-		restService.POST("/api/v1/suggestions/", Suggestion, String.class, CurrentUserUtils.getTokenBearer()).getBody();
+		ResponseEntity response = restService.POST("/api/v1/suggestions/", Suggestion, String.class, CurrentUserUtils.getTokenBearer());
+		HttpStatus status = response.getStatusCode();
+		int statusCode = status.value();
+
+		switch (statusCode) {
+			case 201:
+				JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "suggestionDto_added");
+				break;
+			case 500:
+				JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_FATAL,  "message_error");
+				break;
+			// Puedes agregar más casos según sea necesario
+			default:
+				// Código para otros códigos de status
+				break;
+		}
 	}
 
 	@Override
 	public void updateSuggestion(SuggestionDto Suggestion) {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		restService.PUT("/api/v1/suggestions/", params, Suggestion, String.class, CurrentUserUtils.getTokenBearer()).getBody();
+		ResponseEntity response = restService.PUT("/api/v1/suggestions/", params, Suggestion, String.class, CurrentUserUtils.getTokenBearer());
+		HttpStatus status = response.getStatusCode();
+		int statusCode = status.value();
+
+		switch (statusCode) {
+			case 201:
+				JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "suggestionDto_updated");
+				break;
+			case 500:
+				JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_FATAL,  "message_error");
+				break;
+			// Puedes agregar más casos según sea necesario
+			default:
+				// Código para otros códigos de status
+				break;
+		}
 	}
 
 	@Override
@@ -70,7 +105,22 @@ public class SuggestionServiceImpl implements SuggestionService{
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		UriTemplate template = new UriTemplate("/api/v1/suggestions/{suggestionId}");
 	    String uri = template.expand(SuggestionId).toString();
-		restService.DELETE(uri, params, String.class, CurrentUserUtils.getTokenBearer()).getBody();
+		ResponseEntity response = restService.DELETE(uri, params, String.class, CurrentUserUtils.getTokenBearer());
+		HttpStatus status = response.getStatusCode();
+		int statusCode = status.value();
+
+		switch (statusCode) {
+			case 201:
+				JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "suggestionDto_deleted");
+				break;
+			case 500:
+				JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_FATAL,  "message_error");
+				break;
+			// Puedes agregar más casos según sea necesario
+			default:
+				// Código para otros códigos de status
+				break;
+		}
 	}
 	
 	@Override

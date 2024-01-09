@@ -101,13 +101,13 @@ public class SuggestionBean{
     	this.selectedSuggestion.setImportance(this.selectedImportance);
         if (this.selectedSuggestion.getId() == -1) {
             this.suggestionService.createSuggestion(this.selectedSuggestion);
-            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "suggestionDto_added");
+//            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "suggestionDto_added");
             System.out.println("entro al if");
         }
         else {
         	System.out.println("subject en el else: " + this.selectedSuggestion.getSubject());
         	this.suggestionService.updateSuggestion(this.selectedSuggestion);
-        	JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "suggestionDto_updated");
+//        	JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "suggestionDto_updated");
             System.out.println("entro al else");
         }
         
@@ -120,7 +120,7 @@ public class SuggestionBean{
     	System.out.println(selectedSuggestion.getId());
         this.suggestionService.deleteSuggestion(String.valueOf(selectedSuggestion.getId()));
         this.suggestions = suggestionService.getSuggestions();
-        JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "suggestionDto_deleted");
+//        JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "suggestionDto_deleted");
         PrimeFaces.current().ajax().update("form:ac-suggestions");
     }
 

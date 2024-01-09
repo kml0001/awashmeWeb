@@ -40,6 +40,7 @@ public class IssueBean {
     private UserDto selectedUser;
     
     private int selectedUserid;
+    private int authorId;
     
     @Autowired
     private UserService userService;
@@ -98,13 +99,13 @@ public class IssueBean {
             issueService.createIssue(selectedIssue);
             issues = issueService.getIssues();
             
-            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_added");
+//            JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_added");
             
         }
         else {
         	issueService.updateIssue(selectedIssue);
         	issues = issueService.getIssues();
-        	JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_updated");
+//        	JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_updated");
             
             
         }
@@ -117,7 +118,7 @@ public class IssueBean {
     	System.out.println(selectedIssue.getId());
         this.issueService.deleteIssue(String.valueOf(selectedIssue.getId()));
         issues = issueService.getIssues();
-        JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_deleted");
+//        JsfUtils.addMessageFromBundle(null, FacesMessage.SEVERITY_INFO,  "issueDto_deleted");
         PrimeFaces.current().ajax().update("form:dt-issues");
     }
 
@@ -224,4 +225,12 @@ public class IssueBean {
 		this.userService = userService;
 	}
 
+    public int getAuthorId() {
+        this.authorId = CurrentUserUtils.getUserId();
+        return authorId;
+    }
+
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
+    }
 }

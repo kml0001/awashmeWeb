@@ -101,7 +101,7 @@
 <!-- 						<h:outputText value="#{issue.fondo_de_tiempo}" readonly="true" /> -->
 <!-- 					</p:column> -->
 					<p:column exportable="false">
-						<p:commandButton icon="pi pi-pencil" action="#{issueBean.openForEdit}"
+						<p:commandButton rendered="#{issueBean.authorId == issue.author_id}" icon="pi pi-pencil" action="#{issueBean.openForEdit}"
 							update=":form:manage-issue-content"
 							oncomplete="PF('manageIssueDialog').show()"
 							styleClass="edit-button rounded-button ui-button-success"
@@ -110,7 +110,7 @@
 								target="#{issueBean.selectedIssue}" />
 							<p:resetInput target=":form:manage-issue-content" />
 						</p:commandButton>
-						<p:commandButton class="ui-button-warning rounded-button"
+						<p:commandButton rendered="#{issueBean.authorId == issue.author_id}" class="ui-button-warning rounded-button"
 							icon="pi pi-trash" process="@this" 
 							action="#{issueBean.deleteIssue}" >
 							<f:setPropertyActionListener value="#{issue}"
