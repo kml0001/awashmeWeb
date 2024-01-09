@@ -30,10 +30,10 @@ public class ProjectServiceImp implements ProjectsService {
 		 List<ProjectDto> projects = new ArrayList<>();
 
 	        try (Connection conn = ConnectionImp.getConnection()) {
-	            String sql = "SELECT project.*, users.username AS project_manager_name FROM project join users on users.id = project_manager";
+	            String sql = "SELECT project.*, users.username AS project_manager_name FROM project join users on users.id = project_manager ORDER BY project.id DESC";
 	            try (PreparedStatement statement = conn.prepareStatement(sql);
 	                 ResultSet resultSet = statement.executeQuery()) {
-
+	            	
 	                while (resultSet.next()) {
 	                    projects.add(mapResultSetToProject(resultSet));
 	                }
@@ -80,39 +80,39 @@ public class ProjectServiceImp implements ProjectsService {
 	        	int id = rowsAffected.getInt("id");
 	        	List<UserDto> users = project.getMembers();
 	        	if(users != null)
-	        	for(UserDto user : users) {
-	        		try {
-	        			members.insertMembers(new MembersDto(id, user.getId()));
+	        		for(UserDto user : users) {
+	        			try {
+	        				members.insertMembers(new MembersDto(id, user.getId()));
+	        			}
+	        			catch (Exception e) {
+	        				System.out.println("La relacion ya existe <-----------------------");
+	        			}
 	        		}
-	        		catch (Exception e) {
-	        			System.out.println("La relacion ya existe <-----------------------");
-	        		}
-	        	}
 	        	return 1;
 	        }
 	        else {
 	        	return 0;
 	        }
 	    }  catch (SQLException e) {
-	        // Manejar excepción específica de PostgreSQL para proyectos duplicados
-	        if (e.getMessage().contains("ERROR 1")) {
-	        	e.printStackTrace();
-	        	System.out.println("Ya existe un proyecto con ese nombre");
-	            return 0;
-	        } else {
-	        	e.printStackTrace();
-	        	System.out.println("TUFE <-----------------------");
-	            return -1;
-	        }
+	    	// Manejar excepción específica de PostgreSQL para proyectos duplicados
+	    	if (e.getMessage().contains("ERROR 1")) {
+	    		//e.getMessage();
+	    		System.out.println("Ya existe un proyecto con ese nombre");
+	    		return 0;
+	    	} else {
+	    		//e.printStackTrace();
+	    		System.out.println("TUFE <-----------------------");
+	    		return -1;
+	    	}
 	    }
 	}
 
 	@Override
 	public int updateProject(ProjectDto project) {
 		String updateSQL = "UPDATE project SET name=?, description=?, status=?, project_manager=? WHERE id=? ";
-
+		int status = 0;
 		try (Connection conn = ConnectionImp.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
+				PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
 
 			stmt.setString(1, project.getName());
 			stmt.setString(2, project.getDescription());
@@ -121,31 +121,38 @@ public class ProjectServiceImp implements ProjectsService {
 			stmt.setInt(5, project.getId());
 
 			int rowsAffected = stmt.executeUpdate();
-	        
-	        if (rowsAffected > 0) {
-	        	int id = project.getId();
 
-	        	List<UserDto> users = project.getMembers();
-	        	members.deleteMembersByProjectId(id);
-	        	if(users != null)
-	        	for(UserDto user : users) {
-	        		try {
-	        			members.insertMembers(new MembersDto(id, user.getId()));
-	        		}
-	        		catch (Exception e) {
-	        			System.out.println("La relacion ya existe <-----------------------");
-	        		}
-	        	}
-	        	return 1;
-	        }
-	        else {
-	        	return 2;
-	        }
-		}catch (Exception e) {
-			e.printStackTrace();
-			return -1;
+			if (rowsAffected > 0) {
+				status = 1 ;
+				int id = project.getId();
+				List<UserDto> users = project.getMembers();
+				members.deleteMembersByProjectId(id);
+				if(users != null)
+					for(UserDto user : users) {
+						try {
+							members.insertMembers(new MembersDto(id, user.getId()));
+						}
+						catch (Exception e) {
+							System.out.println("La relacion ya existe <-----------------------");
+						}
+					}
+			}
+			else {
+				status = 2;
+			}
+		}catch (SQLException e) {
+			// Manejar excepción específica de PostgreSQL para proyectos duplicados
+			if (e.getMessage().contains("ERROR 1")) {
+				//e.getMessage();
+				System.out.println("Ya existe un proyecto con ese nombre");
+				status = 0;
+			} else {
+				//e.printStackTrace();
+				System.out.println("TUFE <-----------------------");
+				status = -1;
+			}
 		}
-		
+		return status;
 	}
 
 	@Override
